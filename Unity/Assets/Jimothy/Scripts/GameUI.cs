@@ -111,24 +111,18 @@ public partial class GameUI:MonoBehaviour {
   var guidanceBack=Panel(page.transform,new Color(.025f,.08f,.065f,.90f),new(mobile?.38f:.325f,mobile?.79f:.85f),new(.905f,mobile?.865f:.90f));guidanceBack.sprite=Rounded();guidanceBack.type=Image.Type.Sliced;guidanceBack.raycastTarget=false;
   objective=Placed(page.transform,game.Objective,mobile?26:22,cream,new(mobile?.39f:.33f,mobile?.875f:.905f),new(.76f,.975f));
   guidance=Placed(page.transform,"",mobile?26:22,mint,new(mobile?.38f:.33f,mobile?.79f:.85f),new(.90f,mobile?.865f:.90f));
+  if(!mobile){
   Button(page.transform,"II",new(mobile?.90f:.915f,mobile?.875f:.905f),new(.985f,.975f),game.TogglePause);
   Button(page.transform,"Den",new(.79f,mobile?.875f:.905f),new(.89f,.975f),game.FastTravel);
   Button(page.transform,"Eat",mobile?new(.64f,.04f):new(.81f,.055f),mobile?new(.75f,.18f):new(.89f,.12f),game.Eat);
   Button(page.transform,"Stash",mobile?new(.51f,.04f):new(.72f,.055f),mobile?new(.62f,.18f):new(.80f,.12f),()=>{if(game.AtHome)ShowDen();else Toast("Visit your den to unload finds or decorate. Tap Den when safe.");});
   searchButton=Button(page.transform,"Search",mobile?new(.77f,.04f):new(.90f,.055f),mobile?new(.88f,.18f):new(.98f,.12f),game.Search,true);searchText=searchButton.GetComponentInChildren<Text>();
+  }
   BuildStealthHUD();
-  if(mobile){
-   trickButton=Button(page.transform,"Trick",new(.89f,.225f),new(.985f,.35f),()=>game.Player.RequestTrick());
-   Button(page.transform,"Jump",new(.89f,.04f),new(.985f,.20f),()=>{},true).gameObject.AddComponent<TouchJump>().motor=game.Player;
-   var zone=Panel(page.transform,new Color(0,0,0,0),new(.40f,.22f),new(.98f,.71f));var orbit=zone.gameObject.AddComponent<TouchPad>();orbit.motor=game.Player;orbit.orbit=true;zone.transform.SetAsFirstSibling();
-   var stick=Panel(page.transform,new Color(.04f,.14f,.11f,.5f),new(.025f,.04f),new(.23f,.31f));stick.sprite=Rounded();stick.type=Image.Type.Sliced;var pad=stick.gameObject.AddComponent<TouchPad>();pad.motor=game.Player;
-   Placed(stick.transform,"MOVE / STEER",14,mint,new(.04f,.85f),new(.96f,.98f)).alignment=TextAnchor.MiddleCenter;
-   Placed(page.transform,"Drag to turn view",15,mint,new(.56f,.24f),new(.79f,.29f));
-   Button(page.transform,"Center view",new(.25f,.04f),new(.39f,.14f),()=>game.Player.RecenterCamera());
-   var thumb=Panel(stick.transform,new Color(.63f,.81f,.68f,.85f),new(.35f,.35f),new(.65f,.65f));thumb.sprite=Rounded();thumb.type=Image.Type.Sliced;thumb.raycastTarget=false;pad.thumb=thumb.rectTransform;
+  if(mobile){BuildTouchControls();
   }else Placed(page.transform,"W/S move · A/D steer · Space jump · T flip · F search · H den · Right-drag turn",18,cream,new(.025f,.018f),new(.83f,.050f));
  }
- public void ShowPause(){Clear(new Color(.02f,.075f,.055f,.96f));Placed(page.transform,"TAKE A BREATHER.",62,cream,new(.2f,.68f),new(.85f,.8f));Button(page.transform,"Back to Ballard",new(.3f,.48f),new(.7f,.62f),game.Resume,true);Button(page.transform,"Settings",new(.3f,.31f),new(.7f,.45f),()=>Settings(true));Button(page.transform,"Save & main menu",new(.3f,.14f),new(.7f,.28f),game.Menu);}
+ public void ShowPause(){Clear(new Color(.02f,.075f,.055f,.96f));Placed(page.transform,"TAKE A BREATHER.",62,cream,new(.2f,.68f),new(.85f,.8f));Button(page.transform,"Back to Ballard",new(.3f,.48f),new(.7f,.62f),game.Resume,true);Button(page.transform,"Settings",new(.15f,.31f),new(.48f,.45f),()=>Settings(true));Button(page.transform,"Touch controls",new(.52f,.31f),new(.85f,.45f),ShowTouchHelp);Button(page.transform,"Save & main menu",new(.3f,.14f),new(.7f,.28f),game.Menu);}
  void Settings(bool inGame) {
   Clear(green);Placed(page.transform,"MAKE YOURSELF COMFORTABLE.",48,cream,new(.12f,.73f),new(.92f,.85f));
   Button(page.transform,(PlayerPrefs.GetInt("fps",30)==60?"✓ Performance · 60 fps":"Performance · 60 fps"),new(.14f,.54f),new(.49f,.68f),()=>{Application.targetFrameRate=60;PlayerPrefs.SetInt("fps",60);Settings(inGame);},PlayerPrefs.GetInt("fps",30)==60);
@@ -160,7 +154,7 @@ public partial class GameUI:MonoBehaviour {
  }
  void UpdateDecorButton(Button button,string id,string label,int cost){if(!button)return;bool owned=game.Data.decor.Contains(id);button.interactable=!owned;button.GetComponentInChildren<Text>().text=owned?label+" · Owned":label+" · "+cost;}
  void UpdateSafe(){lastSafe=Screen.safeArea;Anchor(safe,new(lastSafe.xMin/Screen.width,lastSafe.yMin/Screen.height),new(lastSafe.xMax/Screen.width,lastSafe.yMax/Screen.height));}
- void Update(){UpdateStealthHUD();if(safe&&lastSafe!=Screen.safeArea)UpdateSafe();if(toast&&Time.unscaledTime>toastUntil){toast.text="";toastPanel.enabled=false;}
+ void Update(){UpdateStealthHUD();UpdateTouchControls();if(safe&&lastSafe!=Screen.safeArea)UpdateSafe();if(toast&&Time.unscaledTime>toastUntil){toast.text="";toastPanel.enabled=false;}
   if(denStats){denStats.text=$"{game.Data.pantry.Count} banked finds    /    {game.Data.trophies.Count} trophies banked    /    {game.Data.coins} shinies";UpdateDecorButton(cushionButton,"cushion","Patchwork cushion",20);UpdateDecorButton(floatButton,"glass-floats","Glass float collection",35);}
   if(objective)objective.text=game.Objective;
   if(guidance&&Time.unscaledTime>=nextGuideUpdate){nextGuideUpdate=Time.unscaledTime+.2f;guidance.text=game.Guidance;}

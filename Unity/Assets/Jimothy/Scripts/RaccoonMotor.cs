@@ -4,6 +4,12 @@ namespace Jimothy {
 [RequireComponent(typeof(CharacterController))]
 public class RaccoonMotor : MonoBehaviour {
  public Vector2 touchMove, touchLook;
+ public bool touchDirectional; public float touchMoveHeading;
+ public float ViewHeading=>yaw;
+ public enum AirTrick { FrontFlip, BackFlip, LeftRoll, RightRoll }
+ AirTrick requestedAirTrick,activeAirTrick,lastAirTrick;
+ public string LastTrickName=>TrickName(lastAirTrick);
+ static string TrickName(AirTrick t)=>t==AirTrick.BackFlip?"Backflip":t==AirTrick.LeftRoll?"Left barrel roll":t==AirTrick.RightRoll?"Right barrel roll":"Frontflip";
  public bool jumpRequested, Running;
  public Transform visual;
  public Animator animator;
@@ -20,12 +26,13 @@ public class RaccoonMotor : MonoBehaviour {
  public int LastLandingPoints {get;private set;}
  public bool LastLandingClean {get;private set;}
  Transform trickPivot;bool trickRequested,trickActive,airTracking,gapCrossed,flightMantled;Vector3 airOrigin,lastScoredLanding;float trickElapsed,fallApex,airTime,motorClock,lastCleanLanding=-100;int flightTricks,landingCombo;
- const float TrickDuration=.52f;
- public void RequestTrick(){if(Running&&!Grounded&&!mantling&&!trickActive)trickRequested=true;}
+ const float TrickDuration=.38f;
+ public void RequestTrick(){RequestDirectionalTrick(AirTrick.FrontFlip);}
+ public bool RequestDirectionalTrick(AirTrick kind){if(!Running||Grounded||mantling||trickActive||trickRequested||vertical<=-7)return false;requestedAirTrick=kind;trickRequested=true;return true;}
  void EnsureTrickPivot(){if(!visual||trickPivot)return;trickPivot=new GameObject("Jimothy aerial trick pivot").transform;trickPivot.SetParent(transform,false);trickPivot.localPosition=Vector3.up*.28f;visual.SetParent(trickPivot,true);}
  void SetVisualFacing(Quaternion rotation){if(!visual)return;if(trickPivot)visual.localRotation=rotation;else visual.rotation=rotation;}
  Quaternion VisualFacing=>!visual?Quaternion.Euler(0,yaw,0):trickPivot?visual.localRotation:visual.rotation;
- void ApplyTrickVisual(){if(!trickPivot)return;float t=Mathf.Clamp01(trickElapsed/TrickDuration);float smooth=t*t*(3-2*t);trickPivot.localRotation=trickActive?Quaternion.AngleAxis(360*smooth,VisualFacing*Vector3.right):Quaternion.identity;}
+ void ApplyTrickVisual(){if(!trickPivot)return;float t=Mathf.Clamp01(trickElapsed/TrickDuration);float smooth=t*t*(3-2*t);trickPivot.localRotation=trickActive?Quaternion.AngleAxis(360*smooth,VisualFacing*(activeAirTrick==AirTrick.BackFlip?Vector3.left:activeAirTrick==AirTrick.LeftRoll?Vector3.forward:activeAirTrick==AirTrick.RightRoll?Vector3.back:Vector3.right)):Quaternion.identity;}
  void ResetAirState(){airTracking=trickRequested=trickActive=false;airTime=trickElapsed=0;flightTricks=0;gapCrossed=flightMantled=false;airOrigin=transform.position;fallApex=transform.position.y;ApplyTrickVisual();}
  CharacterController cc; InputAction move, jump, look, eat, home, pause, trick;
  float vertical, coyote, buffered, yaw=180, pitch=12, mantleIntent, mantleCooldown, mantleElapsed, mantleStalled;
@@ -65,7 +72,14 @@ public class RaccoonMotor : MonoBehaviour {
   Vector2 input=Vector2.ClampMagnitude(move.ReadValue<Vector2>()+touchMove,1);
   float travel=Keyboard.current!=null&&Keyboard.current.leftShiftKey.isPressed?.32f:1f;
   bool pressed=jump.WasPressedThisFrame()||jumpRequested;jumpRequested=false;
-  SimulateSteering(input,orbit,pressed,dt,travel);
+  if(touchDirectional)SimulateTouchSteering(touchMove,orbit,pressed,dt);else SimulateSteering(input,orbit,pressed,dt,travel);
+ }
+ // Keep the movement basis stable for this finger gesture, so camera follow cannot bend a held path into a circle.
+ public void SimulateTouchSteering(Vector2 input,Vector2 lookDelta,bool pressed,float dt){
+  input=Vector2.ClampMagnitude(input,1);pitch=Mathf.Clamp(pitch-lookDelta.y,-5,40);touchMoveHeading+=lookDelta.x;
+  Vector3 direction=Quaternion.Euler(0,touchMoveHeading,0)*new Vector3(input.x,0,input.y);
+  float facing=direction.sqrMagnitude>.001f?Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg:yaw+lookDelta.x;
+  yaw=direction.sqrMagnitude>.001f?Mathf.MoveTowardsAngle(yaw,facing,220*dt):facing;SimulateMovement(direction,pressed,dt);SetVisualFacing(Quaternion.Euler(0,facing,0));ApplyTrickVisual();
  }
  public void SimulateSteering(Vector2 input,Vector2 lookDelta,bool pressed,float dt,float speedScale=1){
   input=Vector2.ClampMagnitude(input,1);
@@ -120,7 +134,7 @@ public class RaccoonMotor : MonoBehaviour {
  }
  // A ray alone cannot break a fall: the controller must have landed and lost downward velocity.
  bool SupportedFeet(){int count=Physics.RaycastNonAlloc(transform.position+Vector3.up*.14f,Vector3.down,castHits,.27f,WorldMask,QueryTriggerInteraction.Ignore);for(int i=0;i<count;i++)if(!IsSelf(castHits[i].collider)&&!(castHits[i].collider is CharacterController)&&castHits[i].normal.y>.67f)return true;return false;}
- void UpdateAirTrick(float dt){if(trickRequested){trickRequested=false;if(!cc.isGrounded&&!mantling&&!trickActive&&vertical>-7){EnsureTrickPivot();trickActive=true;trickElapsed=0;}}if(trickActive){trickElapsed+=dt;if(trickElapsed>=TrickDuration){trickActive=false;trickElapsed=0;flightTricks++;CompletedTricks++;}}}
+ void UpdateAirTrick(float dt){if(trickRequested){trickRequested=false;if(!cc.isGrounded&&!mantling&&!trickActive&&vertical>-7){EnsureTrickPivot();trickActive=true;activeAirTrick=requestedAirTrick;trickElapsed=0;}}if(trickActive){trickElapsed+=dt;if(trickElapsed>=TrickDuration){trickActive=false;trickElapsed=0;flightTricks++;CompletedTricks++;lastAirTrick=activeAirTrick;}}}
  void TrackAirLanding(Vector3 before,float dt,bool controllerContact){
   float actualVertical=(transform.position.y-before.y)/dt;
   bool supported=controllerContact&&actualVertical>Mathf.Min(-.35f,vertical*.5f)&&SupportedFeet();
@@ -129,7 +143,7 @@ public class RaccoonMotor : MonoBehaviour {
   LastFallHeight=Mathf.Max(0,fallApex-transform.position.y);LastFallDamage=DamageForFall(LastFallHeight);
   bool clean=LastFallDamage<=0&&!trickActive&&!mantling;int points=0;string name="";
   Vector3 span=transform.position-airOrigin;span.y=0;bool transfer=clean&&gapCrossed&&!flightMantled&&airOrigin.y>=4.5f&&transform.position.y>=4.5f&&span.magnitude>2;
-  if(clean&&(flightTricks>0||transfer)){landingCombo=motorClock-lastCleanLanding<5&&Vector3.Distance(transform.position,lastScoredLanding)>2?Mathf.Min(landingCombo+1,4):1;lastCleanLanding=motorClock;lastScoredLanding=transform.position;points=(150*flightTricks+(transfer?100:0))*landingCombo;name=flightTricks==0?"Rooftop transfer":flightTricks==1?"Clean flip":flightTricks+" flips";if(transfer&&flightTricks>0)name+=" + rooftop transfer";if(landingCombo>1)name+=" · "+landingCombo+"× combo";}else if(LastFallDamage>0||trickActive)landingCombo=0;
+  if(clean&&(flightTricks>0||transfer)){landingCombo=motorClock-lastCleanLanding<5&&Vector3.Distance(transform.position,lastScoredLanding)>2?Mathf.Min(landingCombo+1,4):1;lastCleanLanding=motorClock;lastScoredLanding=transform.position;points=(150*flightTricks+(transfer?100:0))*landingCombo;name=flightTricks==0?"Rooftop transfer":flightTricks==1?TrickName(lastAirTrick):flightTricks+" flips";if(transfer&&flightTricks>0)name+=" + rooftop transfer";if(landingCombo>1)name+=" · "+landingCombo+"× combo";}else if(LastFallDamage>0||trickActive)landingCombo=0;
   LastLandingPoints=points;LastLandingClean=clean;
   if(airTime>.08f||LastFallDamage>0){if(GameSession.Instance)GameSession.Instance.ResolveLanding(points,name,LastFallDamage,clean);}
   if(mantleIntent>0||airTime>.08f)FindSupportedStair();ResetAirState();

@@ -1,6 +1,6 @@
 # Jimothy Survival
 
-Unity 6000.3.0f1 / URP survival platformer set around Old Ballard Avenue, with editable Blender character and environment assets. Current prototype: **0.4.5**.
+Unity 6000.3.0f1 / URP survival platformer set around Old Ballard Avenue, with editable Blender character and environment assets. Current prototype: **0.4.6**.
 
 ## Get started
 
@@ -17,7 +17,7 @@ In Unity Hub, install **6000.3.0f1** and open the `Unity` folder. Let Unity rest
 
 Current editable models include `Art/Blender/Jimothy-v9.blend`, `Art/Blender/BallardHuman-v6.blend`, and `Art/Blender/DenInstruments.blend`. Runtime meshes and textures are under `Unity/Assets/Jimothy/Resources`. Open Blender sources with Blender 4.5 or newer. Older model versions remain for reference.
 
-See [0.4.5 release notes](Documentation/RELEASE-045.md), [stealth and tricks](Documentation/STEALTH-AND-STYLE-V045.md), and [design priorities](Documentation/FEEDBACK-REVIEW-V045.md). This is a playable prototype, not a finished App Store release. Physical iPhone/iPad performance and human fun ratings remain to be validated.
+See [0.4.6 touch controls](Documentation/RELEASE-046.md), [control research](Documentation/TOUCH-CONTROLS-RESEARCH.md), [stealth and tricks](Documentation/STEALTH-AND-STYLE-V045.md), and [design priorities](Documentation/FEEDBACK-REVIEW-V045.md). This is a playable prototype, not a finished App Store release. Physical iPhone/iPad performance and human fun ratings remain to be validated.
 
 ## Working from mobile
 
