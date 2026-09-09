@@ -1,0 +1,20 @@
+{
+  "Walk": {
+    "max_target_error": 0.0034205430454760156,
+    "max_stance_height_error": 0.00042447447776794434,
+    "max_stance_velocity_error_armature": 0.2646610215905663,
+    "max_joint_gap": 2.7117247613469665e-06,
+    "max_paw_orientation_error": 0.0023920799139887094,
+    "nominal_speed_armature": 3.375000000000001,
+    "samples": 484
+  },
+  "Waddle": {
+    "max_target_error": 0.017866262366427917,
+    "max_stance_height_error": 0.0033077895641326904,
+    "max_stance_velocity_error_armature": 0.9582754047221123,
+    "max_joint_gap": 2.8241926728734444e-06,
+    "max_paw_orientation_error": 0.025559259578585625,
+    "nominal_speed_armature": 9.75,
+    "samples": 484
+  }
+}

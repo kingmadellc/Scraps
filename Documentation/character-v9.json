@@ -1,0 +1,105 @@
+{
+  "source": "Jimothy-v8.blend",
+  "skin_and_fur_warped_together": true,
+  "new_bones": 0,
+  "base_regeneration": {
+    "version": 5,
+    "bones_added": 0,
+    "articulated_paws": 4,
+    "clips": {
+      "Idle": {
+        "frames": 61,
+        "samples": 241,
+        "duration_seconds": 2.5,
+        "nominal_forward_speed": 0.0,
+        "max_wrist_error": 4.042583693936627e-07
+      },
+      "Walk": {
+        "frames": 17,
+        "samples": 65,
+        "duration_seconds": 0.6666666666666666,
+        "nominal_forward_speed": 3.375000000000001,
+        "max_wrist_error": 9.186901236652345e-07
+      },
+      "Waddle": {
+        "frames": 9,
+        "samples": 33,
+        "duration_seconds": 0.3333333333333333,
+        "nominal_forward_speed": 9.75,
+        "max_wrist_error": 9.991559156322605e-07
+      },
+      "Jump": {
+        "frames": 31,
+        "samples": 121,
+        "duration_seconds": 1.25,
+        "nominal_forward_speed": 0.0,
+        "max_wrist_error": 4.915124923727108e-07
+      }
+    },
+    "max_wrist_error": 9.991559156322605e-07
+  },
+  "run": {
+    "version": 9,
+    "frames": 13,
+    "duration_seconds": 0.5,
+    "nominal_armature_speed": 9.75,
+    "nominal_world_speed_at_scale_022": 2.145,
+    "max_solver_error": 9.961512633179586e-07,
+    "max_reach_clamp": 0.0,
+    "max_joint_gap": 8.965497587019994e-07,
+    "samples": 97,
+    "source": "Kiana Hall footage, Seattle Times RqlQYJUz-j8 opening run; see GAIT-STUDY-V7.md"
+  },
+  "jump": {
+    "version": 9,
+    "frames": 61,
+    "loop": false,
+    "limb_scale": 0.5475843250751495,
+    "max_ankle_gap": 0.0,
+    "max_knee_gap": 5.711247890215159e-07,
+    "max_solver_error": 5.339525004377638e-07,
+    "max_target_clamp": 0.0,
+    "max_paw_orientation_error": 0.0,
+    "mesh_vertex_count": 261718,
+    "poses": [
+      {
+        "frame": 1,
+        "phase": 0.0,
+        "mesh_min_z": 0.02520637959241867,
+        "mesh_max_z": 2.0069923400878906
+      },
+      {
+        "frame": 11,
+        "phase": 0.16666666666666666,
+        "mesh_min_z": 0.11842963099479675,
+        "mesh_max_z": 2.126997232437134
+      },
+      {
+        "frame": 30,
+        "phase": 0.48333333333333334,
+        "mesh_min_z": 0.2222619205713272,
+        "mesh_max_z": 2.108431100845337
+      },
+      {
+        "frame": 47,
+        "phase": 0.7666666666666667,
+        "mesh_min_z": 0.04399519041180611,
+        "mesh_max_z": 2.1237854957580566
+      },
+      {
+        "frame": 51,
+        "phase": 0.8333333333333334,
+        "mesh_min_z": 0.02558393031358719,
+        "mesh_max_z": 1.9849838018417358
+      },
+      {
+        "frame": 61,
+        "phase": 1.0,
+        "mesh_min_z": 0.025206413120031357,
+        "mesh_max_z": 2.1152377128601074
+      }
+    ]
+  },
+  "vertices": 261718,
+  "triangles": 145838
+}

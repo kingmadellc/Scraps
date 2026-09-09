@@ -1,0 +1,21 @@
+{
+  "bones": 11,
+  "clips": {
+    "Idle": {
+      "start": 1,
+      "end": 61
+    },
+    "Waddle": {
+      "start": 1,
+      "end": 25
+    },
+    "Jump": {
+      "start": 1,
+      "end": 31
+    }
+  },
+  "character_triangles": 53026,
+  "collision_meshes": 126,
+  "district_meshes": 143,
+  "district_triangles": 124008
+}

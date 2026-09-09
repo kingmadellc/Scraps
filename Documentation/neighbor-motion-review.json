@@ -1,0 +1,46 @@
+{
+  "blend": {
+    "Walk": {
+      "stance_compensated_drift_m": 0.0008763468532578805,
+      "vertical_stance_error_m": 0.0008300989866256714,
+      "loop_foot_error_m": 0.0,
+      "frames": [
+        1.0,
+        25.0
+      ],
+      "fps": 24
+    },
+    "Run": {
+      "stance_compensated_drift_m": 0.005068510732005172,
+      "vertical_stance_error_m": 0.005043894052505493,
+      "loop_foot_error_m": 0.0,
+      "frames": [
+        1.0,
+        17.0
+      ],
+      "fps": 24
+    }
+  },
+  "fbx": {
+    "Walk": {
+      "stance_compensated_drift_m": 0.0018541499199914659,
+      "vertical_stance_error_m": 0.0018330812454223633,
+      "loop_foot_error_m": 0.0,
+      "frames": [
+        1.0,
+        25.0
+      ],
+      "fps": 24
+    },
+    "Run": {
+      "stance_compensated_drift_m": 0.005065742159677665,
+      "vertical_stance_error_m": 0.005041562020778656,
+      "loop_foot_error_m": 0.0,
+      "frames": [
+        1.0,
+        17.0
+      ],
+      "fps": 24
+    }
+  }
+}

@@ -1,0 +1,2052 @@
+{
+  "items": [
+    {
+      "id": "item_000",
+      "name": "Fresh Salmon",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_001",
+      "name": "Day-old Salmon",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_002",
+      "name": "Fresh Sesame",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_003",
+      "name": "Day-old Sesame",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_004",
+      "name": "Fresh Poppy Seed",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_005",
+      "name": "Day-old Poppy Seed",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_006",
+      "name": "Fresh Everything",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_007",
+      "name": "Day-old Everything",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_008",
+      "name": "Fresh Onion",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_009",
+      "name": "Day-old Onion",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_010",
+      "name": "Fresh Rye",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_011",
+      "name": "Day-old Rye",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_012",
+      "name": "Fresh Blueberry",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_013",
+      "name": "Day-old Blueberry",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_014",
+      "name": "Fresh Cinnamon",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_015",
+      "name": "Day-old Cinnamon",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_016",
+      "name": "Fresh Cardamom Knot",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_017",
+      "name": "Day-old Cardamom Knot",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_018",
+      "name": "Fresh Bear Claw",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_019",
+      "name": "Day-old Bear Claw",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_020",
+      "name": "Fresh Cinnamon Roll",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_021",
+      "name": "Day-old Cinnamon Roll",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_022",
+      "name": "Fresh Kringle",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_023",
+      "name": "Day-old Kringle",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_024",
+      "name": "Fresh Apple Danish",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_025",
+      "name": "Day-old Apple Danish",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_026",
+      "name": "Fresh Lemon Scone",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_027",
+      "name": "Day-old Lemon Scone",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_028",
+      "name": "Fresh Blackberry Scone",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_029",
+      "name": "Day-old Blackberry Scone",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_030",
+      "name": "Fresh Almond Croissant",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_031",
+      "name": "Day-old Almond Croissant",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_032",
+      "name": "Fresh Apple",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_033",
+      "name": "Day-old Apple",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_034",
+      "name": "Fresh Pear",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_035",
+      "name": "Day-old Pear",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_036",
+      "name": "Fresh Blackberries",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_037",
+      "name": "Day-old Blackberries",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_038",
+      "name": "Fresh Raspberries",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_039",
+      "name": "Day-old Raspberries",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_040",
+      "name": "Fresh Strawberries",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_041",
+      "name": "Day-old Strawberries",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_042",
+      "name": "Fresh Carrot",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_043",
+      "name": "Day-old Carrot",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_044",
+      "name": "Fresh Peach",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_045",
+      "name": "Day-old Peach",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_046",
+      "name": "Fresh Plum",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_047",
+      "name": "Day-old Plum",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_048",
+      "name": "Fresh Fish Taco",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_049",
+      "name": "Day-old Fish Taco",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_050",
+      "name": "Fresh Salmon Skin",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_051",
+      "name": "Day-old Salmon Skin",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_052",
+      "name": "Fresh Fries",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_053",
+      "name": "Day-old Fries",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_054",
+      "name": "Fresh Pizza Crust",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_055",
+      "name": "Day-old Pizza Crust",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_056",
+      "name": "Fresh Rice Ball",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_057",
+      "name": "Day-old Rice Ball",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_058",
+      "name": "Fresh Cheese Cube",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_059",
+      "name": "Day-old Cheese Cube",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_060",
+      "name": "Fresh Sandwich Corner",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_061",
+      "name": "Day-old Sandwich Corner",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_062",
+      "name": "Fresh Clam Chowder",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 22
+    },
+    {
+      "id": "item_063",
+      "name": "Day-old Clam Chowder",
+      "category": "food",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 12
+    },
+    {
+      "id": "item_064",
+      "name": "Classic Quarter",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_065",
+      "name": "Unusual Quarter",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_066",
+      "name": "Classic Dime",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_067",
+      "name": "Unusual Dime",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_068",
+      "name": "Classic Nickel",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_069",
+      "name": "Unusual Nickel",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_070",
+      "name": "Classic Arcade Token",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_071",
+      "name": "Unusual Arcade Token",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_072",
+      "name": "Classic Bus Token",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_073",
+      "name": "Unusual Bus Token",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_074",
+      "name": "Classic Laundry Token",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_075",
+      "name": "Unusual Laundry Token",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_076",
+      "name": "Classic Dollar Coin",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_077",
+      "name": "Unusual Dollar Coin",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_078",
+      "name": "Classic Foreign Coin",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_079",
+      "name": "Unusual Foreign Coin",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_080",
+      "name": "Classic Brass Key",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_081",
+      "name": "Unusual Brass Key",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_082",
+      "name": "Classic Copper Washer",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_083",
+      "name": "Unusual Copper Washer",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_084",
+      "name": "Classic Silver Button",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_085",
+      "name": "Unusual Silver Button",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_086",
+      "name": "Classic Bronze Nut",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_087",
+      "name": "Unusual Bronze Nut",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_088",
+      "name": "Classic Enamel Pin",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_089",
+      "name": "Unusual Enamel Pin",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_090",
+      "name": "Classic Bottle Opener",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_091",
+      "name": "Unusual Bottle Opener",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_092",
+      "name": "Classic Tiny Bell",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_093",
+      "name": "Unusual Tiny Bell",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_094",
+      "name": "Classic Watch Back",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_095",
+      "name": "Unusual Watch Back",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_096",
+      "name": "Classic Amber Marble",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_097",
+      "name": "Unusual Amber Marble",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_098",
+      "name": "Classic Blue Marble",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_099",
+      "name": "Unusual Blue Marble",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_100",
+      "name": "Classic Green Marble",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_101",
+      "name": "Unusual Green Marble",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_102",
+      "name": "Classic Sea Glass",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_103",
+      "name": "Unusual Sea Glass",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_104",
+      "name": "Classic Red Bead",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_105",
+      "name": "Unusual Red Bead",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_106",
+      "name": "Classic Crystal Bead",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_107",
+      "name": "Unusual Crystal Bead",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_108",
+      "name": "Classic Prism Shard",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_109",
+      "name": "Unusual Prism Shard",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_110",
+      "name": "Classic Glass Stopper",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_111",
+      "name": "Unusual Glass Stopper",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_112",
+      "name": "Classic Gift Voucher",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_113",
+      "name": "Unusual Gift Voucher",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_114",
+      "name": "Classic Market Coupon",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_115",
+      "name": "Unusual Market Coupon",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_116",
+      "name": "Classic Record Voucher",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_117",
+      "name": "Unusual Record Voucher",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_118",
+      "name": "Classic Coffee Card",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_119",
+      "name": "Unusual Coffee Card",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_120",
+      "name": "Classic Book Coupon",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_121",
+      "name": "Unusual Book Coupon",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_122",
+      "name": "Classic Arcade Ticket",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_123",
+      "name": "Unusual Arcade Ticket",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_124",
+      "name": "Classic Ferry Token",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_125",
+      "name": "Unusual Ferry Token",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_126",
+      "name": "Classic Trade Stamp",
+      "category": "valuable",
+      "rarity": "common",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_127",
+      "name": "Unusual Trade Stamp",
+      "category": "valuable",
+      "rarity": "uncommon",
+      "value": 4,
+      "nutrition": 0
+    },
+    {
+      "id": "item_128",
+      "name": "Classic Cork Float",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_129",
+      "name": "Unusual Cork Float",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_130",
+      "name": "Classic Net Float",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_131",
+      "name": "Unusual Net Float",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_132",
+      "name": "Classic Net Needle",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_133",
+      "name": "Unusual Net Needle",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_134",
+      "name": "Classic Rope Coil",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_135",
+      "name": "Unusual Rope Coil",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_136",
+      "name": "Classic Lure",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_137",
+      "name": "Unusual Lure",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_138",
+      "name": "Classic Bobber",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_139",
+      "name": "Unusual Bobber",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_140",
+      "name": "Classic Shell",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_141",
+      "name": "Unusual Shell",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_142",
+      "name": "Classic Boat Tag",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_143",
+      "name": "Unusual Boat Tag",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_144",
+      "name": "Classic Bottle Cap",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_145",
+      "name": "Unusual Bottle Cap",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_146",
+      "name": "Classic Lost Mitten",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_147",
+      "name": "Unusual Lost Mitten",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_148",
+      "name": "Classic Shoelace",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_149",
+      "name": "Unusual Shoelace",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_150",
+      "name": "Classic Tiny Umbrella",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_151",
+      "name": "Unusual Tiny Umbrella",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_152",
+      "name": "Classic Bike Reflector",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_153",
+      "name": "Unusual Bike Reflector",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_154",
+      "name": "Classic Sunglass Lens",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_155",
+      "name": "Unusual Sunglass Lens",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_156",
+      "name": "Classic Rubber Duck",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_157",
+      "name": "Unusual Rubber Duck",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_158",
+      "name": "Classic Toy Wheel",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_159",
+      "name": "Unusual Toy Wheel",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_160",
+      "name": "Classic Acorn",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_161",
+      "name": "Unusual Acorn",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_162",
+      "name": "Classic Pine Cone",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_163",
+      "name": "Unusual Pine Cone",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_164",
+      "name": "Classic Fern Print",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_165",
+      "name": "Unusual Fern Print",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_166",
+      "name": "Classic Flowerpot",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_167",
+      "name": "Unusual Flowerpot",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_168",
+      "name": "Classic Seed Packet",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_169",
+      "name": "Unusual Seed Packet",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_170",
+      "name": "Classic Garden Gnome",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_171",
+      "name": "Unusual Garden Gnome",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_172",
+      "name": "Classic Wind Chime",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_173",
+      "name": "Unusual Wind Chime",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_174",
+      "name": "Classic Smooth Stone",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_175",
+      "name": "Unusual Smooth Stone",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_176",
+      "name": "Classic Guitar Pick",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_177",
+      "name": "Unusual Guitar Pick",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_178",
+      "name": "Classic Record Sleeve",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_179",
+      "name": "Unusual Record Sleeve",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_180",
+      "name": "Classic Drum Key",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_181",
+      "name": "Unusual Drum Key",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_182",
+      "name": "Classic Ticket Stub",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_183",
+      "name": "Unusual Ticket Stub",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_184",
+      "name": "Classic Harmonica",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_185",
+      "name": "Unusual Harmonica",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_186",
+      "name": "Classic Kazoo",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_187",
+      "name": "Unusual Kazoo",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_188",
+      "name": "Classic Cassette",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_189",
+      "name": "Unusual Cassette",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_190",
+      "name": "Classic Tambourine Bell",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_191",
+      "name": "Unusual Tambourine Bell",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_192",
+      "name": "Classic Wooden Horse",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_193",
+      "name": "Unusual Wooden Horse",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_194",
+      "name": "Classic Knit Patch",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_195",
+      "name": "Unusual Knit Patch",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_196",
+      "name": "Classic Rune Bead",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_197",
+      "name": "Unusual Rune Bead",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_198",
+      "name": "Classic Mini Oar",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_199",
+      "name": "Unusual Mini Oar",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_200",
+      "name": "Classic Wool Tassel",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_201",
+      "name": "Unusual Wool Tassel",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_202",
+      "name": "Classic Carved Fish",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_203",
+      "name": "Unusual Carved Fish",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_204",
+      "name": "Classic Painted Tile",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_205",
+      "name": "Unusual Painted Tile",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_206",
+      "name": "Classic Small Pennant",
+      "category": "curio",
+      "rarity": "common",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_207",
+      "name": "Unusual Small Pennant",
+      "category": "curio",
+      "rarity": "uncommon",
+      "value": 2,
+      "nutrition": 0
+    },
+    {
+      "id": "item_208",
+      "name": "Mini Crab Pot",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_209",
+      "name": "Ferry Schedule",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_210",
+      "name": "Dock Cleat",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_211",
+      "name": "Ship Compass",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_212",
+      "name": "Signal Flag",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_213",
+      "name": "Rope Fender",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_214",
+      "name": "Lobster Patch",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_215",
+      "name": "Salmon Scale Charm",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_216",
+      "name": "Coffee Spoon",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_217",
+      "name": "Espresso Cup",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_218",
+      "name": "Tea Strainer",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_219",
+      "name": "Picnic Fork",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_220",
+      "name": "Tiny Thermos",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_221",
+      "name": "Biscuit Tin",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_222",
+      "name": "Jam Jar",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_223",
+      "name": "Honey Dipper",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_224",
+      "name": "Postcard of Rainier",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_225",
+      "name": "Ballard Map",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_226",
+      "name": "Library Bookmark",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_227",
+      "name": "Old Street Number",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_228",
+      "name": "Bicycle Bell",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_229",
+      "name": "Brass Door Knocker",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_230",
+      "name": "Ceramic Raccoon",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_231",
+      "name": "Wooden Seaplane",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_232",
+      "name": "Mini Sailboat",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_233",
+      "name": "Tin Lighthouse",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_234",
+      "name": "Pocket Telescope",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_235",
+      "name": "Cedar Box",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_236",
+      "name": "Quilt Square",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_237",
+      "name": "Garden Lantern",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_238",
+      "name": "Den Welcome Mat",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "item_239",
+      "name": "Patchwork Cushion",
+      "category": "curio",
+      "rarity": "rare",
+      "value": 12,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_00",
+      "name": "The First Salmon",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_01",
+      "name": "Marvin’s Lost Clapper",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_02",
+      "name": "Rainier at Dawn",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_03",
+      "name": "The Golden Bagel",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_04",
+      "name": "Captain’s Last Compass",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_05",
+      "name": "The Tiny Troll",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_06",
+      "name": "The Ballard Crown",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_07",
+      "name": "Ghost of the Old Trolley",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_08",
+      "name": "The Nordic Star",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_09",
+      "name": "Midnight Market Medal",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_10",
+      "name": "The Uncatchable Floatplane",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_11",
+      "name": "King of the Alley",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_12",
+      "name": "The Glass Kraken",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_13",
+      "name": "The Lockkeeper’s Key",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_14",
+      "name": "The Perfect Pinecone",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    },
+    {
+      "id": "trophy_15",
+      "name": "The Mayor of Trash",
+      "category": "trophy",
+      "rarity": "legendary",
+      "value": 0,
+      "nutrition": 0
+    }
+  ]
+}

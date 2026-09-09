@@ -1,0 +1,14 @@
+{
+  "source": "Jimothy-v7.blend",
+  "regions": {
+    "legs": 13159,
+    "body": 50880,
+    "face": 8381,
+    "tail": 3120
+  },
+  "geometric_fibers": 75540,
+  "fur_triangles": 99694,
+  "base_triangles": 46196,
+  "alpha_cards": false,
+  "original_source_untouched": "Jimothy-v6.blend"
+}

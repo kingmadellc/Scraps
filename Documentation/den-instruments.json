@@ -1,0 +1,59 @@
+{
+  "Guitar": {
+    "bounds_blender_min": [
+      -0.18183378875255585,
+      -0.061942894011735916,
+      0.0
+    ],
+    "bounds_blender_max": [
+      0.17535679042339325,
+      0.024976972490549088,
+      1.100000023841858
+    ],
+    "dimensions_blender_xyz": [
+      0.3571905791759491,
+      0.086919866502285,
+      1.100000023841858
+    ],
+    "triangles": 16528,
+    "materials": [
+      "Den_Butterscotch",
+      "Den_Maple",
+      "Den_BlackPlastic",
+      "Den_BrushedNickel",
+      "Den_AgedIvory"
+    ],
+    "front": "Blender -Y; FBX standard -Z forward, Y up",
+    "origin": "ground, body center horizontally"
+  },
+  "Amp": {
+    "bounds_blender_min": [
+      -0.32750001549720764,
+      -0.1598944216966629,
+      0.0
+    ],
+    "bounds_blender_max": [
+      0.32749998569488525,
+      0.1575000137090683,
+      0.5820000171661377
+    ],
+    "dimensions_blender_xyz": [
+      0.6550000011920929,
+      0.3173944354057312,
+      0.5820000171661377
+    ],
+    "triangles": 7332,
+    "materials": [
+      "Den_CharcoalTolex",
+      "Den_BlackPlastic",
+      "Den_WovenGrille",
+      "Den_AgedIvory",
+      "Den_BrushedNickel",
+      "Den_PatinaBrass",
+      "Den_Rubber"
+    ],
+    "front": "Blender -Y; FBX standard -Z forward, Y up",
+    "origin": "ground, body center horizontally"
+  },
+  "textures": "Authored procedural image textures packed in blend and FBX, PNG copies beside FBX."
+}

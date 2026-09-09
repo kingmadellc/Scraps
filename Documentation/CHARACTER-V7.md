@@ -1,0 +1,19 @@
+# Jimothy V7 character refinement
+
+The actual charcoal raccoon photograph supplied by the user is the coat reference. The white figurine is useful for posture and silhouette, not fur color. V6 and the original sculpt remain intact; V7 is saved separately in Art/Blender/Jimothy-v7.blend.
+
+V6's long wide silver ribbon cards looked like scales/quills and inflated the character outline. V7 replaces these with 75,540 narrow pointed geometric fibers: short single-triangle undercoat strands and curved three-triangle guard hairs. Face/leg fibers are shorter than the torso; growth follows the back and then down the flanks/limbs. Charcoal roots and sparse silver guards replace uniform bright strips. Opaque tapered geometry replaces the alpha texture, eliminating the previous rectangular-card alpha holes. A directional microtexture supplements the coat between visible fibers and is baked for the runtime albedo at export.
+
+The torso is compressed modestly in depth and width. The shoulder hunch is raised behind a smaller, lower tucked head; the long limbs remain intact. This is still a stylized authored asset. The face remains smoother than the real photograph and the result should not be described as a photographic replica.
+
+Four groom passes were rendered and visually inspected in Blender. First pass looked too sparse/smooth; second increased cover, third roughly doubled strand count with simpler undercoat geometry. Root review still found sparse scratches over a bean-shaped body; the fourth pass greatly increased density, muted silver contrast, lowered the rump relative to the shoulders, and concentrated longer overlapping fibers around the shoulder, back edge and trailing flank. Art/Renders/jimothy-v7-front.png, side.png and rear.png are the current studio views. Earlier side-pass1.png, side-pass2.png and side-pass3.png preserve iteration evidence. These are actual Blender mesh renders, not concept illustrations.
+
+Mesh source counts: 46,196 base triangles +99,694 fur triangles =145,890 total. This is not an FPS benchmark; skin vertex count and overdraw still need device profiling. The shader uses ordinary vertex/fragment operations, no geometry/tessellation stage. Gait helper integration is separate from this groom report.
+
+Tools/refine_character_v7.py produces the new source from V6. Tools/export_character_v7.py integrates the V7 gait helper when present, bakes the coat to the existing runtime albedo resource, archives the previous albedo in Art/Textures/Jimothy_Albedo_v6.png, and exports the skinned FBX. Tools/render_v7_character.py produces the studio evidence. Runtime code/shader changes are in JimothyCoat.cs and Resources/Shaders/JimothyFur.shader.
+
+Native gameplay and browser shader verification must follow export; Blender renders alone do not validate runtime color, gait, mobile performance, or in-game silhouette.
+
+Final export completed with the approved `refine_gait_v7.refine(rig)` helper and .125-frame FBX bake sampling, no simplification. Coat-only baking avoids the joined detail meshes' overlapping primitive UVs; the final atlas was inspected to verify face/mask islands and fine undercoat detail. Source structure and actual FBX round-trip pass: two skinned meshes,15bones, all vertices weighted, correct color/UV layers, Idle/Walk/Waddle/Jump clips present. Waddle spans frames1–13. See character-v7-structure.json and character-v7-fbx-roundtrip.json.
+
+`Art/Renders/jimothy-v7-run.mp4` and `.gif` show the actual final Blender mesh/action. Thirteen inspection PNGs are in Art/Renders/v7-run; frame13 closes the loop at frame1. Video repeats twelve unique frames at34fps, giving a .353s cycle, close to the requested33.6fps runtime playback/.357s cycle. This is a studio animation preview, not captured gameplay. Representative catch/kick poses were visually reviewed; native and browser verification belongs to the integration pass.

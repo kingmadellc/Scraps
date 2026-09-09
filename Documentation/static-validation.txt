@@ -1,0 +1,41 @@
+C# syntax: PASS
+Catalog: PASS (256 unique IDs, 16 trophies, valid food nutrition)
+Jimothy: Blender source and binary FBX present
+OldBallard: Blender source and binary FBX present
+jimothy-side-v3.png 1920x1920
+gait-21.png 640x640
+jimothy-side-v2.png 1920x1920
+gait-09.png 640x640
+run-v3-24.png 640x640
+run-v3-18.png 640x640
+run-v3-19.png 640x640
+run-v3-22.png 640x640
+run-v3-23.png 640x640
+run-v3-09.png 640x640
+run-v3-21.png 640x640
+run-v3-20.png 640x640
+run-v3-08.png 640x640
+run-v3-11.png 640x640
+run-v3-05.png 640x640
+jimothy-model-v2.png 1920x1920
+jimothy-model-v3.png 1920x1920
+run-v3-04.png 640x640
+run-v3-10.png 640x640
+run-v3-06.png 640x640
+run-v3-12.png 640x640
+run-v3-13.png 640x640
+run-v3-07.png 640x640
+run-v3-03.png 640x640
+run-v3-17.png 640x640
+run-v3-16.png 640x640
+run-v3-02.png 640x640
+run-v3-14.png 640x640
+run-v3-01.png 640x640
+run-v3-15.png 640x640
+gait-05.png 640x640
+old-ballard-block.png 2560x1440
+gait-13.png 640x640
+gait-17.png 640x640
+gait-01.png 640x640
+Vertical route rise: PASS against authored jump apex (does not test collision/playability)
+Unity compile, EditMode tests, input, collision, persistence I/O and device performance: NOT RUN (Unity unavailable)

@@ -1,0 +1,1 @@
+{"name":"Jimothy.Editor","rootNamespace":"Jimothy.Editor","references":["Jimothy.Runtime","Unity.RenderPipelines.Universal.Runtime","Unity.RenderPipelines.Core.Runtime"],"includePlatforms":["Editor"]}

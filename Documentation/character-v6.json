@@ -1,0 +1,12 @@
+{
+  "fur_cards": 5887,
+  "fur_triangles": 35322,
+  "base_triangles": 46196,
+  "source": "Jimothy-v6.blend",
+  "gait_actions": [
+    "Idle",
+    "Jump",
+    "Waddle",
+    "Walk"
+  ]
+}

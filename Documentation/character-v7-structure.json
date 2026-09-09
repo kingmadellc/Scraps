@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "object": "Jimothy_ContinuousSkin",
+      "vertices": 23288,
+      "triangles": 46196,
+      "unweighted": 0,
+      "nonfinite_vertices": 0,
+      "min_weight_sum": 0.9999998807907104,
+      "max_weight_sum": 1.0000001192092896,
+      "missing_bone_groups": []
+    },
+    {
+      "object": "Jimothy_FurCards",
+      "vertices": 250774,
+      "triangles": 99694,
+      "unweighted": 0,
+      "nonfinite_vertices": 0,
+      "min_weight_sum": 0.9990019202232361,
+      "max_weight_sum": 1.0000001192092896,
+      "missing_bone_groups": []
+    }
+  ],
+  "passed": true,
+  "note": "Source mesh structural checks only; FBX import, animation and rendering require separate verification."
+}

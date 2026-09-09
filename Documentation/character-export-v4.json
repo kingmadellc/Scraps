@@ -1,0 +1,16 @@
+{
+  "skin_meshes": 1,
+  "triangles": 75362,
+  "material_slots": 8,
+  "bones": 11,
+  "clips": [
+    "Idle",
+    "Jump",
+    "Waddle"
+  ],
+  "texture_dimensions": [
+    2048,
+    2048
+  ],
+  "offline_groom_exported": false
+}

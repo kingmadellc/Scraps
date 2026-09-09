@@ -1,0 +1,32 @@
+{
+  "BallardHuman": {
+    "nominal_speeds": {
+      "Idle": 0,
+      "Walk": 1.0,
+      "Run": 3.0
+    },
+    "max_ik_target_errors": {
+      "Idle": 8.195638656616211e-08,
+      "Walk": 9.06402249678704e-08,
+      "Run": 5.960464477539063e-08
+    },
+    "vertices": 7253,
+    "triangles": 14422,
+    "bones": 15
+  },
+  "BallardDog": {
+    "nominal_speeds": {
+      "Idle": 0,
+      "Walk": 0.9333333333333335,
+      "Run": 3.4285714285714284
+    },
+    "max_ik_target_errors": {
+      "Idle": 7.450580596923828e-08,
+      "Walk": 7.450580596923828e-08,
+      "Run": 6.664001874625056e-08
+    },
+    "vertices": 8148,
+    "triangles": 16260,
+    "bones": 17
+  }
+}

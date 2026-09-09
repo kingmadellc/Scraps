@@ -1,0 +1,50 @@
+{
+  "version": 6,
+  "frames": 61,
+  "loop": false,
+  "limb_scale": 0.5465379804372787,
+  "max_ankle_gap": 0.0,
+  "max_knee_gap": 1.5213786385178827e-06,
+  "max_solver_error": 1.2091078028142925e-06,
+  "max_target_clamp": 0.0,
+  "max_paw_orientation_error": 0.0,
+  "mesh_vertex_count": 72176,
+  "poses": [
+    {
+      "frame": 1,
+      "phase": 0.0,
+      "mesh_min_z": 0.025205835700035095,
+      "mesh_max_z": 1.8587788343429565
+    },
+    {
+      "frame": 11,
+      "phase": 0.16666666666666666,
+      "mesh_min_z": 0.11825118958950043,
+      "mesh_max_z": 2.0274012088775635
+    },
+    {
+      "frame": 30,
+      "phase": 0.48333333333333334,
+      "mesh_min_z": 0.22188487648963928,
+      "mesh_max_z": 2.000626564025879
+    },
+    {
+      "frame": 47,
+      "phase": 0.7666666666666667,
+      "mesh_min_z": 0.043958764523267746,
+      "mesh_max_z": 2.0117180347442627
+    },
+    {
+      "frame": 51,
+      "phase": 0.8333333333333334,
+      "mesh_min_z": 0.0255825724452734,
+      "mesh_max_z": 1.8285746574401855
+    },
+    {
+      "frame": 61,
+      "phase": 1.0,
+      "mesh_min_z": 0.025206468999385834,
+      "mesh_max_z": 2.011216163635254
+    }
+  ]
+}

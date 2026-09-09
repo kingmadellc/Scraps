@@ -1,0 +1,12 @@
+{
+  "version": 7,
+  "frames": 13,
+  "duration_seconds": 0.5,
+  "nominal_armature_speed": 9.75,
+  "nominal_world_speed_at_scale_022": 2.145,
+  "max_solver_error": 5.693725697559952e-07,
+  "max_reach_clamp": 0.0,
+  "max_joint_gap": 4.2321925251965475e-07,
+  "samples": 97,
+  "source": "Kiana Hall footage, Seattle Times RqlQYJUz-j8 opening run; see GAIT-STUDY-V7.md"
+}

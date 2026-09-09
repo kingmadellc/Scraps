@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "identical_skin_bind_skeleton_and_action_keys": {
+    "skin": "4fa11e1dea53ca717d7986668ababe7390fe2c499566e9f5aa48a7272fbdb7bd",
+    "bones": "92da37f458e2727a377b28378f6439893ca0d071f64a7ebac119a45536c50e29",
+    "actions": "6230773a3ffea43197f3abc09380df14314b064ff9c2ab17fb48eecda7aa3895"
+  }
+}

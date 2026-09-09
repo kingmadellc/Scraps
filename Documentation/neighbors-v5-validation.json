@@ -1,0 +1,82 @@
+{
+  "BallardHuman": {
+    "clips": {
+      "Idle": {
+        "frames": 49,
+        "minimum_foot_vertex_z": 0.016002492979168892,
+        "max_foot_orientation_error": 0,
+        "max_ankle_joint_gap": 1.5284617030583234e-08,
+        "loop_vertex_error": 0.0,
+        "first_frame_z_bounds": [
+          0.016002610325813293,
+          1.7543253898620605
+        ]
+      },
+      "Walk": {
+        "frames": 25,
+        "minimum_foot_vertex_z": 0.01600046455860138,
+        "max_foot_orientation_error": 0,
+        "max_ankle_joint_gap": 3.725290298461914e-08,
+        "loop_vertex_error": 0.0,
+        "first_frame_z_bounds": [
+          0.016001243144273758,
+          1.7013254165649414
+        ]
+      },
+      "Run": {
+        "frames": 17,
+        "minimum_foot_vertex_z": 0.01599910296499729,
+        "max_foot_orientation_error": 0,
+        "max_ankle_joint_gap": 6.188917057900187e-08,
+        "loop_vertex_error": 0.0,
+        "first_frame_z_bounds": [
+          0.016000108793377876,
+          1.6476038694381714
+        ]
+      }
+    },
+    "material_images": [
+      "NeighborJacketCloth"
+    ]
+  },
+  "BallardDog": {
+    "clips": {
+      "Idle": {
+        "frames": 49,
+        "minimum_foot_vertex_z": 0.019372764974832535,
+        "max_foot_orientation_error": 0,
+        "max_ankle_joint_gap": 1.914088812271525e-07,
+        "loop_vertex_error": 0.0,
+        "first_frame_z_bounds": [
+          0.019372785463929176,
+          0.7923641204833984
+        ]
+      },
+      "Walk": {
+        "frames": 25,
+        "minimum_foot_vertex_z": 0.01937263086438179,
+        "max_foot_orientation_error": 0,
+        "max_ankle_joint_gap": 5.780805570265896e-07,
+        "loop_vertex_error": 0.0,
+        "first_frame_z_bounds": [
+          0.019496729597449303,
+          0.7273641228675842
+        ]
+      },
+      "Run": {
+        "frames": 9,
+        "minimum_foot_vertex_z": 0.01937267929315567,
+        "max_foot_orientation_error": 0,
+        "max_ankle_joint_gap": 5.206884506242319e-07,
+        "loop_vertex_error": 0.0,
+        "first_frame_z_bounds": [
+          0.019496817141771317,
+          0.7273641228675842
+        ]
+      }
+    },
+    "material_images": [
+      "BallardDogCoat"
+    ]
+  }
+}

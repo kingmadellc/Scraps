@@ -1,0 +1,14 @@
+{
+  "imported_meshes": 1,
+  "bones": 11,
+  "vertices": 37807,
+  "triangles": 75362,
+  "materials": 8,
+  "uv_layers": 1,
+  "all_vertices_weighted": true,
+  "actions": [
+    "Jimothy_Rig|Jimothy_Rig|Idle",
+    "Jimothy_Rig|Jimothy_Rig|Jump",
+    "Jimothy_Rig|Jimothy_Rig|Waddle"
+  ]
+}

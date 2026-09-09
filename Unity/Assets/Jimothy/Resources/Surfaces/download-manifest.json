@@ -1,0 +1,128 @@
+[
+  {
+    "asset": "red_brick_03",
+    "name": "Brick",
+    "channel": "Diffuse",
+    "filename": "Brick_BaseColor.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/red_brick_03/red_brick_03_diff_2k.jpg",
+    "bytes": 2969950,
+    "md5": "df521ebe6c4eb72c3329832acfecd95d",
+    "source_page": "https://polyhaven.com/a/red_brick_03",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 1.0
+  },
+  {
+    "asset": "red_brick_03",
+    "name": "Brick",
+    "channel": "nor_gl",
+    "filename": "Brick_Normal.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/red_brick_03/red_brick_03_nor_gl_2k.jpg",
+    "bytes": 3684630,
+    "md5": "fd2d01b5e0f4de51ca4d7c2b4bcbc22c",
+    "source_page": "https://polyhaven.com/a/red_brick_03",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 1.0
+  },
+  {
+    "asset": "red_brick_03",
+    "name": "Brick",
+    "channel": "Rough",
+    "filename": "Brick_Roughness.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/red_brick_03/red_brick_03_rough_2k.jpg",
+    "bytes": 1329161,
+    "md5": "18815a721bf7cb485955359204484608",
+    "source_page": "https://polyhaven.com/a/red_brick_03",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 1.0
+  },
+  {
+    "asset": "asphalt_02",
+    "name": "Asphalt",
+    "channel": "Diffuse",
+    "filename": "Asphalt_BaseColor.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_diff_2k.jpg",
+    "bytes": 3075676,
+    "md5": "336af399fd98a39ab986d8b3bf73b4ff",
+    "source_page": "https://polyhaven.com/a/asphalt_02",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 3.000000238418579
+  },
+  {
+    "asset": "asphalt_02",
+    "name": "Asphalt",
+    "channel": "nor_gl",
+    "filename": "Asphalt_Normal.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+    "bytes": 4943950,
+    "md5": "77ebd1cc0b020ccaa1c6b58f103d1f75",
+    "source_page": "https://polyhaven.com/a/asphalt_02",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 3.000000238418579
+  },
+  {
+    "asset": "asphalt_02",
+    "name": "Asphalt",
+    "channel": "Rough",
+    "filename": "Asphalt_Roughness.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_rough_2k.jpg",
+    "bytes": 2230457,
+    "md5": "6fe669ab38640ef2009d6a28d1ad5ee9",
+    "source_page": "https://polyhaven.com/a/asphalt_02",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 3.000000238418579
+  },
+  {
+    "asset": "rough_wood",
+    "name": "Wood",
+    "channel": "Diffuse",
+    "filename": "Wood_BaseColor.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rough_wood/rough_wood_diff_2k.jpg",
+    "bytes": 2223327,
+    "md5": "f5f9c55696f047ceaa49dc97c5aa5526",
+    "source_page": "https://polyhaven.com/a/rough_wood",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 0.5
+  },
+  {
+    "asset": "rough_wood",
+    "name": "Wood",
+    "channel": "nor_gl",
+    "filename": "Wood_Normal.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rough_wood/rough_wood_nor_gl_2k.jpg",
+    "bytes": 2520021,
+    "md5": "62594f2d00eb246581b9d4fde30209f1",
+    "source_page": "https://polyhaven.com/a/rough_wood",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 0.5
+  },
+  {
+    "asset": "rough_wood",
+    "name": "Wood",
+    "channel": "Rough",
+    "filename": "Wood_Roughness.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rough_wood/rough_wood_rough_2k.jpg",
+    "bytes": 810338,
+    "md5": "832d6d549a8e76c16b9af2586f429d6c",
+    "source_page": "https://polyhaven.com/a/rough_wood",
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "width_m": 0.5
+  }
+]

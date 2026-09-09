@@ -1,0 +1,11 @@
+# Ballard district interpretation — September 2026
+
+The game now has ten original shop identities, differentiated by custom wordmarks, icon geometry, paint palette and signboard shape. Facades vary through arches, recessed panels, pilasters, bay details, awnings and cornices. Business names and establishment dates are fictional art direction, not claims about real Ballard businesses. See SHOP-IDENTITIES.md for font licenses and identity details.
+
+The main avenue uses weathered running-bond brick with normal relief. A tangent-continuous 30 m extension bends left from the home-to-district approach; the opposite side opens into a bell garden with an arched brick tower, pale columns, copper cap and suspended brass bell. Paths, benches, compass inlay, cedar planting beds and a small shelter break up the corridor. A lowered curb crossing at z=-48 permits entry without jumping.
+
+Reference: Seattle Parks Marvin’s Garden (https://www.seattle.gov/parks/allparks/marvins-garden), including its official tower photograph (https://www.seattle.gov/images/images/Departments/ParksAndRecreation/Parks/MNOP/MarvinsGarden1.jpg), visually inspected in browser. District architecture reference: https://www.seattle.gov/neighborhoods/historic-preservation/historic-districts/ballard-avenue-landmark-district. That source describes historical brick paving beneath current asphalt. Exposed brick here is the user-requested heritage interpretation, not a claim that all of today’s street is exposed brick. No downloaded reference photograph is packaged in the game.
+
+Geometry validation: 183 road-support samples, actual motor walking home to bend endpoint and back, garden entry and bell passage both directions, no measured capsule penetration. The first audit found patio overlap in traffic and a blocked entrance; both were corrected and the audit rerun successfully. Runtime agent traversal reached and visually inspected the bend; full park interior evidence is the deterministic motor audit, not a claimed human playtest.
+
+The Unity scene is exported into Art/Blender/Old-Ballard-Closing-Time.blend with packed textures. Runtime geometry is authored in ClosingTimeWorld.cs and its partial files; rebuilding it overwrites ad-hoc changes to the exported Blender environment.

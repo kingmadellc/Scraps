@@ -1,0 +1,10 @@
+{
+  "name": "Jimothy.Runtime",
+  "rootNamespace": "Jimothy",
+  "references": [
+    "Unity.InputSystem",
+    "Unity.ugui",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.RenderPipelines.Core.Runtime"
+  ]
+}

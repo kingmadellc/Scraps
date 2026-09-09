@@ -1,0 +1,11 @@
+{
+  "character_triangles": 53026,
+  "bones": 11,
+  "clips": [
+    "Idle",
+    "Waddle",
+    "Jump"
+  ],
+  "texture": "2048x2048 albedo",
+  "notes": "Continuous sculpt and blended limb weights. Directional groom is skinned for Blender motion but excluded from FBX; runtime uses the painted albedo pending optimized fur cards. Rig timing inferred from supplied stills."
+}
