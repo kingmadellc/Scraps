@@ -1,5 +1,7 @@
 # Naming research — 0.4.8 planning
 
+**Historical shortlist: rejected by the user on September 10, 2026. No name was selected.**
+
 Research date: September 9, 2026 (America/Los_Angeles). Prepared by the independent naming/playtest agent. This is a proposal, not a product rename. No application title, bundle identifier, or save path was changed.
 
 **Editorial recommendation:** test **Rooftop Riffraff**, **Back Alley Legend**, and **Small Paws, Loud City**. The first emphasizes mischievous rooftop exploration; the second emphasizes a neighborhood folk hero; the third expresses a small protagonist with an outsized musical personality. Celebrate the disabled raccoon's agency and character without making disability the joke or the entire identity.

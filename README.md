@@ -2,6 +2,9 @@
 
 Unity 6000.3.0f1 / URP survival platformer set around Old Ballard Avenue, with editable Blender character and environment assets. Current prototype: **0.4.8**.
 
+**[Play the public browser build](https://kingmadellc.github.io/JimothySurvival/?v=0.4.8)** on iPhone, iPad, or desktop. No local Mac/server is required. Safari users: landscape, then Play in browser. The first download is about 124 MB; saves stay in this browser on this site.
+
+
 ## Get started
 
 Install Git LFS before cloning this repository:

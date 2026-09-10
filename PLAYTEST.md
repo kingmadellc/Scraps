@@ -2,7 +2,9 @@
 
 On this Mac, open `/Volumes/Jimothy Dev/Projects/Jimothy/Builds/Jimothy.app`. Keep the **Jimothy Dev** drive connected. Unity Hub is not required to play the built app.
 
-On iPhone or iPad, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.4.8**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue adventure** or **New adventure**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
+**Public play link:** https://kingmadellc.github.io/JimothySurvival/?v=0.4.8 — Safari in landscape, then Play in browser. This works away from the development Mac. The public site has its own browser save; local-link saves do not automatically transfer.
+
+For LAN development only, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.4.8**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue adventure** or **New adventure**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
 
 ## The outing loop
 
