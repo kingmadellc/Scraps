@@ -33,21 +33,20 @@ public sealed class DiscoveryReveal:MonoBehaviour {
   Block("Evergreen ink",background.transform,Vector2.zero,Vector2.one,new(.02f,.055f,.045f,.64f));
   var safe=Area("Safe poster",overlay.transform,new(.04f,.05f),new(.96f,.95f));var screen=Screen.safeArea;safe.anchorMin=new Vector2(Mathf.Max(.04f,screen.xMin/Screen.width),Mathf.Max(.05f,screen.yMin/Screen.height));safe.anchorMax=new Vector2(Mathf.Min(.96f,screen.xMax/Screen.width),Mathf.Min(.95f,screen.yMax/Screen.height));
   Block("Top brass rule",safe,new(.03f,.91f),new(.97f,.914f),Brass);
-  Label(safe,"B A L L A R D   /   A F T E R   H O U R S",22,Brass,new(.03f,.925f),new(.75f,.985f));
-  Label(safe,"THE NIGHT HAS A NEW HEADLINER",22,Brass,new(.04f,.77f),new(.60f,.84f));
+  Label(safe,"RARE FIND",22,Brass,new(.03f,.925f),new(.75f,.985f));
   var word=Area("Angled concert headline",safe,new(.028f,.55f),new(.64f,.77f));word.localRotation=Quaternion.Euler(0,0,3);
   string headline=item.category=="trophy"?"Den legend!":"What a find!";
   Label(word,headline,80,new(.60f,.25f,.12f),new(.005f,-.035f),new(1.005f,.965f),true);
   Label(word,headline,80,Cream,Vector2.zero,Vector2.one,true);
   Label(safe,item.name,42,Cream,new(.04f,.37f),new(.57f,.52f),true);
   Label(safe,(item.rarity??"rare").ToUpperInvariant()+"  /  "+(item.category=="trophy"?"DEN DISPLAY TREASURE":item.category=="valuable"?item.value+" LOOSE SHINIES":"POCKET TREASURE"),23,Brass,new(.04f,.29f),new(.57f,.36f));
-  Label(safe,"In your pockets. Get it back to the Den to keep it.",25,new(.72f,.83f,.74f),new(.04f,.19f),new(.60f,.27f));
+  Label(safe,"Bank at the Den to keep it.",25,new(.72f,.83f,.74f),new(.04f,.19f),new(.60f,.27f));
   var stage=Area("Treasure spotlight",safe,new(.62f,.23f),new(.98f,.86f));rays=Area("Brass sunburst",stage,Vector2.zero,Vector2.one);rays.gameObject.AddComponent<DiscoverySunburst>().color=new(.94f,.69f,.36f,.19f);
   Icon(stage,new(.05f,.05f),new(.95f,.95f));
-  var button=Block("Continue scavenging",safe,new(.04f,.045f),new(.48f,.15f),Brass);button.raycastTarget=true;continueButton=button.gameObject.AddComponent<Button>();continueButton.targetGraphic=button;continueButton.interactable=false;continueButton.onClick.AddListener(Dismiss);Label(button.transform,"Back to the night  >",30,new(.04f,.11f,.08f),new(.07f,0),new(.94f,1),true);
-  Label(safe,"ACTION PAUSED  /  TREASURE NOT YET BANKED",19,Brass,new(.55f,.055f),new(.97f,.14f),false,TextAnchor.MiddleRight);
+  var button=Block("Continue scavenging",safe,new(.04f,.045f),new(.48f,.15f),Brass);button.raycastTarget=true;continueButton=button.gameObject.AddComponent<Button>();continueButton.targetGraphic=button;continueButton.interactable=false;continueButton.onClick.AddListener(Dismiss);Label(button.transform,"Continue  >",30,new(.04f,.11f,.08f),new(.07f,0),new(.94f,1),true);
+  Label(safe,"PAUSED · NOT YET BANKED",19,Brass,new(.55f,.055f),new(.97f,.14f),false,TextAnchor.MiddleRight);
  }
- void BuildCard(ItemDefinition item){var panel=Block("Pocket find",overlay.transform,new(.33f,.60f),new(.67f,.80f),new(.025f,.065f,.05f,.96f));Block("Brass edge",panel.transform,new(0,.96f),Vector2.one,Brass);Icon(Area("Portrait slot",panel.transform,new(.02f,.06f),new(.30f,.90f)),Vector2.zero,Vector2.one);Label(panel.transform,item.name,26,Cream,new(.32f,.37f),new(.97f,.91f),true);Label(panel.transform,"POCKETED  /  BANK IT AT THE DEN",18,Brass,new(.32f,.08f),new(.98f,.39f));}
+ void BuildCard(ItemDefinition item){var panel=Block("Pocket find",overlay.transform,new(.33f,.60f),new(.67f,.80f),new(.025f,.065f,.05f,.96f));Block("Brass edge",panel.transform,new(0,.96f),Vector2.one,Brass);Icon(Area("Portrait slot",panel.transform,new(.02f,.06f),new(.30f,.90f)),Vector2.zero,Vector2.one);Label(panel.transform,item.name,26,Cream,new(.32f,.37f),new(.97f,.91f),true);Label(panel.transform,"Pocketed · Bank at the Den",18,Brass,new(.32f,.08f),new(.98f,.39f));}
  public void Dismiss(){if(!modal||elapsed<.45f||Screen.height>Screen.width)return;Close(true);}
  public void Close(bool resume){bool wasModal=modal;modal=false;if(portrait)portrait.targetTexture=null;if(target){target.Release();Destroy(target);}if(reward){reward.SetActive(false);Destroy(reward);}if(overlay){overlay.SetActive(false);Destroy(overlay);}if(portraitMaterial)Destroy(portraitMaterial);model=null;portrait=null;target=null;reward=null;overlay=null;portraitMaterial=null;ItemName=null;if(wasModal&&GameSession.Instance)GameSession.Instance.EndDiscovery(resume);}
  void Update(){if(!overlay)return;var g=GameSession.Instance;if(!g||!g.Playing||(!modal&&g.Paused)){Close(false);return;}elapsed+=Time.unscaledDeltaTime;model.localRotation=Quaternion.Euler(0,Mathf.Sin(elapsed*.55f)*32,0);model.localScale=Vector3.one*Mathf.Lerp(.75f,1,Mathf.SmoothStep(0,1,elapsed/.3f));group.alpha=Mathf.Clamp01(elapsed/.14f);if(modal){if(rays)rays.localRotation=Quaternion.Euler(0,0,elapsed*3);continueButton.interactable=elapsed>=.45f;if(Keyboard.current?.escapeKey.wasPressedThisFrame==true){g.TogglePause();return;}if(Keyboard.current?.enterKey.wasPressedThisFrame==true||Gamepad.current?.buttonSouth.wasPressedThisFrame==true)Dismiss();}else{group.alpha*=Mathf.Clamp01((2.3f-elapsed)/.35f);if(elapsed>=2.3f)Close(false);}}

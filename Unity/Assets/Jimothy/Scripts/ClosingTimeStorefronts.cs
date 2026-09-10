@@ -18,11 +18,15 @@ public static partial class ClosingTimeWorld {
   if(style==3||style==6)for(int k=0;k<panes;k++)B("Amber pub transom glass",.055f,2.69f,-1.0f+k*2f/(panes-1),.025f,.30f,.17f,k%2==0?"bottleAmber":"bottleGreen");
   if(bay==3){
    B("Recessed shop entrance door",.07f,1.56f,0,.08f,2.02f,1.12f,trim);B("Door inset glazing",.122f,1.97f,0,.022f,.92f,.88f,"glass");B("Door brass kickplate",.126f,.72f,0,.025f,.19f,.87f,"gold");Cylinder("Vertical brass door pull",P(.18f,1.08f,.39f),P(.18f,1.38f,.39f),.02f,"gold",8);
-   BrandType("CLOSED","BarlowCondensed-SemiBold",side,front,z,new(0,1.97f),.026f,"linen",.148f);
+   string hours=style==2?"BACK AT 6 AM":style==8?"COFFEE AT 7 AM":style==4?"FRESH CATCH / 9 AM":style==9?"BACK AT NOON":style==0?"REPAIRS / 9 AM":"SEE YOU TOMORROW";
+   BrandType((5100+row*12+(side>0?1:0))+"  /  BALLARD AVE\n"+hours,"BarlowCondensed-SemiBold",side,front,z,new(0,1.53f),.013f,"linen",.151f);
+   foreach(float y in new[]{.91f,1.42f,2.26f})B("Door hinge leaf",.129f,y,-.48f,.025f,.085f,.025f,"gold");
+   B("Door mail slot surround",.13f,.94f,0,.025f,.075f,.30f,"gold");B("Door mail slot recess",.147f,.94f,0,.010f,.034f,.23f,"iron");
   }else{
    // Merchandise varies by business, rather than repeating bottle shelves on every façade.
-   ShopMerchandise(side,style,bay,front,z);
-   if(style!=7){B("Fine display mullion",.40f,1.53f,0,.046f,1.8f,.034f,trim);}
+   if(bay==1)ShopClosingScene(side,style,front,z);else ShopMerchandise(side,style,bay,front,z);
+   if(bay==2){for(int slat=0;slat<8;slat++)B("Partly lowered closing blind",.368f,2.38f-slat*.074f,0,.025f,.058f,2.16f,style==3||style==6?"wood":"linen");Cylinder("Blind pull cord",P(.395f,2.39f,.94f),P(.395f,1.60f,.94f),.007f,"linen",4);Ellipsoid(P(.395f,1.57f,.94f),new(.018f,.037f,.018f),"wood",6,4);}
+   if(style!=7&&bay!=1){B("Fine display mullion",.40f,1.53f,0,.046f,1.8f,.034f,trim);}
    foreach(float along in new[]{-.65f,.65f}){Cylinder("Display pendant cable",P(.16f,2.91f,along),P(.16f,2.27f,along),.009f,"iron",4);Ellipsoid(P(.16f,2.25f,along),new(.115f,.066f,.15f),style==1||style==5?"copper":"iron",10,5);Ellipsoid(P(.16f,2.218f,along),new(.08f,.018f,.115f),"bulb",8,4);}
   }
   // Three distinct canopy constructions, with visible support rods and properly separated surfaces.
@@ -38,6 +42,41 @@ public static partial class ClosingTimeWorld {
    B("Canvas valance",.38f+projection,2.83f,0,.045f,.26f,2.52f,trim);
    if(style==2||style==5){for(int k=0;k<5;k++){float along=-1.06f+k*.53f;Box("Woven canvas stripe",P(.38f+projection*.5f,3.087f,along),new(projection,.012f,.13f),"linen",false,Quaternion.Euler(0,0,side*10));B("Valance stripe",.414f+projection,2.83f,along,.012f,.25f,.13f,"linen");}}
    if(style==1||style==2||style==7)for(int k=0;k<10;k++)Ellipsoid(P(.39f+projection,2.70f,-1.13f+k*.25f),new(.025f,.045f,.123f),trim,6,3);
+  }
+ }
+ // One working/preparation bay per business interrupts the showroom repetition.
+ static void ShopClosingScene(int side,int style,float front,float z){
+  Vector3 P(float d,float y,float along=0)=>new(front-side*d,y,z+along);
+  void B(string n,float d,float y,float along,float depth,float height,float width,string material)=>Box(n,P(d,y,along),new(depth,height,width),material);
+  B("Closing work counter",.20f,.86f,0,.33f,.08f,2.08f,"cedar");B("Counter front shadow",.365f,.79f,0,.025f,.08f,2.08f,"iron");
+  string[] captions={"MARINE REPAIRS","KITCHEN PREP","TOMORROW'S BREAD","LAST CALL","FRESH CATCH","CELLAR NOTES","LEAGUE NIGHT","FRESH CUTTINGS","SLOW COFFEE","LISTEN HERE"};
+  B("Workroom notice backing",.09f,2.01f,0,.05f,.54f,1.85f,style==2||style==4?"linen":"navy");
+  BrandType(captions[style],"BarlowCondensed-SemiBold",side,front,z,new(0,2.01f),.017f,style==2||style==4?"navy":"linen",.124f);
+  switch(style){
+   case 0:
+    B("Folded harbor chart",.23f,.921f,-.45f,.25f,.021f,.86f,"linen");for(int k=0;k<4;k++)B("Chart grid ruling",.23f,.934f,-.78f+k*.20f,.23f,.005f,.008f,"navy");
+    for(int k=0;k<3;k++){float a=.35f+k*.20f;Cylinder("Splicing fid",P(.23f,.93f,a),P(.23f,1.24f,a+.055f),.018f,"cedar",6);}B("Brass bench cleat",.23f,.97f,.59f,.12f,.09f,.48f,"gold");break;
+   case 1:
+    B("Oiled chopping board",.23f,.93f,-.42f,.26f,.03f,.79f,"wood");for(int k=0;k<3;k++)Ellipsoid(P(.24f,.965f,-.65f+k*.18f),new(.065f,.035f,.075f),"leaf",8,4);
+    for(int k=0;k<5;k++)Cylinder("Stacked service plates",P(.22f,.925f+k*.028f,.56f),P(.22f,.942f+k*.028f,.56f),.14f,"ceramic",12);B("Folded kitchen towel",.24f,.93f,.01f,.25f,.035f,.22f,"linen");break;
+   case 2:
+    B("Flour sack",.20f,1.12f,-.63f,.24f,.43f,.34f,"linen");B("Flour sack folded seam",.20f,1.34f,-.63f,.19f,.035f,.29f,"wood");
+    for(int k=0;k<2;k++){float a=.10f+k*.56f;Ellipsoid(P(.20f,.99f,a),new(.125f,.07f,.22f),"cedar",12,5);Ellipsoid(P(.20f,1.01f,a),new(.11f,.05f,.195f),"linen",12,5);}Cylinder("Pastry rolling pin",P(.34f,.928f,-.12f),P(.34f,.928f,.72f),.026f,"cedar",8);break;
+   case 3:
+    B("Drying cloth",.23f,.92f,0,.27f,.02f,1.56f,"linen");for(int k=0;k<5;k++){float a=-.65f+k*.32f;Cylinder("Inverted closing glass",P(.23f,.94f,a),P(.23f,1.12f,a),.056f,"ceramic",8);}break;
+   case 4:
+    B("Fish scale enamel base",.22f,.97f,-.45f,.27f,.14f,.44f,"ceramic");Cylinder("Fish scale upright",P(.18f,1.02f,-.45f),P(.18f,1.30f,-.45f),.029f,"iron",8);SignDisc(side,front,z-.45f,new(0,1.38f),.17f,.17f,"ceramic",.22f);SignStroke(side,front,z-.45f,new(0,1.38f),new(.09f,1.46f),"iron",.23f,.009f);
+    B("Empty morning fish tray",.23f,.94f,.48f,.27f,.05f,.85f,"ceramic");foreach(int e in new[]{-1,1})B("Fish tray raised lip",.23f,.985f,.48f+e*.40f,.27f,.06f,.025f,"ceramic");break;
+   case 5:
+    for(int k=0;k<2;k++){float a=-.55f+k*1.1f;Cylinder("Cellar tasting crock",P(.21f,.92f,a),P(.21f,1.24f,a),.14f,"terracotta",12);Cylinder("Crock lid",P(.21f,1.24f,a),P(.21f,1.27f,a),.15f,"wood",12);}B("Cellar ledger",.25f,.95f,0,.25f,.055f,.43f,"wine");break;
+   case 6:
+    B("Billiard scoring rail",.17f,1.22f,0,.07f,.20f,1.79f,"wood");for(int k=0;k<9;k++){Cylinder("Score bead wire",P(.21f,1.23f,-.72f+k*.18f),P(.21f,1.43f,-.72f+k*.18f),.008f,"gold",4);Ellipsoid(P(.21f,1.30f+(k%3)*.035f,-.72f+k*.18f),new(.025f,.028f,.032f),k%2==0?"wine":"linen",6,4);}B("Folded billiard cover",.23f,.95f,0,.27f,.07f,1.1f,"awning");break;
+   case 7:
+    for(int k=0;k<4;k++){float a=-.72f+k*.48f;Cylinder("Propagation jar",P(.21f,.91f,a),P(.21f,1.12f,a),.065f,"bottleGreen",8);Cylinder("Fresh cutting stem",P(.21f,1.08f,a),P(.21f,1.43f,a+.055f),.006f,"leaf",4);Leaf(P(.21f,1.35f,a+.08f),Quaternion.Euler(20,side*90,35),.19f,.085f,"leaf");}break;
+   case 8:
+    B("Pour over wood stand",.21f,1.05f,.32f,.23f,.06f,1.10f,"wood");foreach(float a in new[]{-.10f,.65f}){Cylinder("Pour over stand leg",P(.21f,.92f,a),P(.21f,1.03f,a),.017f,"iron",6);Ellipsoid(P(.21f,1.17f,a),new(.10f,.11f,.10f),"ceramic",10,5);Cylinder("Ceramic coffee server",P(.21f,.93f,a),P(.21f,1.03f,a),.06f,"ceramic",8);}Ellipsoid(P(.21f,1.06f,-.69f),new(.12f,.13f,.14f),"copper",12,6);Cylinder("Gooseneck kettle spout",P(.23f,1.11f,-.57f),P(.23f,1.23f,-.38f),.017f,"copper",6);break;
+   case 9:
+    B("Listening turntable plinth",.22f,.96f,.30f,.28f,.11f,1.04f,"wood");Cylinder("Listening vinyl platter",P(.22f,1.022f,.23f),P(.22f,1.037f,.23f),.125f,"iron",16);Cylinder("Turntable center label",P(.22f,1.038f,.23f),P(.22f,1.040f,.23f),.038f,"terracotta",12);Cylinder("Tonearm",P(.28f,1.067f,.69f),P(.28f,1.067f,.31f),.011f,"gold",6);B("Listening sleeve upright",.10f,1.17f,-.63f,.06f,.46f,.43f,"wine");SignDisc(side,front,z-.63f,new(0,1.17f),.15f,.15f,"linen",.139f);break;
   }
  }
  static void ShopMerchandise(int side,int style,int bay,float front,float z){
@@ -65,7 +104,7 @@ public static partial class ClosingTimeWorld {
    case 4: // Fish counter with individual silver salmon on chipped ice.
     Shelf(.89f,"ceramic");B("Fishmonger's blue counter band",.35f,.82f,0,.025f,.12f,2.12f,"navy");
     for(int k=0;k<8;k++)Ellipsoid(P(.2f,.97f,-.94f+k*.26f),new(.12f,.05f,.15f),"ceramic",6,3);
-    for(int k=0;k<3;k++){float along=-.70f+k*.70f;Ellipsoid(P(.23f,1.04f,along),new(.08f,.09f,.25f),"copper",12,6);SignPolygon(side,front,z+along,new[]{new Vector2(-.19f,1.04f),new Vector2(-.35f,1.15f),new Vector2(-.35f,.93f)},"ceramic",.32f);Disk(along+.17f,1.065f,.014f,"iron",.321f);}
+    for(int k=0;k<3;k++){float along=-.70f+k*.70f;Ellipsoid(P(.23f,1.04f,along),new(.08f,.09f,.25f),"ceramic",12,6);SignPolygon(side,front,z+along,new[]{new Vector2(-.19f,1.04f),new Vector2(-.35f,1.15f),new Vector2(-.35f,.93f)},"ceramic",.32f);Disk(along+.17f,1.065f,.014f,"iron",.321f);}
     for(int k=0;k<3;k++){float along=-.72f+k*.72f;Cylinder("Hanging fishmonger tag",P(.19f,2.35f,along),P(.19f,1.88f,along),.007f,"linen",4);B("Enamel catch label",.22f,1.80f,along,.028f,.19f,.47f,"linen");}
     break;
    case 5:

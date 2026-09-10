@@ -27,8 +27,8 @@ public partial class GameUI:MonoBehaviour {
   canvas=go.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;var scale=go.GetComponent<CanvasScaler>();scale.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scale.referenceResolution=new Vector2(1440,810);scale.matchWidthOrHeight=1f;
   safe=Rect("Safe area",go.transform,Vector2.zero,Vector2.one);
   if(!FindFirstObjectByType<EventSystem>())new GameObject("Input events",typeof(EventSystem),typeof(InputSystemUIInputModule));
-  toastPanel=Panel(safe,new Color(.025f,.075f,.065f,.94f),MobileLayout?new Vector2(.22f,.25f):new Vector2(.24f,.19f),MobileLayout?new Vector2(.83f,.42f):new Vector2(.76f,.31f));toastPanel.sprite=Rounded();toastPanel.type=Image.Type.Sliced;toastPanel.raycastTarget=false;
-  toast=Label(toastPanel.transform,"",MobileLayout?30:24,cream);toast.rectTransform.offsetMin=new Vector2(18,10);toast.rectTransform.offsetMax=new Vector2(-18,-10);toast.alignment=TextAnchor.MiddleCenter;toastPanel.enabled=false;
+  toastPanel=Panel(safe,new Color(.025f,.075f,.065f,.94f),new Vector2(.26f,.22f),new Vector2(.76f,.34f));toastPanel.sprite=Rounded();toastPanel.type=Image.Type.Sliced;toastPanel.raycastTarget=false;
+  toast=Label(toastPanel.transform,"",MobileLayout?30:24,cream);toast.rectTransform.offsetMin=new Vector2(18,10);toast.rectTransform.offsetMax=new Vector2(-18,-10);toast.alignment=TextAnchor.MiddleCenter;toast.resizeTextForBestFit=true;toast.resizeTextMinSize=22;toast.resizeTextMaxSize=MobileLayout?30:24;toastPanel.enabled=false;
   gameObject.AddComponent<MobileTouchSafety>().Initialize(session);
   UpdateSafe();ShowMenu();
  }
@@ -50,9 +50,9 @@ public partial class GameUI:MonoBehaviour {
   if(page){page.SetActive(false);Destroy(page);}stats=null;denStats=null;cushionButton=null;floatButton=null;health=null;hunger=null;objective=null;searchText=null;guidance=null;searchButton=null;detectionPanel=null;detectionFill=null;landingPanel=null;trickTotal=null;trickButton=null;
   page=Rect("Screen",safe,Vector2.zero,Vector2.one).gameObject;
   if(background.HasValue){var p=page.AddComponent<Image>();p.color=background.Value;}
-  Anchor(toastPanel.rectTransform,MobileLayout?new Vector2(.22f,.25f):new Vector2(.24f,.19f),MobileLayout?new Vector2(.83f,.42f):new Vector2(.76f,.31f));toast.fontSize=MobileLayout?30:24;
+  Anchor(toastPanel.rectTransform,new Vector2(.26f,.22f),new Vector2(.76f,.34f));toast.fontSize=MobileLayout?30:24;
   toastPanel.transform.SetAsLastSibling();
-  Anchor(toastPanel.rectTransform,background.HasValue?new Vector2(.05f,.905f):MobileLayout?new Vector2(.22f,.25f):new Vector2(.24f,.19f),background.HasValue?new Vector2(.95f,.99f):MobileLayout?new Vector2(.83f,.42f):new Vector2(.76f,.31f));
+  Anchor(toastPanel.rectTransform,background.HasValue?new Vector2(.05f,.905f):new Vector2(.26f,.22f),background.HasValue?new Vector2(.95f,.99f):new Vector2(.76f,.34f));
  }
  // Menus share the title identity; gameplay HUD retains its body font.
  Font TitleDisplay=>GameTypography.Display;
@@ -95,24 +95,22 @@ public partial class GameUI:MonoBehaviour {
   Panel(wordmark,brass,new(.015f,.245f),new(.22f,.264f)).raycastTarget=false;
   Panel(wordmark,brass,new(.015f,.195f),new(.15f,.211f)).raycastTarget=false;
   bool saved=SaveStore.Exists;
-  if(saved){TitleButton("Continue adventure","Your den is waiting",.338f,game.LoadGame,true);TitleButton("New adventure","",.237f,ConfirmNew);}
-  else {TitleButton("New adventure","",.338f,game.NewGame,true);TitleButton("Load adventure","No saved adventure",.237f,game.LoadGame,false,false);}
-  TitleButton("Settings","",.136f,()=>Settings(false));
+  if(saved){TitleButton("Continue","",.338f,game.LoadGame,true);TitleButton("New game","",.237f,ConfirmNew);}
+  else {TitleButton("New game","",.338f,game.NewGame,true);}
+  TitleButton("Settings","",saved?.136f:.237f,()=>Settings(false));
   Panel(page.transform,new Color(.94f,.69f,.36f,.45f),new(.077f,.094f),new(.37f,.096f)).raycastTarget=false;
-  TitleText(page.transform,"A LITTLE WILDER AFTER DARK",17,new Color(.72f,.79f,.68f),new(.077f,.043f),new(.45f,.085f));
-  var location=TitleText(page.transform,"BALLARD AVENUE  /  LAST CALL  /  "+Application.version,17,warmCream,new(.60f,.044f),new(.957f,.085f));location.alignment=TextAnchor.MiddleRight;
+  var location=TitleText(page.transform,"",17,warmCream,new(.60f,.044f),new(.957f,.085f));location.alignment=TextAnchor.MiddleRight;
  }
- void ConfirmNew(){Clear(green);Heading(page.transform,"A fresh set of pawprints?",48,cream,new(.15f,.63f),new(.85f,.76f));Placed(page.transform,"Starting a new adventure replaces your current save and den collection.",26,cream,new(.15f,.48f),new(.83f,.6f));Button(page.transform,"Start fresh",new(.15f,.28f),new(.45f,.42f),game.NewGame,true);Button(page.transform,"Keep my adventure",new(.5f,.28f),new(.8f,.42f),ShowMenu);}
+ void ConfirmNew(){Clear(green);Heading(page.transform,"Start over?",48,cream,new(.15f,.63f),new(.85f,.76f));Placed(page.transform,"This replaces your saved game and den collection.",26,cream,new(.15f,.48f),new(.83f,.6f));Button(page.transform,"Start fresh",new(.15f,.28f),new(.45f,.42f),game.NewGame,true);Button(page.transform,"Keep my save",new(.5f,.28f),new(.8f,.42f),ShowMenu);}
  public void ShowHUD() {
   Clear();bool mobile=MobileLayout;
-  var hud=Panel(page.transform,new Color(.025f,.08f,.065f,.88f),new(.025f,mobile?.835f:.845f),new(mobile?.36f:.30f,.975f));hud.sprite=Rounded();hud.type=Image.Type.Sliced;
-  stats=Placed(hud.transform,"",mobile?23:20,cream,new(.045f,.43f),new(.97f,.96f));
-  Placed(hud.transform,"HEALTH",mobile?17:13,cream,new(.045f,.20f),new(.42f,.40f));Placed(hud.transform,"FULLNESS",mobile?17:13,cream,new(.51f,.20f),new(.96f,.40f));
+  var hud=Panel(page.transform,new Color(.025f,.08f,.065f,.88f),new(.025f,.865f),new(mobile?.36f:.30f,.975f));hud.sprite=Rounded();hud.type=Image.Type.Sliced;
+  stats=Placed(hud.transform,"",mobile?23:20,cream,new(.045f,.53f),new(.97f,.96f));
+  Placed(hud.transform,"HEALTH",mobile?22:14,cream,new(.045f,.18f),new(.42f,.49f));Placed(hud.transform,"FULLNESS",mobile?22:14,cream,new(.51f,.18f),new(.96f,.49f));
   health=Panel(hud.transform,coral,new(.04f,.08f),new(.45f,.16f));hunger=Panel(hud.transform,mint,new(.51f,.08f),new(.94f,.16f));
-  var objectiveBack=Panel(page.transform,new Color(.025f,.08f,.065f,.90f),new(mobile?.38f:.325f,mobile?.875f:.905f),new(.765f,.975f));objectiveBack.sprite=Rounded();objectiveBack.type=Image.Type.Sliced;objectiveBack.raycastTarget=false;
-  var guidanceBack=Panel(page.transform,new Color(.025f,.08f,.065f,.90f),new(mobile?.38f:.325f,mobile?.79f:.85f),new(.905f,mobile?.865f:.90f));guidanceBack.sprite=Rounded();guidanceBack.type=Image.Type.Sliced;guidanceBack.raycastTarget=false;
-  objective=Placed(page.transform,game.Objective,mobile?26:22,cream,new(mobile?.39f:.33f,mobile?.875f:.905f),new(.76f,.975f));
-  guidance=Placed(page.transform,"",mobile?26:22,mint,new(mobile?.38f:.33f,mobile?.79f:.85f),new(.90f,mobile?.865f:.90f));
+  objective=HudPill("Objective",new(mobile?.38f:.325f,.975f),cream);
+  guidance=HudPill("Direction",new(mobile?.38f:.325f,.900f),mint);
+  UpdateHudGuidance();
   if(!mobile){
   Button(page.transform,"II",new(mobile?.90f:.915f,mobile?.875f:.905f),new(.985f,.975f),game.TogglePause);
   Button(page.transform,"Den",new(.79f,mobile?.875f:.905f),new(.89f,.975f),game.FastTravel);
@@ -121,21 +119,37 @@ public partial class GameUI:MonoBehaviour {
   searchButton=Button(page.transform,"Search",mobile?new(.77f,.04f):new(.90f,.055f),mobile?new(.88f,.18f):new(.98f,.12f),game.Search,true);searchText=searchButton.GetComponentInChildren<Text>();
   }
   BuildStealthHUD();
-  if(mobile){BuildTouchControls();
-  }else Placed(page.transform,"W/S move · A/D steer · Space jump · T flip · F search · H den · Right-drag turn",18,cream,new(.025f,.018f),new(.83f,.050f));
+  if(mobile)BuildTouchControls();
  }
- public void ShowPause(){Clear(new Color(.02f,.075f,.055f,.96f));Heading(page.transform,"TAKE A BREATHER.",62,cream,new(.2f,.68f),new(.85f,.8f));Button(page.transform,"Back to Ballard",new(.3f,.48f),new(.7f,.62f),game.Resume,true);Button(page.transform,"Settings",new(.15f,.31f),new(.48f,.45f),()=>Settings(true));Button(page.transform,"Touch controls",new(.52f,.31f),new(.85f,.45f),ShowTouchHelp);Button(page.transform,"Save & main menu",new(.3f,.14f),new(.7f,.28f),game.Menu);}
+ Text HudPill(string name,Vector2 anchor,Color color){
+  var back=Panel(page.transform,new Color(.025f,.08f,.065f,.88f),anchor,anchor);back.name=name+" cue";back.sprite=Rounded();back.type=Image.Type.Sliced;back.raycastTarget=false;
+  back.rectTransform.pivot=new(0,1);back.rectTransform.sizeDelta=new(180,42);
+  var label=Label(back.transform,"",MobileLayout?25:22,color);label.alignment=TextAnchor.MiddleLeft;label.rectTransform.offsetMin=new(12,6);label.rectTransform.offsetMax=new(-12,-6);return label;
+ }
+ void FitHudPill(Text label,string value){
+  if(!label)return;var back=(RectTransform)label.transform.parent;bool visible=!string.IsNullOrWhiteSpace(value);back.gameObject.SetActive(visible);if(!visible)return;label.text=value;
+  float maxWidth=safe.rect.width*.43f;float width=Mathf.Clamp(label.preferredWidth+26,100,maxWidth);back.sizeDelta=new(width,42);back.sizeDelta=new(width,Mathf.Clamp(label.preferredHeight+14,38,68));
+ }
+ void UpdateHudGuidance(){
+  if(game.Data==null)return;
+  // Stash already has a labeled contextual action: never duplicate a Den tutorial above it.
+  FitHudPill(objective,game.AtHome?(game.HasLooseHaul?"Bank your haul":"Den · Safe"):game.Data.runActive?ExpeditionRules.GoalTitle(game.Data.selectedGoal)+" · "+ExpeditionRules.GoalProgress(game.Data,game.Items):"Head out");
+  FitHudPill(guidance,game.AtHome?"":game.Guidance.Replace(" · "+ExpeditionRules.GoalTitle(game.Data.selectedGoal),""));
+ }
+ public void ShowPause(){Clear(new Color(.02f,.075f,.055f,.96f));Heading(page.transform,"PAUSED",62,cream,new(.15f,.72f),new(.85f,.86f));Placed(page.transform,$"{game.Data.coins} banked shinies  ·  Style {game.Data.trickScore:N0}  ·  Best landing {game.Data.bestLandingScore:N0}",24,mint,new(.15f,.63f),new(.90f,.70f));Button(page.transform,"Resume",new(.3f,.48f),new(.7f,.62f),game.Resume,true);Button(page.transform,"Settings",new(.15f,.31f),new(.48f,.45f),()=>Settings(true));Button(page.transform,"Controls",new(.52f,.31f),new(.85f,.45f),ShowControlsFromPause);Button(page.transform,"Save & main menu",new(.3f,.14f),new(.7f,.28f),game.Menu);}
  void Settings(bool inGame) {
   toast.text="";toastUntil=0;toastPanel.enabled=false;
   Clear(GameTypography.Forest);
   var rule=Panel(page.transform,GameTypography.Brass,new(.12f,.705f),new(.88f,.708f));rule.raycastTarget=false;
   var footer=Panel(page.transform,new Color(.88f,.65f,.34f,.35f),new(.12f,.10f),new(.88f,.102f));footer.raycastTarget=false;
-  Heading(page.transform,"MAKE YOURSELF COMFORTABLE.",48,GameTypography.Cream,new(.12f,.73f),new(.92f,.85f));
+  Heading(page.transform,"SETTINGS",48,GameTypography.Cream,new(.12f,.73f),new(.92f,.85f));
   Button(page.transform,(PlayerPrefs.GetInt("fps",30)==60?"✓ Performance · 60 fps":"Performance · 60 fps"),new(.14f,.54f),new(.49f,.68f),()=>{Application.targetFrameRate=60;PlayerPrefs.SetInt("fps",60);Settings(inGame);},PlayerPrefs.GetInt("fps",30)==60);
   Button(page.transform,(PlayerPrefs.GetInt("fps",30)==30?"✓ Battery saver · 30 fps":"Battery saver · 30 fps"),new(.52f,.54f),new(.87f,.68f),()=>{Application.targetFrameRate=30;PlayerPrefs.SetInt("fps",30);Settings(inGame);},PlayerPrefs.GetInt("fps",30)==30);
   Button(page.transform,AudioListener.volume>0?"Sound: on":"Sound: off",new(.14f,.35f),new(.49f,.49f),()=>{AudioListener.volume=AudioListener.volume>0?0:1;PlayerPrefs.SetFloat("volume",AudioListener.volume);Settings(inGame);});
-  Placed(page.transform,"Landscape · Touch, keyboard & gamepad\nPickup / reward chimes · Music in development.",32,mint,new(.52f,.35f),new(.89f,.49f)).fontSize=MobileLayout?32:24;
-  Button(page.transform,PlayerPrefs.GetInt("playtestStats",0)==1?"Playtest stats: on":"Playtest stats: off",new(.52f,.15f),new(.87f,.29f),()=>{PlayerPrefs.SetInt("playtestStats",1-PlayerPrefs.GetInt("playtestStats",0));Settings(inGame);});
+  Button(page.transform,"Controls",new(.52f,.35f),new(.87f,.49f),()=>ShowControlsFromSettings(inGame));
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+  Button(page.transform,PlayerPrefs.GetInt("playtestStats",0)==1?"Performance overlay: on":"Performance overlay: off",new(.52f,.15f),new(.87f,.29f),()=>{PlayerPrefs.SetInt("playtestStats",1-PlayerPrefs.GetInt("playtestStats",0));Settings(inGame);});
+#endif
   Button(page.transform,"Back",new(.14f,.15f),new(.49f,.29f),()=>{if(inGame)ShowPause();else ShowMenu();});
  }
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
@@ -144,15 +158,15 @@ public partial class GameUI:MonoBehaviour {
  void ShowDen() {
   if(!game.AtHome)return;game.OpenDen();Clear(new Color(.025f,.09f,.07f,.97f));
   Heading(page.transform,"THE DEN",58,cream,new(.08f,.77f),new(.90f,.9f)).font=TitleDisplay;
-  denStats=Placed(page.transform,$"{game.Data.pantry.Count} banked finds    /    {game.Data.trophies.Count} trophies banked    /    {game.Data.coins} shinies",24,mint,new(.08f,.67f),new(.90f,.75f));
+  denStats=Placed(page.transform,$"{game.Data.coins} shinies  ·  {game.Data.pantry.Count} finds  ·  {game.Data.trophies.Count} trophies",24,mint,new(.08f,.67f),new(.90f,.75f));
   Button(page.transform,"Unload pockets",new(.08f,.47f),new(.44f,.61f),()=>{game.Deposit();ShowDen();},true);
-  Button(page.transform,"Decorate your den",new(.53f,.47f),new(.91f,.61f),()=>ShowDenShop(0));
+  Button(page.transform,"Decorate",new(.53f,.47f),new(.91f,.61f),()=>ShowDenShop(0));
   Button(page.transform,"Eat from pantry",new(.08f,.30f),new(.44f,.44f),game.EatPantry);
-  Button(page.transform,"Choose favorite displays",new(.53f,.30f),new(.91f,.44f),()=>ShowDenFavorites(0));
+  Button(page.transform,"Favorite finds",new(.53f,.30f),new(.91f,.44f),()=>ShowDenFavorites(0));
   Button(page.transform,"Back to den",new(.08f,.10f),new(.44f,.24f),game.Resume);
-  Button(page.transform,"Night board & collections",new(.53f,.10f),new(.91f,.24f),ShowNightBoard,true);
+  Button(page.transform,"Next outing",new(.53f,.10f),new(.91f,.24f),ShowNightBoard,true);
  }
- public void ShowRunEnd(int best){Clear(green);Heading(page.transform,"OUTFOXED. STILL ADORABLE.",54,cream,new(.1f,.68f),new(.95f,.84f));Placed(page.transform,$"Your den and banked collection are safe.\nBest survival: {best/60}m {best%60}s. {game.Data.lastLoss} loose finds and all loose shinies were lost.",28,mint,new(.1f,.47f),new(.9f,.62f));Button(page.transform,"Plan another outing",new(.1f,.24f),new(.49f,.38f),()=>{game.Resume();ShowNightBoard();},true);Button(page.transform,"Main menu",new(.55f,.24f),new(.90f,.38f),game.Menu);}
+ public void ShowRunEnd(int best){Clear(green);Heading(page.transform,"NIGHT OVER",54,cream,new(.1f,.68f),new(.95f,.84f));Placed(page.transform,$"Your den and banked collection are safe.\n{game.Data.lastLoss} pocket finds and loose shinies lost.\nBest night: {best/60}m {best%60}s.",28,mint,new(.1f,.47f),new(.9f,.62f));Button(page.transform,"Next night",new(.1f,.24f),new(.49f,.38f),()=>{game.Resume();ShowNightBoard();},true);Button(page.transform,"Main menu",new(.55f,.24f),new(.90f,.38f),game.Menu);}
  public void Toast(string message){toast.text=message;toastPanel.enabled=true;toastUntil=Time.unscaledTime+4;}
  static Sprite Rounded(){
   if(rounded)return rounded;var texture=new Texture2D(64,64,TextureFormat.RGBA32,false);texture.name="UI rounded corner";texture.wrapMode=TextureWrapMode.Clamp;
@@ -162,11 +176,10 @@ public partial class GameUI:MonoBehaviour {
  void UpdateDecorButton(Button button,string id,string label,int cost){if(!button)return;bool owned=game.Data.decor.Contains(id);button.interactable=!owned;button.GetComponentInChildren<Text>().text=owned?label+" · Owned":label+" · "+cost;}
  void UpdateSafe(){lastSafe=Screen.safeArea;Anchor(safe,new(lastSafe.xMin/Screen.width,lastSafe.yMin/Screen.height),new(lastSafe.xMax/Screen.width,lastSafe.yMax/Screen.height));}
  void Update(){UpdateStealthHUD();UpdateTouchControls();if(safe&&lastSafe!=Screen.safeArea)UpdateSafe();if(toast&&Time.unscaledTime>toastUntil){toast.text="";toastPanel.enabled=false;}
-  if(denStats){denStats.text=$"{game.Data.pantry.Count} banked finds    /    {game.Data.trophies.Count} trophies banked    /    {game.Data.coins} shinies";UpdateDecorButton(cushionButton,"cushion","Patchwork cushion",20);UpdateDecorButton(floatButton,"glass-floats","Glass float collection",35);}
-  if(objective)objective.text=game.Objective;
-  if(guidance&&Time.unscaledTime>=nextGuideUpdate){nextGuideUpdate=Time.unscaledTime+.2f;guidance.text=game.Guidance;}
+  if(denStats){denStats.text=$"{game.Data.coins} shinies  ·  {game.Data.pantry.Count} finds  ·  {game.Data.trophies.Count} trophies";UpdateDecorButton(cushionButton,"cushion","Patchwork cushion",20);UpdateDecorButton(floatButton,"glass-floats","Glass float collection",35);}
+  if(objective&&Time.unscaledTime>=nextGuideUpdate){nextGuideUpdate=Time.unscaledTime+.2f;UpdateHudGuidance();}
   if(searchButton){searchButton.interactable=game.NearbyLoot;searchText.text=game.NearbyLoot?"Search":"Search";}
-  if(stats&&game.Data!=null){stats.text=$"SCRAPS   ·   {(int)game.Data.survivalSeconds/60:D2}:{(int)game.Data.survivalSeconds%60:D2}\n{game.Data.coins} banked · {game.Data.pendingCoins} loose  ·  Bag {game.Data.bag.Count}/{ExpeditionRules.BagCapacity}";health.rectTransform.anchorMax=new(.04f+.41f*game.Data.health/100,.16f);hunger.rectTransform.anchorMax=new(.51f+.43f*game.Data.hunger/100,.16f);}
+  if(stats&&game.Data!=null){stats.text=$"POCKETS {game.Data.bag.Count}/{ExpeditionRules.BagCapacity}   ·   {game.Data.pendingCoins} loose shinies";health.rectTransform.anchorMax=new(.04f+.41f*game.Data.health/100,.16f);hunger.rectTransform.anchorMax=new(.51f+.43f*game.Data.hunger/100,.16f);}
  }
 }
 }

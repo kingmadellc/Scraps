@@ -69,7 +69,7 @@ public static partial class ClosingTimeWorld {
   BrandType(brand.name,brand.font,side,front,z,new(.30f,center+.085f),brand.font=="Pacifico-Regular"?.050f:.055f,brand.ink,depth+.07f);
   BrandType(brand.subtitle,"BarlowCondensed-SemiBold",side,front,z,new(.30f,center-.235f),.018f,brand.ink,depth+.07f);
   // Individual compact badge beside the doorway, visible at raccoon height without a giant uniform OPEN panel.
-  float badgeZ=z+4.45f;SignDisc(side,front,badgeZ,new(0,2.02f),.36f,.39f,brand.paint,.47f);BrandIcon(brand,side,front,badgeZ,new(0,2.02f),.57f,.50f);
+  float badgeZ=z+4.45f;SignDisc(side,front,badgeZ,new(0,2.13f),.22f,.23f,brand.paint,.47f);BrandIcon(brand,side,front,badgeZ,new(0,2.13f),.34f,.50f);
   // Warm external gooseneck illumination belongs to the sign, not a lightbox billboard.
   for(int i=-1;i<=1;i+=2){float zz=z+i*2.45f;Cylinder("Sign lamp bracket",new(front-side*.30f,4.21f,zz),new(front-side*.81f,4.36f,zz),.024f,"iron",6);Ellipsoid(new(front-side*.83f,4.31f,zz),new(.14f,.07f,.14f),"iron",10,4);Ellipsoid(new(front-side*.83f,4.28f,zz),new(.10f,.017f,.10f),"bulb",8,3);}
  }

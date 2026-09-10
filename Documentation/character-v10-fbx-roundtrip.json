@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "meshes": [
+    {
+      "mesh": "Jimothy_FurCards",
+      "vertices": 188077,
+      "triangles": 83523,
+      "color_layers": [
+        "FurColor"
+      ],
+      "min_weight_sum": 0.9999900460243225,
+      "uv_layers": 1
+    },
+    {
+      "mesh": "Jimothy_ContinuousSkin",
+      "vertices": 23288,
+      "triangles": 46196,
+      "color_layers": [
+        "CoatColor"
+      ],
+      "min_weight_sum": 0.9999998807907104,
+      "uv_layers": 1
+    }
+  ],
+  "bones": 15,
+  "actions": [
+    {
+      "name": "Jimothy_Rig|Jimothy_Rig|Idle",
+      "range": [
+        1.0,
+        61.0
+      ]
+    },
+    {
+      "name": "Jimothy_Rig|Jimothy_Rig|Jump",
+      "range": [
+        1.0,
+        61.0
+      ]
+    },
+    {
+      "name": "Jimothy_Rig|Jimothy_Rig|Waddle",
+      "range": [
+        1.0,
+        13.0
+      ]
+    },
+    {
+      "name": "Jimothy_Rig|Jimothy_Rig|Walk",
+      "range": [
+        1.0,
+        17.0
+      ]
+    }
+  ],
+  "note": "FBX roundtrip structure passes; native/browser import, visible gait and performance are separate checks."
+}

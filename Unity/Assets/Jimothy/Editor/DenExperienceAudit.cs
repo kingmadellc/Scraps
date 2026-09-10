@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Jimothy.Editor {
 [InitializeOnLoad] public static class DenExperienceAudit {
  const string Pending="Jimothy.DenExperienceAudit";static GameSession game;static int stage,frame;static double deadline;static string saved;static List<string> displayed;static int cameraSamples;static readonly Dictionary<string,byte[]> originals=new();
- [Serializable] class Report{public bool passed;public List<string> assertions=new();public string error,note="Actual CharacterController movement enters/exits the den without teleport or jump after initial NewGame. Inventory fixtures exercise display capacity; JSON roundtrip feeds actual session Begin reconstruction. Native saves remain suppressed and byte-compared. This is not a human playtest or physical-device test.";}
+ [Serializable] class Report{public bool passed;public List<string> assertions=new();public string error,note="Current NewGame opens the Den night board; its Head out button begins the outing. Actual CharacterController movement exits/reenters/exits the den without teleport or jump after initial NewGame. Inventory fixtures exercise display capacity; JSON roundtrip feeds actual session Begin reconstruction. Native saves remain suppressed and byte-compared. This is not a human playtest or physical-device test.";}
  static Report report;
  static DenExperienceAudit(){EditorApplication.playModeStateChanged+=OnMode;if(SessionState.GetBool(Pending,false))EditorApplication.update+=Tick;}
  public static void Run(){EditorSceneManager.OpenScene("Assets/Jimothy/Scenes/Ballard.unity");SessionState.SetBool(Pending,true);EditorApplication.isPlaying=true;}
@@ -23,7 +23,15 @@ namespace Jimothy.Editor {
   if(EditorApplication.timeSinceStartup>deadline)throw new Exception("Den audit timed out");
   if(stage==0){game=UnityEngine.Object.FindFirstObjectByType<GameSession>();if(!game)return;report=new Report();originals.Clear();foreach(var suffix in new[]{"",".bak",".tmp"}){string p=SaveStore.PathName+suffix;originals[p]=File.Exists(p)?File.ReadAllBytes(p):null;}game.SuppressSaving=true;game.NewGame();Next(1);return;}
   if(Time.frameCount-frame<20)return;
-  if(stage==1){Check((game.Player.transform.position-ClosingTimeWorld.StreetStart).magnitude<.4f,"Fresh adventure starts on avenue");Walk(new Vector3(-14,.05f,46.5f),ClosingTimeWorld.DenEntrance,new Vector3(-14,-2.35f,56),ClosingTimeWorld.DenInterior);Check(game.AtHome,"Walking through ramp enters safe den");
+  if(stage==1){Check(game.AtHome&&(game.Player.transform.position-ClosingTimeWorld.DenInterior).magnitude<.4f,"Fresh adventure starts safely inside Den");
+   Check(!game.Data.runActive&&game.Data.runNumber==0&&game.Data.bag.Count==0,"Fresh outing is inactive with empty pockets");
+   Check(game.DenOpen&&game.Paused&&!game.Player.Running,"NewGame opens paused night board before departure");
+   var depart=game.UI.GetComponentsInChildren<UnityEngine.UI.Button>().FirstOrDefault(b=>b.isActiveAndEnabled&&b.GetComponentInChildren<UnityEngine.UI.Text>()?.text=="Head out");
+   Check(depart&&depart.interactable,"Night board exposes enabled Head out button");depart.onClick.Invoke();
+   Check(game.Data.runActive&&game.Data.runNumber==1&&game.Playing&&!game.Paused&&!game.DenOpen&&game.Player.Running,"Head out starts first outing and restores movement");
+   Check(game.AtHome,"Head out preserves physical Den position; departure requires walking");
+   Walk(new Vector3(-14,-2.35f,56),ClosingTimeWorld.DenEntrance,new Vector3(-14,.05f,46.5f));Check(!game.AtHome,"First outing walks continuously out to avenue");
+   Walk(ClosingTimeWorld.DenEntrance,new Vector3(-14,-2.35f,56),ClosingTimeWorld.DenInterior);Check(game.AtHome,"Walking through ramp enters safe den");
    game.UI.OpenDenForPlaytest();Check(game.DenOpen&&game.Paused,"Stash opens management in den");
    game.Data.pantry.AddRange(game.Items.Values.Where(i=>i.category!="trophy"&&i.category!="valuable").OrderBy(i=>i.id).Take(45).Select(i=>i.id));game.Data.pantry.Add("item_002");game.Data.bag.Add("trophy_00");game.Data.bag.Add("item_136");game.Deposit();Check(game.Data.bag.Count==0&&game.Data.trophies.Contains("trophy_00"),"Depositing banks keepsake and clears pockets");
    string before=JsonUtility.ToJson(game.Data);displayed=DenCollection.Select(game.Data,game.Items,ClosingTimeWorld.DenDisplaySlots.Count);Check(JsonUtility.ToJson(game.Data)==before,"Selection never mutates inventory");Check(displayed.Count==32&&displayed.Distinct().Count()==32,"Display capacity is32 unique owned finds");Check(displayed[0]=="trophy_00","Trophy precedes ordinary collection");Check(game.DenDisplayedIds.SequenceEqual(displayed),"Session display order matches deterministic selection");var savedPosition=game.Player.transform.position;game.Data.x=savedPosition.x;game.Data.y=savedPosition.y;game.Data.z=savedPosition.z;saved=JsonUtility.ToJson(game.Data);Next(2);return;}

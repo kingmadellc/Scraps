@@ -25,18 +25,18 @@ public partial class GameUI {
  }
  void UpdateStealthHUD(){
   if(trickButton&&game.Player)trickButton.interactable=game.Playing&&!game.Paused&&!game.Player.Grounded&&!game.Player.IsMantling&&!game.Player.IsTricking;
-  if(trickTotal&&game.Data!=null)trickTotal.text=$"STYLE {game.Data.trickScore:N0}  ·  BEST {game.Data.bestLandingScore:N0}";
+  if(trickTotal)trickTotal.text="";
   if(landingPanel&&landingPanel.gameObject.activeSelf){
    float left=landingUntil-Time.unscaledTime;
    if(left<=0)landingPanel.gameObject.SetActive(false);
    else {float intro=Mathf.Clamp01((3-left)/.20f);float bump=1+Mathf.Sin(intro*Mathf.PI)*.08f;landingPanel.rectTransform.localScale=Vector3.one*bump;}
   }
   if(!detectionPanel)return;
-  NeighborAI watching=null;float highest=.005f;
+  NeighborAI watching=null;float highest=.06f;
   foreach(var neighbor in game.Neighbors)if(neighbor&&neighbor.Suspicion01>highest){highest=neighbor.Suspicion01;watching=neighbor;}
   detectionPanel.gameObject.SetActive(watching!=null);if(!watching)return;
-  string who=watching.Kind==NeighborKind.AngryHuman?"ANGRY NEIGHBOR":watching.Kind==NeighborKind.Fisherman?"FISHERMAN":watching.Kind.ToString().ToUpperInvariant();
-  detectionText.text=who+" · "+(watching.IsThreat?"SPOTTED — BREAK SIGHT":watching.HasLineOfSight?"NOTICING YOU":"LOSING INTEREST");
+  string who=watching.Kind==NeighborKind.AngryHuman?"NEIGHBOR":watching.Kind==NeighborKind.Fisherman?"FISHERMAN":watching.Kind.ToString().ToUpperInvariant();
+  detectionText.text=who+" · "+(watching.IsThreat?"HIDE — BREAK SIGHT":watching.HasLineOfSight?"NOTICING YOU":"LOSING INTEREST");
   detectionFill.rectTransform.anchorMax=new Vector2(Mathf.Clamp01(highest),1);
   detectionFill.color=watching.IsThreat?coral:watching.HasLineOfSight?new Color(.98f,.72f,.25f):mint;
  }

@@ -24,8 +24,17 @@ public static partial class ClosingTimeWorld {
   for(int i=0;i<12;i++)Box("Staggered floor end joint",new(-19.2f+i*.9f,DenFloor+.005f,57.7f+(i%3)*1.5f),new(.53f,.005f,.012f),"denInk");
   // Foot-level gig clutter sits at the back wall, outside the approach to the shelves.
   for(int i=0;i<5;i++){Box("Stacked independent record sleeve",new(-12.3f+i*.035f,DenFloor+.27f,62.88f),new(.30f,.52f,.036f),i%2==0?"wine":"navy",false,Quaternion.Euler(0,0,-10+i*3));}
-  for(int i=0;i<2;i++){var p=new Vector3(-17.8f+i*.22f,DenFloor+.045f,62.05f);Box("Stomp pedal enclosure",p,new(.13f,.07f,.22f),i==0?"copper":"wine");Ellipsoid(p+new Vector3(0,.05f,-.065f),new(.018f,.025f,.018f),"denSteel",8,5);for(int k=0;k<3;k++)Ellipsoid(p+new Vector3((k-1)*.034f,.041f,.05f),new(.014f,.012f,.014f),"iron",8,4);}
-  Vector3 previous=new(-18.5f,DenFloor+.014f,62.4f);for(int i=1;i<=35;i++){float t=i/35f;var point=new Vector3(-18.5f+t*1.8f,DenFloor+.014f,62.4f-Mathf.Sin(t*Mathf.PI)*.58f+Mathf.Sin(t*13)*.06f);Cylinder("Guitar cable loose floor coil",previous,point,.009f,"iron",5);previous=point;}
+  // One starter stompbox; the purchased board adds an unmistakably larger setup nearby.
+  var pedal=new Vector3(-18.25f,DenFloor+.045f,61.57f);
+  Box("Starter stomp pedal",pedal,new(.13f,.07f,.22f),"copper");
+  Ellipsoid(pedal+new Vector3(0,.05f,-.065f),new(.018f,.025f,.018f),"denSteel",8,5);
+  for(int k=0;k<3;k++)Ellipsoid(pedal+new Vector3((k-1)*.034f,.041f,.05f),new(.014f,.012f,.014f),"iron",8,4);
+  // Patched rehearsal mat groups the guitar and amp without adding a collision lip.
+  Box("Rehearsal corner felt mat",new(-18.05f,DenFloor+.009f,62.13f),new(2.65f,.012f,1.72f),"denInk");
+  foreach(int side in new[]{-1,1})Box("Rehearsal mat frayed seam",new(-18.05f,DenFloor+.019f,62.13f+side*.81f),new(2.55f,.006f,.028f),"denTape");
+  Vector3 previous=new(-18.65f,DenFloor+.025f,62.04f);
+  for(int i=1;i<=28;i++){float t=i/28f;var point=new Vector3(-18.65f+t*1.10f,DenFloor+.025f,62.04f-Mathf.Sin(t*Mathf.PI)*.52f+Mathf.Sin(t*13)*.055f);Cylinder("Guitar cable loose floor coil",previous,point,.009f,"iron",5);previous=point;}
+
  }
  static void DenImportedInstrument(string resource,Vector3 position,float height){
   var asset=Resources.Load<GameObject>("DenAssets/"+resource);if(!asset){Debug.LogWarning("Missing Den instrument: "+resource);return;}var go=Object.Instantiate(asset,root);go.name="Authored Blender "+resource;go.transform.localPosition=Vector3.zero;go.transform.localRotation=Quaternion.Euler(0,180,0)*go.transform.localRotation;

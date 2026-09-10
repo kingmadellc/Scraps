@@ -10,10 +10,10 @@ public sealed class JimothyCoat:MonoBehaviour {
    var materials=r.sharedMaterials;bool changed=false;
    for(int i=0;i<materials.Length;i++){
     if(materials[i]&&materials[i].name.Contains("painted coat")){
-     baseCoat=new Material(materials[i]);baseCoat.SetTexture("_BaseMap",Resources.Load<Texture2D>("Jimothy_Albedo_2K"));baseCoat.SetColor("_BaseColor",new Color(1.08f,1.08f,1.08f));baseCoat.SetFloat("_Smoothness",.08f);baseCoat.SetTexture("_BumpMap",Resources.Load<Texture2D>("Surfaces/Jimothy_Undercoat_Normal"));baseCoat.SetFloat("_BumpScale",.65f);baseCoat.EnableKeyword("_NORMALMAP");baseCoat.SetTextureScale("_BaseMap",Vector2.one);baseCoat.SetTextureOffset("_BaseMap",Vector2.zero);baseCoat.SetFloat("_EnvironmentReflections",0);baseCoat.EnableKeyword("_ENVIRONMENTREFLECTIONS_OFF");materials[i]=baseCoat;changed=true;
+     baseCoat=new Material(materials[i]);baseCoat.SetTexture("_BaseMap",Resources.Load<Texture2D>("Jimothy_Albedo_2K"));baseCoat.SetColor("_BaseColor",new Color(1f,.98f,.96f));baseCoat.SetFloat("_Smoothness",.08f);baseCoat.SetTexture("_BumpMap",Resources.Load<Texture2D>("Surfaces/Jimothy_Undercoat_Normal"));baseCoat.SetFloat("_BumpScale",.65f);baseCoat.EnableKeyword("_NORMALMAP");baseCoat.SetTextureScale("_BaseMap",Vector2.one);baseCoat.SetTextureOffset("_BaseMap",Vector2.zero);baseCoat.SetFloat("_EnvironmentReflections",0);baseCoat.EnableKeyword("_ENVIRONMENTREFLECTIONS_OFF");materials[i]=baseCoat;changed=true;
     }
     if(materials[i]&&materials[i].name.Contains("realtime fur")){
-    coat=new Material(Shader.Find("Jimothy/RootedFur"));coat.SetColor("_BaseColor",Color.white);coat.SetFloat("_Cutoff",.10f);materials[i]=coat;fur=r;changed=true;r.shadowCastingMode=ShadowCastingMode.Off;
+    coat=new Material(Shader.Find("Jimothy/RootedFur"));coat.SetColor("_BaseColor",Color.white);coat.SetFloat("_FiberSheen",.06f);materials[i]=coat;fur=r;changed=true;r.shadowCastingMode=ShadowCastingMode.Off;
    }
    }
    if(changed)r.sharedMaterials=materials;

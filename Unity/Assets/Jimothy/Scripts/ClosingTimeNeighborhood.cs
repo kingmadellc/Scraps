@@ -46,7 +46,11 @@ public static partial class ClosingTimeWorld {
    // Clear the summit/plane corridor from the avenue and north rooftops.
    if(z< -75&&Mathf.Abs(x-13)<=53)continue;
    int sector=Mathf.Abs(x)>Mathf.Abs(z)?(x<0?0:1):(z>0?2:3);plots++;
-   NeighborhoodBox(sector,7,new(x,-.16f,z),new(39,.18f,39));
+   // The north scenery tile used to project 3 m through the basement at street height.
+   // Clip its south edge beyond the annex, while preserving the distant buildings/streets.
+   float groundSouth=Mathf.Abs(x)<30&&z>75?Mathf.Max(64,z-19.5f):z-19.5f;
+   float groundNorth=z+19.5f;
+   NeighborhoodBox(sector,7,new(x,-.16f,(groundSouth+groundNorth)*.5f),new(39,.18f,groundNorth-groundSouth));
    NeighborhoodBox(sector,3,new(x,-.025f,z),new(29,.12f,29));
    int configuration=rng.Next(3);float width=configuration==0?12.2f:10.8f,depth=12+rng.Next(5);
    for(int lot=0;lot<2;lot++){

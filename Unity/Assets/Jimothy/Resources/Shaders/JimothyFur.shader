@@ -1,7 +1,7 @@
 Shader "Jimothy/RootedFur" {
-Properties {_BaseMap("Strands",2D)="white"{} _BaseColor("Tint",Color)=(1,1,1,1) _Cutoff("Cutout",Range(0,1))=.12}
+Properties {_BaseColor("Tint",Color)=(1,1,1,1) _FiberSheen("Fiber sheen",Range(0,1))=.22}
 SubShader {Tags{"RenderPipeline"="UniversalPipeline" "Queue"="Geometry" "RenderType"="Opaque"}
-Pass {Name "ForwardLit" Tags{"LightMode"="UniversalForward"} Cull Off ZWrite On AlphaToMask Off
+Pass {Name "ForwardLit" Tags{"LightMode"="UniversalForward"} Cull Off ZWrite On
 HLSLPROGRAM
 #pragma vertex vert
 #pragma fragment frag
@@ -11,22 +11,38 @@ HLSLPROGRAM
 #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-TEXTURE2D(_BaseMap);SAMPLER(sampler_BaseMap);
 CBUFFER_START(UnityPerMaterial)
-float4 _BaseColor;float _Cutoff;float4 _FurMotion;
+float4 _BaseColor;float _FiberSheen;float4 _FurMotion;
 CBUFFER_END
-struct A{float4 p:POSITION;float3 n:NORMAL;float2 uv:TEXCOORD0;float4 color:COLOR;};
-struct V{float4 p:SV_POSITION;float3 world:TEXCOORD0;half3 normal:TEXCOORD1;float2 uv:TEXCOORD2;half4 color:COLOR;half fog:TEXCOORD3;};
-V vert(A a){V o;float3 w=TransformObjectToWorld(a.p.xyz);float tip=a.uv.y*a.uv.y*saturate(a.color.a);w+=(_FurMotion.xyz+float3(sin(_Time.y*2.1+w.x*3+w.z*2)*.0025,0,cos(_Time.y*1.7+w.z*3)*.0015))*tip;o.p=TransformWorldToHClip(w);o.world=w;o.normal=TransformObjectToWorldNormal(a.n);o.uv=a.uv;o.color=a.color;o.fog=ComputeFogFactor(o.p.z);return o;}
-half4 frag(V i, FRONT_FACE_TYPE front:FRONT_FACE_SEMANTIC):SV_Target{
- // V8 linear-color fibers taper in actual geometry; no alpha map holes or rectangular-card cutoff.
- half alpha=1;
- half3 n=normalize(i.normal);half3 v=GetWorldSpaceNormalizeViewDir(i.world);
- Light light=GetMainLight(TransformWorldToShadowCoord(i.world));half3 illum=max(SampleSH(n),half3(.025,.028,.033))+light.color*(.08+.92*saturate(dot(n,light.direction)))*light.shadowAttenuation;
+struct A{float4 p:POSITION;float3 n:NORMAL;float4 tangent:TANGENT;float2 uv:TEXCOORD0;float4 color:COLOR;};
+struct V{float4 p:SV_POSITION;float3 world:TEXCOORD0;half3 normal:TEXCOORD1;half3 strand:TEXCOORD2;half4 color:COLOR;half fog:TEXCOORD3;half tip:TEXCOORD4;};
+V vert(A a){
+ V o;float3 w=TransformObjectToWorld(a.p.xyz);float tip=a.uv.y*a.uv.y*saturate(a.color.a);
+ // Bound root-to-tip movement. Individual lengths control flexibility, roots remain skinned.
+ w+=(_FurMotion.xyz+float3(sin(_Time.y*2.1+w.x*3+w.z*2)*.002,0,cos(_Time.y*1.7+w.z*3)*.001))*tip;
+ o.p=TransformWorldToHClip(w);o.world=w;o.normal=TransformObjectToWorldNormal(a.n);
+ half3 across=TransformObjectToWorldDir(a.tangent.xyz);
+ half3 fiber=cross(o.normal,across);o.strand=dot(fiber,fiber)>.001?normalize(fiber):normalize(cross(o.normal,half3(.01,.99,.01)));
+ o.color=a.color;o.tip=a.uv.y;o.fog=ComputeFogFactor(o.p.z);return o;
+}
+half3 FiberLight(Light light,half3 n,half3 strand,half3 view,half tip,half3 albedo){
+ half wrap=saturate((dot(n,light.direction)+.25)/1.25);
+ half3 h=SafeNormalize(light.direction+view);
+ half th=dot(strand,h);half sinTH=sqrt(saturate(1-th*th));
+ // Broad longitudinal lobe: low-energy strand sheen, not a plastic body highlight.
+ half sheen=pow(sinTH,12)*saturate(dot(n,light.direction))*(.25+.75*tip)*_FiberSheen;
+ half transmission=pow(saturate(dot(-light.direction,view)),4)*(.015+.035*tip);
+ return light.color*light.distanceAttenuation*light.shadowAttenuation*(albedo*(wrap+transmission)+half3(.68,.72,.76)*sheen);
+}
+half4 frag(V i):SV_Target{
+ half3 n=normalize(i.normal);half3 v=GetWorldSpaceNormalizeViewDir(i.world);half3 strand=normalize(i.strand);
+ half3 albedo=i.color.rgb*_BaseColor.rgb;
+ half3 col=albedo*max(SampleSH(n),half3(.035,.038,.045))*(.78+.22*i.tip);
+ col+=FiberLight(GetMainLight(TransformWorldToShadowCoord(i.world)),n,strand,v,i.tip,albedo);
  #ifdef _ADDITIONAL_LIGHTS
- uint count=GetAdditionalLightsCount();for(uint k=0;k<count;k++){Light l=GetAdditionalLight(k,i.world);illum+=l.color*l.distanceAttenuation*(.2+.8*saturate(dot(n,l.direction)));}
+ uint count=GetAdditionalLightsCount();for(uint k=0;k<count;k++)col+=FiberLight(GetAdditionalLight(k,i.world),n,strand,v,i.tip,albedo);
  #endif
- half3 col=i.color.rgb*_BaseColor.rgb*min(illum,half3(1.3,1.3,1.3));return half4(MixFog(col,i.fog),alpha);
+ return half4(MixFog(col,i.fog),1);
 }
 ENDHLSL
 }

@@ -46,13 +46,19 @@ public static partial class ClosingTimeWorld {
    Box("Rug short border",new(-14.7f,DenFloor+.030f,60+side*1.93f),new(4.94f,.012f,.14f),"denPaper");
   }
   for(int i=0;i<7;i++)Box("Rug worn diamond",new(-16.65f+i*.65f,DenFloor+.032f,60),new(.25f,.008f,.25f),"denTape",false,Quaternion.Euler(0,45,0));
+  // Sparse woven geometry breaks the empty carpet into a deliberate rehearsal-room pattern.
+  for(int row=0;row<3;row++)for(int col=0;col<5;col++){
+   var motif=new Vector3(-16.25f+col*.78f,DenFloor+.039f,58.72f+row*1.28f);
+   Box("Woven rug outer lozenge",motif,new(.25f,.004f,.25f),"denTape",false,Quaternion.Euler(0,45,0));
+   Box("Woven rug inset lozenge",motif+Vector3.up*.003f,new(.16f,.003f,.16f),"denRug",false,Quaternion.Euler(0,45,0));
+  }
   DenArchitecturalDetail();
   DenCouch(new(-14.7f,DenFloor,62.25f));DenCoffeeTable(new(-15.3f,DenFloor,60.1f));
   DenShelf(-8.63f,57.45f,8,1);DenShelf(-19.37f,57.45f,6,-1);
-  DenAmp(new(-18.55f,DenFloor,62.20f));DenGuitar(new(-17.75f,DenFloor+.1f,62.7f));
+  DenAmp(new(-18.65f,DenFloor,62.20f));DenGuitar(new(-17.55f,DenFloor+.06f,61.95f));
   // Low table lamp lights the collection and worn sofa, separate from ceiling practicals.
-  Cylinder("Den reading lamp stem",new(-17.0f,DenFloor,61.35f),new(-17.0f,-.55f,61.35f),.03f,"iron",8);
-  RingProfile(new(-17.0f,0,61.35f),new[]{-.64f,-.24f},new[]{.31f,.19f},"denPaper",16);Light(new(-17.0f,-.72f,61.35f),C(1,.73f,.45f),4.3f,3.0f);
+  Cylinder("Den reading lamp stem",new(-16.8f,DenFloor,62.7f),new(-16.8f,-.55f,62.7f),.03f,"iron",8);
+  RingProfile(new(-16.8f,0,62.7f),new[]{-.64f,-.24f},new[]{.31f,.19f},"denPaper",16);Light(new(-16.8f,-.72f,62.7f),C(1,.73f,.45f),4.3f,3.0f);
   DenPoster(new(-17.7f,.24f,63.17f),"LOW TIDE","BASEMENT TAPES\nBALLARD / 1993",1.5f,1.72f,-4);
   DenPoster(new(-15.45f,.10f,63.17f),"STATIC BLOOM","ALL AGES\nSATURDAY / $5",1.6f,1.95f,3);
   DenPoster(new(-12.9f,.2f,63.17f),"SMELLS LIKE\nDINNER","NO COVER\nBRING EARPLUGS",1.55f,1.78f,-2);
@@ -61,7 +67,7 @@ public static partial class ClosingTimeWorld {
   for(int i=0;i<5;i++)Box("Flannel dark check",new(-13.37f+i*.1f,DenFloor+.83f,62.20f),new(.035f,.012f,.79f),"denInk");
   for(int i=0;i<6;i++)Box("Flannel cross check",new(-13.15f,DenFloor+.842f,61.83f+i*.14f),new(.49f,.011f,.028f),"denTape");
   // Warm lamps and a bare bulb; parent controls interior atmosphere/audio/camera.
-  foreach(var p in new[]{new Vector3(-18.7f,.9f,58),new Vector3(-9.3f,.9f,61),new Vector3(-14,.9f,58)}){Cylinder("Den bulb cord",new(p.x,1.59f,p.z),p,.018f,"iron",5);Ellipsoid(p,new(.08f,.11f,.08f),"bulb",8,5);Light(p+Vector3.down*.15f,C(1,.67f,.34f),7,4.2f);}
+  foreach(var p in new[]{new Vector3(-18.3f,.9f,61.0f),new Vector3(-9.3f,.9f,61),new Vector3(-14,.9f,58)}){Cylinder("Den bulb cord",new(p.x,1.59f,p.z),p,.018f,"iron",5);Ellipsoid(p,new(.08f,.11f,.08f),"bulb",8,5);Light(p+Vector3.down*.15f,C(1,.67f,.34f),7,4.2f);}
   Light(new(-14,.55f,50.4f),C(1,.66f,.29f),4,2.5f);Light(new(-14,-.6f,54.6f),C(1,.66f,.29f),4,2.5f);
   Text("DEN / BASEMENT",new(-4.4f,.75f,44.6f),.020f,"cream",Quaternion.Euler(0,180,0));
   Box("Street den direction stake",new(-4.4f,.35f,44.55f),new(.06f,.7f,.06f),"wood",true);
@@ -72,6 +78,19 @@ public static partial class ClosingTimeWorld {
   Box("Couch back",p+new Vector3(0,.65f,.40f),new(3.2f,.90f,.23f),"denVelvet",true);
   foreach(int side in new[]{-1,1})Box("Couch arm",p+new Vector3(side*1.53f,.51f,0),new(.25f,.72f,1.0f),"denVelvet",true);
   for(int i=-1;i<=1;i++){Ellipsoid(p+new Vector3(i*.98f,.52f,-.05f),new(.47f,.11f,.40f),"denVelvet",10,5);Box("Couch worn seam",p+new Vector3(i*.98f,.53f,-.45f),new(.86f,.018f,.018f),"denTape");}
+  // Soft back pads and arm rolls retain the original collision envelope.
+  for(int i=-1;i<=1;i++){
+   Ellipsoid(p+new Vector3(i*.98f,.80f,.22f),new(.46f,.27f,.115f),"denVelvet",12,7);
+   for(int button=0;button<2;button++)Ellipsoid(p+new Vector3(i*.98f+(button-.5f)*.35f,.81f,.103f),new(.025f,.022f,.010f),"denInk",8,4);
+  }
+  foreach(int side in new[]{-1,1})Ellipsoid(p+new Vector3(side*1.53f,.86f,0),new(.145f,.08f,.45f),"denVelvet",12,6);
+  // Old repair patches and a folded throw give the unpurchased sofa its own history.
+  Box("Sofa hand sewn patch",p+new Vector3(-.72f,.34f,-.481f),new(.24f,.13f,.008f),"denTrim",false,Quaternion.Euler(0,0,-7));
+  for(int stitch=0;stitch<5;stitch++)Box("Sofa visible repair stitch",p+new Vector3(-.81f+stitch*.045f,.41f,-.49f),new(.006f,.037f,.005f),"denPaper");
+  for(int fold=0;fold<5;fold++){
+   Box("Old wool throw seat fold",p+new Vector3(-1.16f+fold*.055f,.655f,-.20f),new(.060f,.025f,.42f),fold%2==0?"denPaper":"denTape");
+   Box("Old wool throw hanging fold",p+new Vector3(-1.16f+fold*.055f,.44f,-.455f),new(.060f,.40f,.024f),fold%2==0?"denPaper":"denTape");
+  }
   foreach(int side in new[]{-1,1})foreach(int z in new[]{-1,1})Box("Couch foot",p+new Vector3(side*1.30f,.10f,z*.34f),new(.12f,.20f,.12f),"wood");
  }
  static void DenCoffeeTable(Vector3 p){
@@ -90,10 +109,17 @@ public static partial class ClosingTimeWorld {
   }
  }
  static void DenAmp(Vector3 p){
-  DenImportedInstrument("Amp",p,.56f);
-  var collider=new GameObject("Amplifier cabinet collision");collider.transform.SetParent(root,false);collider.transform.position=p+Vector3.up*.28f;collider.AddComponent<BoxCollider>().size=new(.65f,.56f,.32f);
-  // Separate crate display avoids placing a trophy on the amplifier's carry handle.
-  var shelf=p+new Vector3(-.16f,0,-.90f);Crate(shelf+Vector3.up*.26f,new(.67f,.52f,.64f));DenDisplaySlots.Add(shelf+Vector3.up*.52f);
+  // A low touring case lifts the grille into the raccoon-height sightline.
+  Box("Scuffed amplifier road case",p+Vector3.up*.09f,new(.86f,.18f,.54f),"denInk",true);
+  foreach(int side in new[]{-1,1}){
+   Box("Road case aluminum edge",p+new Vector3(side*.41f,.09f,0),new(.025f,.18f,.55f),"denSteel");
+   Box("Road case corner protector",p+new Vector3(side*.37f,.10f,-.281f),new(.12f,.12f,.025f),"denSteel");
+  }
+  Box("Road case old gaffer label",p+new Vector3(0,.11f,-.281f),new(.26f,.065f,.012f),"denTape",false,Quaternion.Euler(0,0,-4));
+  DenImportedInstrument("Amp",p+Vector3.up*.18f,.56f);
+  var collider=new GameObject("Amplifier cabinet collision");collider.transform.SetParent(root,false);collider.transform.position=p+Vector3.up*.46f;collider.AddComponent<BoxCollider>().size=new(.65f,.56f,.32f);
+  // Keep this collection plinth on the east lounge edge, outside the music sightline.
+  var shelf=new Vector3(-11.65f,DenFloor,61.20f);Crate(shelf+Vector3.up*.26f,new(.67f,.52f,.64f));DenDisplaySlots.Add(shelf+Vector3.up*.52f);
  }
  static void DenGuitar(Vector3 p){
   DenImportedInstrument("Guitar",p,1.10f);
@@ -104,7 +130,12 @@ public static partial class ClosingTimeWorld {
   var q=Quaternion.Euler(0,0,tilt);Box("Original basement gig flyer",p,new(width,height,.022f),"denPaper",false,q);
   Box("Flyer ink field",p+q*new Vector3(0,.18f,-.016f),new(width*.88f,height*.52f,.006f),"denInk",false,q);
   // Torn-ring artwork: original angular rays, not an existing band logo or album cover.
-  for(int i=0;i<9;i++){float a=i*40*Mathf.Deg2Rad;var at=p+q*new Vector3(Mathf.Sin(a)*width*.25f,.1f+Mathf.Cos(a)*height*.15f,-.024f);Box("Flyer xerox ray",at,new(.055f,.29f,.008f),"denPaper",false,q*Quaternion.Euler(0,0,-i*40+20));}
+  if(title=="LOW TIDE"){
+   for(int wave=0;wave<3;wave++)for(int segment=0;segment<12;segment++){float x=(segment-5.5f)*width*.06f;var at=p+q*new Vector3(x,.05f+wave*.13f+Mathf.Sin(segment*.65f+wave)*.06f,-.025f);Box("Flyer cut paper wave",at,new(width*.065f,.027f,.008f),"denPaper",false,q*Quaternion.Euler(0,0,Mathf.Cos(segment*.65f+wave)*20));}
+  }else if(title.Contains("DINNER")){
+   Ellipsoid(p+q*new Vector3(0,.16f,-.031f),new(width*.23f,width*.23f,.005f),"denPaper",28,6);
+   Ellipsoid(p+q*new Vector3(0,.16f,-.041f),new(width*.065f,width*.065f,.005f),"denInk",16,6);
+  }else for(int i=0;i<9;i++){float a=i*40*Mathf.Deg2Rad;var at=p+q*new Vector3(Mathf.Sin(a)*width*.25f,.1f+Mathf.Cos(a)*height*.15f,-.024f);Box("Flyer xerox ray",at,new(.055f,.29f,.008f),"denPaper",false,q*Quaternion.Euler(0,0,-i*40+20));}
   Text(title,p+q*new Vector3(0,height*.34f,-.032f),.027f,"cream",q);
   Text(subtitle,p+q*new Vector3(0,-height*.34f,-.034f),.015f,"denInk",q);
   foreach(int side in new[]{-1,1})Box("Flyer masking tape",p+q*new Vector3(side*width*.37f,height*.48f,-.031f),new(.16f,.075f,.012f),"denTape",false,q*Quaternion.Euler(0,0,side*16));

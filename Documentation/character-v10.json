@@ -1,0 +1,17 @@
+{
+  "source": "Jimothy-v9.blend",
+  "regions": {
+    "body": 37537,
+    "legs": 11570,
+    "face": 999,
+    "tail": 2171
+  },
+  "fur_triangles": 83523,
+  "fibers": 52277,
+  "length_range_model_units": [
+    0.006012771261328499,
+    0.1794135081564764
+  ],
+  "skin_rig_actions_unchanged": true,
+  "texture_alpha_layers": 0
+}

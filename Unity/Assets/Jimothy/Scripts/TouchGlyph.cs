@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Jimothy {
 /// <summary>Resolution-independent original control glyphs; no font symbols or external icon fonts.</summary>
+[RequireComponent(typeof(CanvasRenderer))]
 public sealed class TouchGlyph:MaskableGraphic {
  public string symbol="jump";VertexHelper mesh;
  protected override void OnPopulateMesh(VertexHelper vh){vh.Clear();mesh=vh;Ring(Vector2.zero,.47f,.013f);switch(symbol){
