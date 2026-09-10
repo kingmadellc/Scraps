@@ -1,8 +1,8 @@
-# Jimothy Survival — playtest 0.4.7
+# Jimothy Survival — playtest 0.4.8
 
 On this Mac, open `/Volumes/Jimothy Dev/Projects/Jimothy/Builds/Jimothy.app`. Keep the **Jimothy Dev** drive connected. Unity Hub is not required to play the built app.
 
-On iPhone or iPad, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.4.7**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue adventure** or **New adventure**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
+On iPhone or iPad, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.4.8**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue adventure** or **New adventure**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
 
 ## The outing loop
 
@@ -39,3 +39,9 @@ Both begin at the open north end of the avenue near the Den. **A / Salmon Lookou
 The working project is `/Volumes/Jimothy Dev/Projects/Jimothy/Unity`, using Unity **6000.3.0f1**. Open `Assets/Jimothy/Scenes/Ballard.unity` in the Editor. The build commands are `Jimothy.Editor.DesktopBuild.Build` and `Jimothy.Editor.MobileWebBuild.Build`.
 
 If the Safari link stops responding, run `python3 Tools/start_ipad_server.py` from the external project. A changed Wi-Fi address may require a new link; use the Mac's current LAN address. Refresh Safari after a new build. Actual iPhone/iPad performance, heat, battery use, and human playtest scores still need device testing.
+
+## Treasure celebrations (0.4.8)
+
+Rare finds and trophies open a full-screen reveal using the title artwork and fonts. The actual item rotates in its portrait. The action pauses until you tap **Back to the night**, press Enter, or press the gamepad south button. Escape transfers to the pause menu. Finds are still loose and can be lost until banked at the Den. Ordinary finds show a short card without interrupting movement.
+
+The proposed replacement game names are in `Documentation/NAMING-RESEARCH-048.md`. These are collision-screened editorial recommendations, not human-tested winners or cleared trademarks. The existing name and save identifiers remain pending a naming decision.

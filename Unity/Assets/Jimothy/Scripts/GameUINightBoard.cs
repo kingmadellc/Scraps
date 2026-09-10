@@ -3,7 +3,7 @@ namespace Jimothy {
 public partial class GameUI {
  public void ShowNightBoard(){
   if(!game.AtHome)return;game.OpenDen();toastUntil=0;toast.text="";toastPanel.enabled=false;Clear(new Color(.025f,.07f,.065f,.98f));var d=game.Data;
-  Placed(page.transform,"ONE MORE NIGHT",52,cream,new(.07f,.83f),new(.94f,.94f)).font=TitleDisplay;
+  Heading(page.transform,"ONE MORE NIGHT",52,cream,new(.07f,.83f),new(.94f,.94f)).font=TitleDisplay;
   int goal=d.runActive?d.selectedGoal:d.runNumber%3,eventId=d.runActive?d.nightEvent:ExpeditionRules.EventForRun(d.runNumber+1);
   Placed(page.transform,(d.runActive?$"OUTING {d.runNumber} IN PROGRESS":"NEXT OUTING")+"  /  "+ExpeditionRules.GoalTitle(goal),27,cream,new(.07f,.72f),new(.94f,.82f));
   Placed(page.transform,ExpeditionRules.EventTitle(eventId)+"\n"+ExpeditionLoot.EventDescription(eventId),26,mint,new(.07f,.55f),new(.94f,.71f));

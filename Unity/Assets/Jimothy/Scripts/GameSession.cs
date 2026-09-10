@@ -11,6 +11,7 @@ public partial class GameSession : MonoBehaviour {
  public GameUI UI {get;private set;}
  public bool Playing {get;private set;}
  public bool Paused {get;private set;}
+ public bool DiscoveryOpen {get;private set;}
  public Vector3 Home => ClosingTimeWorld.Home;
  public bool DenOpen {get;private set;}
  public string Objective => Data==null?"":!Data.runActive?"DEN SAFE · Choose your next outing":$"NIGHT {Data.runNumber} · {ExpeditionRules.GoalTitle(Data.selectedGoal)} · {ExpeditionRules.GoalProgress(Data,Items)}";
@@ -37,6 +38,7 @@ public partial class GameSession : MonoBehaviour {
  public void NewGame() { Begin(new SaveData {mapRevision=3,x=ClosingTimeWorld.Home.x,y=ClosingTimeWorld.Home.y,z=ClosingTimeWorld.Home.z}); UI.ShowNightBoard(); Save(); }
  public void LoadGame() { if(SaveStore.TryLoad(out var data,out var message)){Begin(data);UI.Toast(message);}else UI.Toast(message); }
  void Begin(SaveData state) {
+  GetComponent<DiscoveryReveal>()?.Close(false);
   if(world){world.SetActive(false);Destroy(world);}Neighbors.Clear();nodes.Clear();
   returnToDen=false;outingRoute=-1;outingWaypoint=0;wasReturning=false;
   Data=state;Data.hiddenDecor??=new();Data.favoriteFinds??=new();Data.bankedDiscoveries??=new();foreach(var id in Data.pantry.Concat(Data.trophies).Distinct())if(!Data.bankedDiscoveries.Contains(id))Data.bankedDiscoveries.Add(id);guidedRoute=-1;guidedStep=0;recoveringClimb=false;
@@ -107,7 +109,7 @@ public partial class GameSession : MonoBehaviour {
   feedback.Play(false);
   var reveal=GetComponent<DiscoveryReveal>();if(!reveal)reveal=gameObject.AddComponent<DiscoveryReveal>();reveal.Show(item);
   if(item.category=="food"&&Data.nightGoal==0){Data.nightGoal=1;UI.Toast("Snack found! Follow the amber crates and striped ledges up.");}
-  else UI.Toast("Found "+item.name);Save();return true;
+  Save();return true;
  }
  public bool Available(int node) {return Data!=null&&Data.runActive&&!Data.cooldowns.Any(c=>c.node==node&&c.harvests>0);}
  public void Eat()=>EatSnack(false);
@@ -163,12 +165,15 @@ public partial class GameSession : MonoBehaviour {
   ExpeditionRules.Lose(Data);Player.Teleport(Home);Save();
   Playing=false;Paused=false;DenOpen=false;Player.Running=false;UI.ShowRunEnd(Data.bestSeconds);
  }
- public void OpenDen(){if(!AtHome)return;DenOpen=true;Paused=true;Player.Running=false;Save();}
+ public void OpenDen(){if(!AtHome||DiscoveryOpen)return;DenOpen=true;Paused=true;Player.Running=false;Save();}
  public void Search(){if(!Playing||Paused||!NearbyLoot)return;NearbyLoot.Search();}
  public void ReachedRoof(){if(Data.nightGoal==1){Data.nightGoal=2;feedback.Play(true);UI.Toast("Rooftops unlocked! Search for a keepsake, then take it to the den.");Save();}}
- public void Resume(){DenOpen=false;if(!hasSession)return;Playing=true;Paused=false;Player.Running=true;UI.ShowHUD();}
- public void TogglePause(){DenOpen=false;if(!hasSession||!Playing)return;Paused=!Paused;Player.Running=!Paused;if(Paused){Save();UI.ShowPause();}else UI.ShowHUD();}
- public void Menu(){DenOpen=false;if(hasSession)Save();Playing=false;Paused=false;if(Player)Player.Running=false;UI.ShowMenu();}
+ public bool BeginDiscovery(){if(!Playing||Paused)return false;DiscoveryOpen=true;Paused=true;Player.Running=false;ClearDiscoveryInputs();return true;}
+ public void EndDiscovery(bool resume){if(!DiscoveryOpen)return;DiscoveryOpen=false;ClearDiscoveryInputs();if(resume&&Playing){Paused=false;Player.Running=true;}}
+ void ClearDiscoveryInputs(){if(Player){Player.touchMove=Player.touchLook=Vector2.zero;Player.jumpRequested=false;}foreach(var pad in GetComponentsInChildren<TouchPad>())pad.Release();foreach(var gesture in GetComponentsInChildren<TouchTrickGesture>())gesture.Release();}
+ public void Resume(){GetComponent<DiscoveryReveal>()?.Close(false);DenOpen=false;if(!hasSession)return;Playing=true;Paused=false;Player.Running=true;UI.ShowHUD();}
+ public void TogglePause(){if(DiscoveryOpen){GetComponent<DiscoveryReveal>()?.Close(false);Save();UI.ShowPause();return;}DenOpen=false;if(!hasSession||!Playing)return;Paused=!Paused;Player.Running=!Paused;if(Paused){Save();UI.ShowPause();}else UI.ShowHUD();}
+ public void Menu(){GetComponent<DiscoveryReveal>()?.Close(false);DenOpen=false;if(hasSession)Save();Playing=false;Paused=false;if(Player)Player.Running=false;UI.ShowMenu();}
  public string Guidance {
   get {
    if(Data==null||!Player)return "";
@@ -208,7 +213,7 @@ public partial class GameSession : MonoBehaviour {
   autosave+=dt;if(autosave>20){autosave=0;Save();}
 
  }
- void OnApplicationPause(bool paused){if(paused){Save();if(Playing&&!Paused)TogglePause();}}
+ void OnApplicationPause(bool paused){if(paused){Save();if(Playing&&(!Paused||DiscoveryOpen))TogglePause();}}
  void OnApplicationQuit(){Save();}
  void OnDestroy(){foreach(var m in propMaterials.Values)Destroy(m);Instance=null;}
 }

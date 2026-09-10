@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 namespace Jimothy {
 public partial class GameUI {
- void DenPageTitle(string title,string detail){Clear(new Color(.025f,.065f,.055f,.97f));Placed(page.transform,title,50,cream,new(.08f,.80f),new(.92f,.94f)).font=TitleDisplay;Placed(page.transform,detail,22,mint,new(.08f,.72f),new(.92f,.80f));}
+ void DenPageTitle(string title,string detail){Clear(new Color(.025f,.065f,.055f,.97f));Heading(page.transform,title,50,cream,new(.08f,.80f),new(.92f,.94f)).font=TitleDisplay;Placed(page.transform,detail,22,mint,new(.08f,.72f),new(.92f,.80f));}
  void ShowDenShop(int index){
   var entries=DenFurnishings.Catalog.Values.ToArray();int pages=(entries.Length+5)/6;index=Mathf.Clamp(index,0,pages-1);int current=index;
   DenPageTitle("MAKE IT YOUR DEN",$"{game.Data.coins} shinies · Buy once, show or hide anytime · {index+1}/{pages}");

@@ -19,7 +19,7 @@ public partial class GameUI:MonoBehaviour {
 #endif
   }
  }
- GameSession game; Canvas canvas; RectTransform safe; GameObject page; Text toast,stats,objective,searchText,guidance,denStats; Button searchButton,cushionButton,floatButton; Image health,hunger,toastPanel;static Sprite rounded; Font font; float toastUntil,nextGuideUpdate; Rect lastSafe;
+ GameSession game; Canvas canvas; RectTransform safe; GameObject page; Text toast,stats,objective,searchText,guidance,denStats; Button searchButton,cushionButton,floatButton; Image health,hunger,toastPanel;static Sprite rounded; Font font; bool menuTypography; float toastUntil,nextGuideUpdate; Rect lastSafe;
  readonly Color cream=new(.95f,.93f,.84f),green=new(.045f,.12f,.105f),mint=new(.63f,.81f,.68f),coral=new(.9f,.52f,.34f);
  public void Build(GameSession session) {
   game=session;font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -38,14 +38,15 @@ public partial class GameUI:MonoBehaviour {
  static void Anchor(RectTransform r,Vector2 min,Vector2 max){r.anchorMin=min;r.anchorMax=max;r.offsetMin=Vector2.zero;r.offsetMax=Vector2.zero;}
  Image Panel(Transform parent,Color color,Vector2 min,Vector2 max){var r=Rect("Panel",parent,min,max);var i=r.gameObject.AddComponent<Image>();i.color=color;return i;}
  Text Label(Transform parent,string value,int size,Color color) {
-  var r=Rect(value,parent,Vector2.zero,Vector2.one);var t=r.gameObject.AddComponent<Text>();t.text=value;t.font=font;t.fontSize=MobileLayout?Mathf.RoundToInt(size*Mathf.Clamp(((float)Screen.width/Mathf.Max(1,Screen.height))/(16f/9f),.74f,1f)):size;t.color=color;t.raycastTarget=false;t.horizontalOverflow=HorizontalWrapMode.Wrap;t.verticalOverflow=VerticalWrapMode.Truncate;return t;
+  var r=Rect(value,parent,Vector2.zero,Vector2.one);var t=r.gameObject.AddComponent<Text>();t.text=value;t.font=menuTypography?GameTypography.Secondary:font;t.fontSize=MobileLayout?Mathf.RoundToInt(size*Mathf.Clamp(((float)Screen.width/Mathf.Max(1,Screen.height))/(16f/9f),.74f,1f)):size;t.color=color;t.raycastTarget=false;t.horizontalOverflow=HorizontalWrapMode.Wrap;t.verticalOverflow=VerticalWrapMode.Truncate;return t;
  }
  Text Placed(Transform parent,string text,int size,Color color,Vector2 min,Vector2 max){var t=Label(parent,text,size,color);Anchor(t.rectTransform,min,max);return t;}
  Button Button(Transform parent,string title,Vector2 min,Vector2 max,Action action,bool primary=false) {
   var p=Panel(parent,primary?mint:new Color(.06f,.16f,.14f,.94f),min,max);p.sprite=Rounded();p.type=Image.Type.Sliced;var b=p.gameObject.AddComponent<Button>();var colors=b.colors;colors.highlightedColor=new Color(.8f,.94f,.84f);colors.pressedColor=new Color(.6f,.75f,.67f);b.colors=colors;b.onClick.AddListener(()=>action());
-  var t=Label(p.transform,title,MobileLayout?32:24,primary?green:cream);t.alignment=TextAnchor.MiddleCenter;return b;
+  var t=Label(p.transform,title,MobileLayout?32:24,primary?green:cream);t.alignment=TextAnchor.MiddleCenter;if(menuTypography){t.fontSize=MobileLayout?40:28;t.resizeTextForBestFit=true;t.resizeTextMinSize=24;t.resizeTextMaxSize=t.fontSize;}return b;
  }
  void Clear(Color? background=null) {
+  menuTypography=background.HasValue;
   if(page){page.SetActive(false);Destroy(page);}stats=null;denStats=null;cushionButton=null;floatButton=null;health=null;hunger=null;objective=null;searchText=null;guidance=null;searchButton=null;detectionPanel=null;detectionFill=null;landingPanel=null;trickTotal=null;trickButton=null;
   page=Rect("Screen",safe,Vector2.zero,Vector2.one).gameObject;
   if(background.HasValue){var p=page.AddComponent<Image>();p.color=background.Value;}
@@ -53,10 +54,14 @@ public partial class GameUI:MonoBehaviour {
   toastPanel.transform.SetAsLastSibling();
   Anchor(toastPanel.rectTransform,background.HasValue?new Vector2(.05f,.905f):MobileLayout?new Vector2(.22f,.25f):new Vector2(.24f,.19f),background.HasValue?new Vector2(.95f,.99f):MobileLayout?new Vector2(.83f,.42f):new Vector2(.76f,.31f));
  }
- // Title-specific typography never changes the gameplay/HUD font.
- Font titleDisplay,titleSmall;
- Font TitleDisplay=>titleDisplay?titleDisplay:(titleDisplay=Resources.Load<Font>("TitleFonts/FugazOne-Regular")??font);
- Font TitleSmall=>titleSmall?titleSmall:(titleSmall=Resources.Load<Font>("TitleFonts/BarlowCondensed-SemiBold")??font);
+ // Menus share the title identity; gameplay HUD retains its body font.
+ Font TitleDisplay=>GameTypography.Display;
+ Font TitleSmall=>GameTypography.Secondary;
+ Text Heading(Transform parent,string value,int size,Color color,Vector2 min,Vector2 max){
+  var t=Placed(parent,value,size,color,min,max);t.font=GameTypography.Display;
+  t.resizeTextForBestFit=true;t.resizeTextMinSize=28;t.resizeTextMaxSize=t.fontSize;
+  t.alignment=TextAnchor.MiddleLeft;return t;
+ }
  Text TitleText(Transform parent,string value,int size,Color color,Vector2 min,Vector2 max,bool display=false) {
   var t=Placed(parent,value,size,color,min,max);t.font=display?TitleDisplay:TitleSmall;t.alignment=TextAnchor.MiddleLeft;
   t.horizontalOverflow=HorizontalWrapMode.Overflow;t.verticalOverflow=VerticalWrapMode.Overflow;return t;
@@ -71,7 +76,7 @@ public partial class GameUI:MonoBehaviour {
   var b=Button(page.transform,label,new(.077f,bottom),new(.37f,bottom+.082f),action,primary);
   b.gameObject.name="Title action · "+label;var panel=b.GetComponent<Image>();panel.color=primary?new Color(.94f,.69f,.36f):new Color(.035f,.09f,.075f,.48f);
   var colors=b.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1,.89f,.65f);colors.selectedColor=colors.highlightedColor;colors.pressedColor=new Color(.72f,.73f,.60f);colors.disabledColor=new Color(.6f,.65f,.59f,.45f);colors.fadeDuration=.12f;b.colors=colors;b.interactable=enabled;
-  var text=b.GetComponentInChildren<Text>();text.font=TitleSmall;text.fontSize=MobileLayout?33:29;text.alignment=TextAnchor.MiddleLeft;text.rectTransform.offsetMin=new Vector2(28,0);text.rectTransform.offsetMax=new Vector2(-46,0);text.color=primary?green:cream;
+  var text=b.GetComponentInChildren<Text>();text.font=TitleSmall;text.resizeTextForBestFit=false;text.fontSize=MobileLayout?33:29;text.alignment=TextAnchor.MiddleLeft;text.rectTransform.offsetMin=new Vector2(28,0);text.rectTransform.offsetMax=new Vector2(-46,0);text.color=primary?green:cream;
   var mark=TitleText(b.transform,">",28,primary?green:coral,new(.88f,0),new(.98f,1));mark.alignment=TextAnchor.MiddleCenter;
   if(!string.IsNullOrEmpty(detail))TitleText(page.transform,detail,18,new Color(.75f,.80f,.70f,.85f),new(.395f,bottom+.009f),new(.57f,bottom+.073f));
   return b;
@@ -100,7 +105,7 @@ public partial class GameUI:MonoBehaviour {
   TitleText(page.transform,"A LITTLE WILDER AFTER DARK",17,new Color(.72f,.79f,.68f),new(.077f,.043f),new(.45f,.085f));
   var location=TitleText(page.transform,"BALLARD AVENUE  /  LAST CALL  /  "+Application.version,17,warmCream,new(.60f,.044f),new(.957f,.085f));location.alignment=TextAnchor.MiddleRight;
  }
- void ConfirmNew(){Clear(green);Placed(page.transform,"A fresh set of pawprints?",48,cream,new(.15f,.63f),new(.85f,.76f));Placed(page.transform,"Starting a new adventure replaces your current save and den collection.",26,cream,new(.15f,.48f),new(.83f,.6f));Button(page.transform,"Start fresh",new(.15f,.28f),new(.45f,.42f),game.NewGame,true);Button(page.transform,"Keep my adventure",new(.5f,.28f),new(.8f,.42f),ShowMenu);}
+ void ConfirmNew(){Clear(green);Heading(page.transform,"A fresh set of pawprints?",48,cream,new(.15f,.63f),new(.85f,.76f));Placed(page.transform,"Starting a new adventure replaces your current save and den collection.",26,cream,new(.15f,.48f),new(.83f,.6f));Button(page.transform,"Start fresh",new(.15f,.28f),new(.45f,.42f),game.NewGame,true);Button(page.transform,"Keep my adventure",new(.5f,.28f),new(.8f,.42f),ShowMenu);}
  public void ShowHUD() {
   Clear();bool mobile=MobileLayout;
   var hud=Panel(page.transform,new Color(.025f,.08f,.065f,.88f),new(.025f,mobile?.835f:.845f),new(mobile?.36f:.30f,.975f));hud.sprite=Rounded();hud.type=Image.Type.Sliced;
@@ -122,13 +127,17 @@ public partial class GameUI:MonoBehaviour {
   if(mobile){BuildTouchControls();
   }else Placed(page.transform,"W/S move · A/D steer · Space jump · T flip · F search · H den · Right-drag turn",18,cream,new(.025f,.018f),new(.83f,.050f));
  }
- public void ShowPause(){Clear(new Color(.02f,.075f,.055f,.96f));Placed(page.transform,"TAKE A BREATHER.",62,cream,new(.2f,.68f),new(.85f,.8f));Button(page.transform,"Back to Ballard",new(.3f,.48f),new(.7f,.62f),game.Resume,true);Button(page.transform,"Settings",new(.15f,.31f),new(.48f,.45f),()=>Settings(true));Button(page.transform,"Touch controls",new(.52f,.31f),new(.85f,.45f),ShowTouchHelp);Button(page.transform,"Save & main menu",new(.3f,.14f),new(.7f,.28f),game.Menu);}
+ public void ShowPause(){Clear(new Color(.02f,.075f,.055f,.96f));Heading(page.transform,"TAKE A BREATHER.",62,cream,new(.2f,.68f),new(.85f,.8f));Button(page.transform,"Back to Ballard",new(.3f,.48f),new(.7f,.62f),game.Resume,true);Button(page.transform,"Settings",new(.15f,.31f),new(.48f,.45f),()=>Settings(true));Button(page.transform,"Touch controls",new(.52f,.31f),new(.85f,.45f),ShowTouchHelp);Button(page.transform,"Save & main menu",new(.3f,.14f),new(.7f,.28f),game.Menu);}
  void Settings(bool inGame) {
-  Clear(green);Placed(page.transform,"MAKE YOURSELF COMFORTABLE.",48,cream,new(.12f,.73f),new(.92f,.85f));
+  toast.text="";toastUntil=0;toastPanel.enabled=false;
+  Clear(GameTypography.Forest);
+  var rule=Panel(page.transform,GameTypography.Brass,new(.12f,.705f),new(.88f,.708f));rule.raycastTarget=false;
+  var footer=Panel(page.transform,new Color(.88f,.65f,.34f,.35f),new(.12f,.10f),new(.88f,.102f));footer.raycastTarget=false;
+  Heading(page.transform,"MAKE YOURSELF COMFORTABLE.",48,GameTypography.Cream,new(.12f,.73f),new(.92f,.85f));
   Button(page.transform,(PlayerPrefs.GetInt("fps",30)==60?"✓ Performance · 60 fps":"Performance · 60 fps"),new(.14f,.54f),new(.49f,.68f),()=>{Application.targetFrameRate=60;PlayerPrefs.SetInt("fps",60);Settings(inGame);},PlayerPrefs.GetInt("fps",30)==60);
   Button(page.transform,(PlayerPrefs.GetInt("fps",30)==30?"✓ Battery saver · 30 fps":"Battery saver · 30 fps"),new(.52f,.54f),new(.87f,.68f),()=>{Application.targetFrameRate=30;PlayerPrefs.SetInt("fps",30);Settings(inGame);},PlayerPrefs.GetInt("fps",30)==30);
   Button(page.transform,AudioListener.volume>0?"Sound: on":"Sound: off",new(.14f,.35f),new(.49f,.49f),()=>{AudioListener.volume=AudioListener.volume>0?0:1;PlayerPrefs.SetFloat("volume",AudioListener.volume);Settings(inGame);});
-  Placed(page.transform,"Landscape play  /  Touch, keyboard & gamepad\nPickup / reward chimes enabled. Full soundscape in development.",22,mint,new(.52f,.35f),new(.89f,.47f));
+  Placed(page.transform,"Landscape · Touch, keyboard & gamepad\nPickup / reward chimes · Music in development.",32,mint,new(.52f,.35f),new(.89f,.49f)).fontSize=MobileLayout?32:24;
   Button(page.transform,PlayerPrefs.GetInt("playtestStats",0)==1?"Playtest stats: on":"Playtest stats: off",new(.52f,.15f),new(.87f,.29f),()=>{PlayerPrefs.SetInt("playtestStats",1-PlayerPrefs.GetInt("playtestStats",0));Settings(inGame);});
   Button(page.transform,"Back",new(.14f,.15f),new(.49f,.29f),()=>{if(inGame)ShowPause();else ShowMenu();});
  }
@@ -137,7 +146,7 @@ public partial class GameUI:MonoBehaviour {
 #endif
  void ShowDen() {
   if(!game.AtHome)return;game.OpenDen();Clear(new Color(.025f,.09f,.07f,.97f));
-  Placed(page.transform,"THE DEN",58,cream,new(.08f,.77f),new(.90f,.9f)).font=TitleDisplay;
+  Heading(page.transform,"THE DEN",58,cream,new(.08f,.77f),new(.90f,.9f)).font=TitleDisplay;
   denStats=Placed(page.transform,$"{game.Data.pantry.Count} banked finds    /    {game.Data.trophies.Count} trophies banked    /    {game.Data.coins} shinies",24,mint,new(.08f,.67f),new(.90f,.75f));
   Button(page.transform,"Unload pockets",new(.08f,.47f),new(.44f,.61f),()=>{game.Deposit();ShowDen();},true);
   Button(page.transform,"Decorate your den",new(.53f,.47f),new(.91f,.61f),()=>ShowDenShop(0));
@@ -146,7 +155,7 @@ public partial class GameUI:MonoBehaviour {
   Button(page.transform,"Back to den",new(.08f,.10f),new(.44f,.24f),game.Resume);
   Button(page.transform,"Night board & collections",new(.53f,.10f),new(.91f,.24f),ShowNightBoard,true);
  }
- public void ShowRunEnd(int best){Clear(green);Placed(page.transform,"OUTFOXED. STILL ADORABLE.",54,cream,new(.1f,.68f),new(.95f,.84f));Placed(page.transform,$"Your den and banked collection are safe.\nBest survival: {best/60}m {best%60}s. {game.Data.lastLoss} loose finds and all loose shinies were lost.",28,mint,new(.1f,.47f),new(.9f,.62f));Button(page.transform,"Plan another outing",new(.1f,.24f),new(.49f,.38f),()=>{game.Resume();ShowNightBoard();},true);Button(page.transform,"Main menu",new(.55f,.24f),new(.90f,.38f),game.Menu);}
+ public void ShowRunEnd(int best){Clear(green);Heading(page.transform,"OUTFOXED. STILL ADORABLE.",54,cream,new(.1f,.68f),new(.95f,.84f));Placed(page.transform,$"Your den and banked collection are safe.\nBest survival: {best/60}m {best%60}s. {game.Data.lastLoss} loose finds and all loose shinies were lost.",28,mint,new(.1f,.47f),new(.9f,.62f));Button(page.transform,"Plan another outing",new(.1f,.24f),new(.49f,.38f),()=>{game.Resume();ShowNightBoard();},true);Button(page.transform,"Main menu",new(.55f,.24f),new(.90f,.38f),game.Menu);}
  public void Toast(string message){toast.text=message;toastPanel.enabled=true;toastUntil=Time.unscaledTime+4;}
  static Sprite Rounded(){
   if(rounded)return rounded;var texture=new Texture2D(64,64,TextureFormat.RGBA32,false);texture.name="UI rounded corner";texture.wrapMode=TextureWrapMode.Clamp;
