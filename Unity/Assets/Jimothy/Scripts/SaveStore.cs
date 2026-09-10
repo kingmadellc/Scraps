@@ -52,7 +52,17 @@ namespace Jimothy {
 }
 [Serializable] class SaveEnvelope { public int version=1; public string payload, sha256; }
 public static class SaveStore {
- public static string PathName => Path.Combine(Application.persistentDataPath,"jimothy-v1.json");
+ // Preserve the established Mac save directory when the display name changes to Scraps.
+ public static string SaveDirectory {
+  get {
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+   return Path.Combine(Path.GetDirectoryName(Application.persistentDataPath),"Jimothy_ Small Paws, Big Appetite");
+#else
+   return Application.persistentDataPath;
+#endif
+  }
+ }
+ public static string PathName => Path.Combine(SaveDirectory,"jimothy-v1.json");
  static string Hash(string s) { using var h = SHA256.Create(); return Convert.ToBase64String(h.ComputeHash(Encoding.UTF8.GetBytes(s))); }
  public static bool Exists => File.Exists(PathName) || File.Exists(PathName+".bak");
  public static bool TryLoad(out SaveData data, out string message) {
@@ -77,7 +87,7 @@ public static class SaveStore {
    if(!data.Valid()) throw new InvalidDataException("Invalid state was not saved.");
    string payload=JsonUtility.ToJson(data);
    string json=JsonUtility.ToJson(new SaveEnvelope { payload=payload,sha256=Hash(payload) });
-   Directory.CreateDirectory(Application.persistentDataPath);
+   Directory.CreateDirectory(SaveDirectory);
    string temp=PathName+".tmp";
 #if UNITY_WEBGL && !UNITY_EDITOR
    // Browser virtual filesystem: retain recovery copy, then let autoSyncPersistentDataPath persist to IndexedDB.

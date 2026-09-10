@@ -104,7 +104,8 @@ public static class ProjectSetup {
    if(name=="Idle")controller.layers[0].stateMachine.defaultState=state;
   }
   EditorUtility.SetDirty(controller);
-  PlayerSettings.companyName="Ballard Stories";PlayerSettings.productName="Jimothy: Small Paws, Big Appetite";
+  PlayerSettings.companyName="Ballard Stories";PlayerSettings.productName="Scraps";
+  PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone,"com.Ballard-Stories.Jimothy--Small-Paws--Big-Appetite");
   PlayerSettings.defaultInterfaceOrientation=UIOrientation.LandscapeLeft;
   PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.iOS,"com.ballardstories.jimothy");
   PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.iOS,ScriptingImplementation.IL2CPP);

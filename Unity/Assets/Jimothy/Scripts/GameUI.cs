@@ -82,21 +82,18 @@ public partial class GameUI:MonoBehaviour {
   return b;
  }
  public void ShowMenu() {
-  Clear(green);page.name="Jimothy Survival · Title";Hero();
+  Clear(green);page.name="Scraps · Title";Hero();
   var brass=new Color(.94f,.69f,.36f);var warmCream=new Color(1f,.94f,.79f);
   TitleText(page.transform,"B A L L A R D   /   S E A T T L E",21,brass,new(.077f,.855f),new(.46f,.897f));
-  var wordmark=Rect("Jimothy Survival wordmark",page.transform,new(.065f,.555f),new(.49f,.865f));
+  var wordmark=Rect("Scraps wordmark",page.transform,new(.065f,.555f),new(.49f,.865f));
   wordmark.localRotation=Quaternion.Euler(0,0,3);
-  var shadow=TitleText(wordmark,"Jimothy",126,new Color(.015f,.035f,.027f,.95f),new(.012f,.225f),new(1.012f,.955f),true);
-  var depth=TitleText(wordmark,"Jimothy",126,new Color(.66f,.29f,.14f),new(.006f,.252f),new(1.006f,.982f),true);
-  var title=TitleText(wordmark,"Jimothy",126,warmCream,new(0,.275f),new(1,1.005f),true);
+  var shadow=TitleText(wordmark,"Scraps",140,new Color(.015f,.035f,.027f,.95f),new(.012f,.225f),new(1.012f,.955f),true);
+  var depth=TitleText(wordmark,"Scraps",140,new Color(.66f,.29f,.14f),new(.006f,.252f),new(1.006f,.982f),true);
+  var title=TitleText(wordmark,"Scraps",140,warmCream,new(0,.275f),new(1,1.005f),true);
   var outline=title.gameObject.AddComponent<Outline>();outline.effectColor=new Color(.045f,.09f,.066f);outline.effectDistance=new Vector2(1.4f,-1.4f);
   // A compact underline and condensed subtitle echo hand-painted travel emblems.
   Panel(wordmark,brass,new(.015f,.245f),new(.22f,.264f)).raycastTarget=false;
   Panel(wordmark,brass,new(.015f,.195f),new(.15f,.211f)).raycastTarget=false;
-  var sub=TitleText(wordmark,"S U R V I V A L",40,warmCream,new(.26f,.11f),new(.93f,.32f));sub.alignment=TextAnchor.MiddleCenter;
-  TitleText(page.transform,"SMALL PAWS.  BIG APPETITE.",23,brass,new(.079f,.535f),new(.47f,.582f));
-  TitleText(page.transform,"The city closes. Your night begins.",24,warmCream,new(.079f,.465f),new(.49f,.514f));
   bool saved=SaveStore.Exists;
   if(saved){TitleButton("Continue adventure","Your den is waiting",.338f,game.LoadGame,true);TitleButton("New adventure","",.237f,ConfirmNew);}
   else {TitleButton("New adventure","",.338f,game.NewGame,true);TitleButton("Load adventure","No saved adventure",.237f,game.LoadGame,false,false);}
@@ -169,7 +166,7 @@ public partial class GameUI:MonoBehaviour {
   if(objective)objective.text=game.Objective;
   if(guidance&&Time.unscaledTime>=nextGuideUpdate){nextGuideUpdate=Time.unscaledTime+.2f;guidance.text=game.Guidance;}
   if(searchButton){searchButton.interactable=game.NearbyLoot;searchText.text=game.NearbyLoot?"Search":"Search";}
-  if(stats&&game.Data!=null){stats.text=$"JIMOTHY   ·   {(int)game.Data.survivalSeconds/60:D2}:{(int)game.Data.survivalSeconds%60:D2}\n{game.Data.coins} banked · {game.Data.pendingCoins} loose  ·  Bag {game.Data.bag.Count}/{ExpeditionRules.BagCapacity}";health.rectTransform.anchorMax=new(.04f+.41f*game.Data.health/100,.16f);hunger.rectTransform.anchorMax=new(.51f+.43f*game.Data.hunger/100,.16f);}
+  if(stats&&game.Data!=null){stats.text=$"SCRAPS   ·   {(int)game.Data.survivalSeconds/60:D2}:{(int)game.Data.survivalSeconds%60:D2}\n{game.Data.coins} banked · {game.Data.pendingCoins} loose  ·  Bag {game.Data.bag.Count}/{ExpeditionRules.BagCapacity}";health.rectTransform.anchorMax=new(.04f+.41f*game.Data.health/100,.16f);hunger.rectTransform.anchorMax=new(.51f+.43f*game.Data.hunger/100,.16f);}
  }
 }
 }

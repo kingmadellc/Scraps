@@ -1,10 +1,10 @@
-# Jimothy Survival — playtest 0.4.8
+# Scraps — playtest 0.4.9
 
-On this Mac, open `/Volumes/Jimothy Dev/Projects/Jimothy/Builds/Jimothy.app`. Keep the **Jimothy Dev** drive connected. Unity Hub is not required to play the built app.
+On this Mac, open `/Volumes/Jimothy Dev/Projects/Jimothy/Builds/Scraps.app`. Keep the **Jimothy Dev** drive connected. Unity Hub is not required to play the built app.
 
-**Public play link:** https://kingmadellc.github.io/JimothySurvival/?v=0.4.8 — Safari in landscape, then Play in browser. This works away from the development Mac. The public site has its own browser save; local-link saves do not automatically transfer.
+**Public play link:** https://kingmadellc.github.io/JimothySurvival/?v=0.4.9 — Safari in landscape, then Play in browser. This works away from the development Mac. The public site has its own browser save; local-link saves do not automatically transfer.
 
-For LAN development only, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.4.8**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue adventure** or **New adventure**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
+For LAN development only, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.4.9**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue adventure** or **New adventure**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
 
 ## The outing loop
 
@@ -46,4 +46,4 @@ If the Safari link stops responding, run `python3 Tools/start_ipad_server.py` fr
 
 Rare finds and trophies open a full-screen reveal using the title artwork and fonts. The actual item rotates in its portrait. The action pauses until you tap **Back to the night**, press Enter, or press the gamepad south button. Escape transfers to the pause menu. Finds are still loose and can be lost until banked at the Den. Ordinary finds show a short card without interrupting movement.
 
-The proposed replacement game names are in `Documentation/NAMING-RESEARCH-048.md`. These are collision-screened editorial recommendations, not human-tested winners or cleared trademarks. The existing name and save identifiers remain pending a naming decision.
+The selected name is **Scraps**, with no subtitle. The old internal save identifiers and public URL are intentionally retained so existing saves continue to load. A title choice does not constitute trademark clearance.

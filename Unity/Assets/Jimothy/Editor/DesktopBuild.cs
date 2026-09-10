@@ -10,7 +10,7 @@ public static class DesktopBuild {
   if(!File.Exists("Assets/Jimothy/Scenes/Ballard.unity"))ProjectSetup.CreateScene();
   Directory.CreateDirectory("../Builds");
   PlayerSettings.SetArchitecture(UnityEditor.Build.NamedBuildTarget.Standalone,1);
-  PlayerSettings.bundleVersion="0.4.8";
+  PlayerSettings.bundleVersion="0.4.9";
   // Runtime fur shader consumes FBX vertex colors absent from the imported placeholder material.
   PlayerSettings.stripUnusedMeshComponents=false;
   PlayerSettings.defaultScreenWidth=1440;
@@ -18,7 +18,7 @@ public static class DesktopBuild {
   PlayerSettings.fullScreenMode=UnityEngine.FullScreenMode.Windowed;
   var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions {
    scenes=new[]{"Assets/Jimothy/Scenes/Ballard.unity"},
-   locationPathName="../Builds/Jimothy.app",
+   locationPathName="../Builds/Scraps.app",
    target=BuildTarget.StandaloneOSX,
    options=BuildOptions.Development
   });
