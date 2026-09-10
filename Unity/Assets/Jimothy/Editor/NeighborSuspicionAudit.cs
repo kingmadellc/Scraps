@@ -16,9 +16,21 @@ public static class NeighborSuspicionAudit {
   report=new Report();try{
    EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
    Box("Ground",new(0,-.25f,0),new(40,.5f,40));Physics.SyncTransforms();
+   TestAttack();
    foreach(var species in new[]{NeighborKind.Dog,NeighborKind.AngryHuman})TestSpecies(species);
   }catch(Exception e){CheckThat(e.ToString(),false);}
   var path=Path.GetFullPath("../Logs/neighbor-suspicion-audit.json");Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllText(path,JsonUtility.ToJson(report,true));bool pass=report.checks.TrueForAll(c=>c.passed);Debug.Log("Neighbor suspicion audit: "+report.checks.Count+" checks; passed="+pass);if(Application.isBatchMode)EditorApplication.Exit(pass?0:1);
+ }
+ static void TestAttack(){
+  var attack=new NeighborAttack();bool fired=attack.Step(1f/60,true);
+  CheckThat("Melee first contact cannot strike",!fired&&attack.Warning01>0);
+  for(int i=0;i<12;i++)fired|=attack.Step(1f/60,true);
+  CheckThat("Melee gives visible interruptible warning",!fired&&attack.Warning01>.4f);
+  attack.Step(1f/60,false);CheckThat("Leaving reach or losing sight cancels strike",attack.Warning01==0);
+  for(int i=0;i<24;i++)fired|=attack.Step(1f/60,true);
+  CheckThat("Reentry must complete a fresh warning",!fired);
+  fired=attack.Step(1f/60,true)||attack.Step(1f/60,true);CheckThat("Sustained eligible contact completes strike",fired);
+  attack.Step(.1f,true);attack.Reset();CheckThat("Pause clears pending strike",attack.Warning01==0);
  }
  static void Capture(GameObject actor,string name){
   var cameraObject=new GameObject("Audit evidence camera");var cam=cameraObject.AddComponent<Camera>();cam.transform.position=actor.transform.position+new Vector3(-2.4f,1.8f,3.2f);cam.transform.LookAt(actor.transform.position+Vector3.up*.85f);cam.fieldOfView=38;cam.clearFlags=CameraClearFlags.SolidColor;cam.backgroundColor=new Color(.10f,.12f,.14f);
@@ -34,6 +46,14 @@ public static class NeighborSuspicionAudit {
   Sense(ground+Vector3.up,30);CheckThat(kind+" ordinary 1m jump remains visible",ai.HasLineOfSight&&ai.Suspicion01>.1f,ai.Suspicion01);
   Sense(ground,20);CheckThat(kind+" sustained noticing begins investigation before chase",ai.IsInvestigating&&!ai.IsThreat,ai.Suspicion01);
   Sense(ground,240);CheckThat(kind+" sustained exposure reaches chase",ai.IsThreat&&ai.Suspicion01>.99f,ai.Suspicion01);
+  var saved=ai.CaptureState();Sense(ground,1,true);Sense(ground,20);
+  CheckThat(kind+" leaving safety has reacquisition reaction window",!ai.IsThreat&&ai.Suspicion01>.8f,ai.Suspicion01);
+  CheckThat(kind+" restore retains active pursuit and suspicion",ai.RestoreState(saved)&&ai.IsThreat&&Mathf.Abs(ai.Suspicion01-saved.suspicion)<.001f,ai.Suspicion01);
+  CheckThat(kind+" restore retains last seen memory",ai.LastSeenPosition==saved.lastSeen);
+  saved.position=new(0,4,0);Vector3 validPosition=go.transform.position;
+  CheckThat(kind+" roof snapshot rejected without displacement",!ai.RestoreState(saved)&&go.transform.position==validPosition);
+  saved.position=new(float.NaN,0,0);CheckThat(kind+" nonfinite snapshot rejected",!ai.RestoreState(saved));
+  ai.ConfigureChallenge(100,100);CheckThat(kind+" challenge modifiers bounded",ai.ChaseSpeed<4.3f&&ai.SightRange<=13.01f);ai.ConfigureChallenge(1,1);
   CheckThat(kind+" remembered chase destination remains ground",nav.IsGroundTarget(ai.LastSeenPosition),ai.LastSeenPosition.y);
   var wall=Box("Opaque wall",new(0,1.5f,1),new(4,3,.25f));Physics.SyncTransforms();var seen=ai.LastSeenPosition;Sense(new(.2f,.04f,2),1);CheckThat(kind+" wall occludes sight without instant memory reset",!ai.HasLineOfSight&&ai.Suspicion01>.9f&&ai.LastSeenPosition==seen,ai.Suspicion01);
   Sense(ground,200);CheckThat(kind+" hidden target ends chase and decays",!ai.IsThreat&&ai.Suspicion01<.6f,ai.Suspicion01);

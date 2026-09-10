@@ -5,7 +5,8 @@ public enum NeighborKind { Dog,Cat,AngryHuman,KindHuman,Fisherman,Gull,Passerby,
 public class NeighborAI:MonoBehaviour {
  public NeighborKind Kind; public bool IsThreat {get;private set;}
  readonly List<Mesh> visualMeshes=new();
- NeighborNavigation navigation; CharacterController controller; Vector3 home,patrolTarget; Transform body,net; TextMesh tell; float cooldown,clock,friendlyCue,patrolTimer,restTimer; int patrolRound; Camera viewCamera; bool animal; Animator animator; Transform hand; bool rigged; int motionState=-1; float displayedSpeed;
+ NeighborNavigation navigation; CharacterController controller; Vector3 home,patrolTarget; Transform body,net; TextMesh tell; float cooldown,clock,friendlyCue,patrolTimer,restTimer; int patrolRound,stableSeed; Camera viewCamera; bool animal; Animator animator; Transform hand; bool rigged; int motionState=-1; float displayedSpeed;
+ readonly NeighborAttack attack=new();float speedScale=1,sightScale=1;
  readonly NeighborAwareness awareness=new();NeighborBodyLanguage language;RaycastHit restSurface;bool supportedRest;
  static readonly RaycastHit[] sightHits=new RaycastHit[32];
  public float Suspicion01=>CanBecomeHostile?awareness.Value:0;
@@ -13,7 +14,25 @@ public class NeighborAI:MonoBehaviour {
  public bool CanBecomeHostile=>Kind==NeighborKind.Dog||Kind==NeighborKind.AngryHuman||Kind==NeighborKind.Fisherman||Kind==NeighborKind.Gull;
  public Vector3 LastSeenPosition {get;private set;}
  public bool IsInvestigating=>CanBecomeHostile&&!IsThreat&&HasLineOfSight&&Suspicion01>=.55f;
+ public float ChaseSpeed=>(Kind==NeighborKind.Dog?3.4f:2.9f)*speedScale;
+ public float SightRange=>(Kind==NeighborKind.Dog?10f:7f)*sightScale;
+ public float AttackWarning01=>attack.Warning01;
+ // Event/difficulty tuning never changes physical clearance, warning duration or safe zones.
+ public void ConfigureChallenge(float speedMultiplier,float sightMultiplier){speedScale=float.IsNaN(speedMultiplier)?1:Mathf.Clamp(speedMultiplier,.5f,1.25f);sightScale=float.IsNaN(sightMultiplier)?1:Mathf.Clamp(sightMultiplier,.5f,1.3f);}
  public string DetectionLabel=>IsThreat?(HasLineOfSight?"Chasing":"Searching"):IsInvestigating?"Investigating":Suspicion01>.04f?"Noticing":"Unaware";
+ public NeighborSaveState CaptureState()=>new NeighborSaveState{kind=Kind,position=transform.position,yaw=transform.eulerAngles.y,lastSeen=LastSeenPosition,patrolTarget=patrolTarget,suspicion=awareness.Value,chasing=awareness.Chasing,unseenSeconds=awareness.UnseenSeconds,reacquireGrace=awareness.ReacquireGrace,cooldown=cooldown,patrolTimer=patrolTimer,restTimer=restTimer,patrolRound=patrolRound};
+ public bool RestoreState(NeighborSaveState state){
+  if(state==null||state.version!=1||state.kind!=Kind||!navigation||!navigation.RestoreGroundPosition(state.position))return false;
+  if(float.IsFinite(state.yaw))transform.rotation=Quaternion.Euler(0,state.yaw,0);
+  bool memoryValid=Finite(state.lastSeen)&&navigation.IsGroundTarget(state.lastSeen);
+  LastSeenPosition=memoryValid?state.lastSeen:transform.position;
+  awareness.Restore(state.suspicion,state.chasing&&memoryValid,state.unseenSeconds,state.reacquireGrace);
+  IsThreat=CanBecomeHostile&&awareness.Chasing;HasLineOfSight=false;attack.Reset();
+  patrolTarget=Finite(state.patrolTarget)&&navigation.IsGroundTarget(state.patrolTarget)?state.patrolTarget:home;
+  cooldown=SafeTimer(state.cooldown,45);patrolTimer=SafeTimer(state.patrolTimer,10);restTimer=SafeTimer(state.restTimer,3);patrolRound=Mathf.Clamp(state.patrolRound,0,1000000);return true;
+ }
+ static bool Finite(Vector3 p)=>float.IsFinite(p.x)&&float.IsFinite(p.y)&&float.IsFinite(p.z);
+ static float SafeTimer(float n,float max)=>float.IsFinite(n)?Mathf.Clamp(n,0,max):0;
  public void Initialize(NeighborKind kind) {
   Kind=kind;viewCamera=Camera.main;home=transform.position;animal=kind==NeighborKind.Dog||kind==NeighborKind.Cat||kind==NeighborKind.Gull;
   transform.localScale=Vector3.one*(kind==NeighborKind.Cat?.38f:kind==NeighborKind.Gull?.55f:1f);
@@ -21,7 +40,7 @@ public class NeighborAI:MonoBehaviour {
   BuildVisual(kind);BatchStaticVisuals();
   transform.localScale=Vector3.one*(kind==NeighborKind.Cat?.38f:kind==NeighborKind.Dog?1f:kind==NeighborKind.Gull?.55f:1f);
   navigation=gameObject.AddComponent<NeighborNavigation>();var footprint=NavigationFootprint(kind);navigation.Initialize(controller,footprint.x,footprint.y);
-  home=transform.position;patrolTarget=home;
+  home=transform.position;patrolTarget=home;stableSeed=(Mathf.RoundToInt(home.x*100)*397)^Mathf.RoundToInt(home.z*100)^((int)Kind*17);
   language=gameObject.AddComponent<NeighborBodyLanguage>();language.Initialize(body,kind);
   var label=new GameObject("Behavior cue");label.transform.SetParent(transform);label.transform.localPosition=Vector3.up*(kind==NeighborKind.Dog?1.0f:animal?1.4f:1.98f);tell=label.AddComponent<TextMesh>();tell.fontSize=32;tell.characterSize=.06f;tell.anchor=TextAnchor.MiddleCenter;tell.color=new Color(.97f,.91f,.72f);
  }
@@ -30,8 +49,10 @@ public class NeighborAI:MonoBehaviour {
  public static void ConfigureCollider(CharacterController c,NeighborKind kind){
   bool dog=kind==NeighborKind.Dog,cat=kind==NeighborKind.Cat,gull=kind==NeighborKind.Gull;Vector3 s=c.transform.lossyScale;
   float worldHeight=dog?.80f:cat?.42f:gull?.45f:1.78f,worldRadius=dog?.28f:cat?.13f:gull?.16f:.29f;
+  c.stepOffset=0; // PhysX validates offset against the scaled capsule during each setter.
   c.radius=worldRadius/Mathf.Max(.01f,Mathf.Max(s.x,s.z));c.height=worldHeight/Mathf.Max(.01f,s.y);c.center=Vector3.up*c.height*.5f;
-  c.stepOffset=.22f/Mathf.Max(.01f,s.y);c.skinWidth=.025f/Mathf.Max(.01f,s.y);c.minMoveDistance=0;c.slopeLimit=48;
+  c.stepOffset=.22f; // Step offset is a world distance, unlike radius and height.
+ c.skinWidth=.025f/Mathf.Max(.01f,s.y);c.minMoveDistance=0;c.slopeLimit=48;
  }
  bool BuildRiggedVisual(NeighborKind kind) {
   if(kind==NeighborKind.Cat||kind==NeighborKind.Gull)return false;
@@ -65,7 +86,7 @@ public class NeighborAI:MonoBehaviour {
   animator.speed=state==0?1:Mathf.Clamp(motion/nominal,.22f,1.6f);
  }
  public void SenseTarget(Vector3 position,float playerSpeed,bool safe,float dt){
-  var to=position-transform.position;float distance=to.magnitude;float range=Kind==NeighborKind.Dog?10:7;
+  var to=position-transform.position;float distance=to.magnitude;float range=SightRange;
   bool territory=Kind!=NeighborKind.AngryHuman||Vector3.Distance(position,home)<6;
   bool facing=Vector3.Angle(transform.forward,Vector3.ProjectOnPlane(to,Vector3.up))<70||distance<2.2f;
   Vector3 pursuitGround=default;bool ground=navigation&&navigation.TryPursuitGround(position,out pursuitGround);
@@ -139,29 +160,31 @@ public class NeighborAI:MonoBehaviour {
   foreach(var go in sources)Destroy(go);
  }
  void OnDestroy(){foreach(var mesh in visualMeshes)if(mesh)Destroy(mesh);}
- void Update(){var g=GameSession.Instance;if(!g||!g.Playing||g.Paused){if(animator)animator.speed=0;if(language)language.Set(false,false,default,false);return;}
+ void Update(){var g=GameSession.Instance;if(!g||!g.Playing||g.Paused){attack.Reset();if(animator)animator.speed=0;if(language)language.Set(false,false,default,false);return;}
   float dt=Time.deltaTime;clock+=dt;cooldown-=dt;friendlyCue-=dt;restTimer=Mathf.Max(0,restTimer-dt);var player=g.Player.transform.position;float distance=Vector3.Distance(player,transform.position);
   SenseTarget(player,g.Player.HorizontalSpeed,g.AtHome,dt);
-  if(distance>28){tell.text="";if(animator)animator.enabled=false;if(language)language.Set(false,false,default,false);return;}
+  if(distance>28){attack.Reset();tell.text="";if(animator)animator.enabled=false;if(language)language.Set(false,false,default,false);return;}
   bool noticing=CanBecomeHostile&&HasLineOfSight&&!IsThreat&&Suspicion01>.06f;
   bool warning=IsInvestigating;
   bool catHiss=Kind==NeighborKind.Cat&&HasLineOfSight&&distance<3;
   if(IsThreat&&HasLineOfSight&&!navigation.IsBlocked)restTimer=0;
   patrolTimer-=dt;
   if(!IsThreat&&!warning&&restTimer<=0&&(patrolTimer<=0||navigation.TargetUnreachable||Vector2.Distance(new(transform.position.x,transform.position.z),new(patrolTarget.x,patrolTarget.z))<.15f)){
-   bool found=navigation.TryPatrolTarget(home,GetInstanceID()*.31f+(patrolRound++)*1.73f,out patrolTarget);patrolTimer=7+(GetInstanceID()&3);if(!found){restTimer=1.5f;supportedRest=navigation.TryRestSurface(out restSurface);}
+   bool found=navigation.TryPatrolTarget(home,stableSeed*.31f+(patrolRound++)*1.73f,out patrolTarget);patrolTimer=7+(stableSeed&3);if(!found){restTimer=1.5f;supportedRest=navigation.TryRestSurface(out restSurface);}
   }
   Vector3 target=IsThreat?LastSeenPosition:patrolTarget;var direction=target-transform.position;direction.y=0;
   if(catHiss){body.localScale=new Vector3(.5f,.7f,.75f);body.localPosition=Vector3.up*.65f;}else if(Kind==NeighborKind.Cat){body.localScale=new Vector3(.55f,.45f,.9f);body.localPosition=Vector3.up*.5f;}
   if(Kind==NeighborKind.KindHuman&&HasLineOfSight&&distance<3&&cooldown<=0){g.Data.hunger=Mathf.Min(100,g.Data.hunger+12);cooldown=45;friendlyCue=3;}
-  if(IsThreat&&HasLineOfSight&&distance<(Kind==NeighborKind.Dog?.8f:Kind==NeighborKind.Gull?.55f:1f)&&cooldown<=0){g.Hurt(Kind==NeighborKind.Dog?12:8);cooldown=2;}
-  var beforeTurn=transform.rotation;Vector3 moved=navigation.Step(target,IsThreat?Kind==NeighborKind.Dog?3.4f:2.9f:.8f,dt,warning||catHiss||restTimer>0||direction.sqrMagnitude<(IsThreat?.2f:.01f),IsThreat?155:95);
-  if(restTimer<=0&&navigation.IsBlocked){restTimer=1.5f+(GetInstanceID()&3)*.3f;supportedRest=navigation.TryRestSurface(out restSurface);patrolTimer=0;}
+  bool inReach=distance<(Kind==NeighborKind.Dog?.8f:Kind==NeighborKind.Gull?.55f:1f);
+  bool attackFacing=Vector3.Angle(transform.forward,Vector3.ProjectOnPlane(player-transform.position,Vector3.up))<75;
+  if(attack.Step(dt,IsThreat&&HasLineOfSight&&inReach&&attackFacing&&cooldown<=0)){g.Hurt(Kind==NeighborKind.Dog?12:8);cooldown=2;}
+  var beforeTurn=transform.rotation;Vector3 moved=navigation.Step(target,IsThreat?ChaseSpeed:.8f*speedScale,dt,attack.Warning01>0||warning||catHiss||restTimer>0||direction.sqrMagnitude<(IsThreat?.2f:.01f),IsThreat?155:95);
+  if(restTimer<=0&&navigation.IsBlocked){restTimer=1.5f+(stableSeed&3)*.3f;supportedRest=navigation.TryRestSurface(out restSurface);patrolTimer=0;}
   Vector3 heading=moved.sqrMagnitude>.00001f?moved:warning?player-transform.position:restTimer>0&&supportedRest?Vector3.Cross(restSurface.normal,Vector3.up):Vector3.zero;heading.y=0;float turned=Quaternion.Angle(beforeTurn,transform.rotation)/Mathf.Max(dt,.0001f);
   if(moved.sqrMagnitude<.00001f&&(warning||restTimer>0)&&heading.sqrMagnitude>.001f){var before=transform.rotation;transform.rotation=Quaternion.RotateTowards(before,Quaternion.LookRotation(heading),dt*(IsThreat?155:95));turned=Quaternion.Angle(before,transform.rotation)/Mathf.Max(dt,.0001f);}
   AnimateMovement(moved.magnitude/Mathf.Max(dt,.0001f),turned,dt);
   if(language)language.Set(restTimer>0,supportedRest,restSurface,warning||IsThreat);
-  tell.text=catHiss?"HISSS!":friendlyCue>0?"A snack for you, little guy.":IsThreat?(HasLineOfSight?(Kind==NeighborKind.Dog?"BARK!":"Hey! Stop there!"):"Where did it go?"):noticing?(Suspicion01>.65f?"!  Back away":"?  What's that?"):"";
+  tell.text=attack.Warning01>0?(Kind==NeighborKind.Dog?"Grrr… back up!":"Stand back!"):catHiss?"HISSS!":friendlyCue>0?"A snack for you, little guy.":IsThreat?(HasLineOfSight?(Kind==NeighborKind.Dog?"BARK!":"Hey! Stop there!"):"Where did it go?"):noticing?(Suspicion01>.65f?"!  Back away":"?  What's that?"):"";
   tell.color=Color.Lerp(new Color(1,.85f,.55f),new Color(1,.40f,.22f),Suspicion01);
   if(net){if(hand)net.localPosition=transform.InverseTransformPoint(hand.position);net.localRotation=Quaternion.Euler(IsThreat?Mathf.Sin(clock*5)*40:15,0,-15);}
   if(viewCamera)tell.transform.rotation=Quaternion.LookRotation(tell.transform.position-viewCamera.transform.position);

@@ -1,67 +1,41 @@
-# Jimothy Survival — Mac and mobile-browser playtest 0.4.1
+# Jimothy Survival — playtest 0.4.7
 
-Open `/Volumes/Jimothy Dev/Projects/Jimothy/Builds/Jimothy.app`. Keep the Jimothy Dev drive connected while playing. Unity Hub is not needed to play the Mac app. The folder name remains Jimothy.app; the game's title screen now says **Jimothy Survival**.
+On this Mac, open `/Volumes/Jimothy Dev/Projects/Jimothy/Builds/Jimothy.app`. Keep the **Jimothy Dev** drive connected. Unity Hub is not required to play the built app.
 
-The working Unity project is `/Volumes/Jimothy Dev/Projects/Jimothy/Unity`, using Unity 6000.3.0f1 ARM64. In the Editor, open `Assets/Jimothy/Scenes/Ballard.unity` and press Play.
+On iPhone or iPad, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.4.7**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue adventure** or **New adventure**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
 
-Choose **Continue adventure** to retain your existing collection. With no save, the menu offers **New adventure** and disables Load adventure. Starting a new adventure with an existing save asks before replacing it. Do not start fresh merely to see the new art.
+## The outing loop
 
-The legacy application product name is intentionally retained so the new title does not move your local save path. Older-map migration moves Jimothy safely to the new den and resets obsolete pickup positions/cooldowns while preserving bag, pantry, currency, trophies and decor. Save data is local with a backup; cloud account sync is not implemented.
+1. At the Den, open **Stash → Night board & collections → Head out**. A fresh adventure opens this board automatically. Leaving after a banked outing also starts the next one.
+2. Carry up to eight finds. Follow the current goal: three snacks, two valuables, or a rooftop trophy. The goal pays12 bonus shinies only when its required items are banked.
+3. Walk back down the marked steps and into the Den ramp. Choose **Stash → Unload pockets** to make your haul safe. Fast travel works only with empty pockets and no nearby suspicion.
+4. Decorate, choose favorite displays, and complete the music, garden, and harbor sets for free furnishings. The night board lists the required items.
+5. Head out again for new loot positions, the next goal, and the next event. Nothing replenishes within the same outing. Death or falling outside the map loses all loose finds and loose shinies; your banked collection stays safe.
+
+**Continue adventure** keeps your existing collection. Older saves migrate without discarding oversized bags or banked progress. Starting a new adventure with an existing save asks before replacing it. Save/resume preserves the outing, consumed finds, loose rewards, NPC awareness and movement/fall state. Nothing advances while away.
 
 ## Controls
 
-| Action | Mac | Touch / stick |
+| Action | Mac | Touch |
 | --- | --- | --- |
-| Move forward / backward | W / S | Push thumb pad up / down |
-| Steer Jimothy | A / D | Push thumb pad left / right |
-| Walk slowly | Hold left Shift while moving | Partially deflect movement stick/pad |
-| Turn Jimothy and rear camera / adjust pitch | Hold right mouse button and drag | Drag the right side |
-| Jump | Space (tap; no need to hold) | Jump |
-| Search nearby find/keepsake | F | Search |
-| Eat food | E / Eat button | Eat |
-| Return home while safe | H / Home button | Home |
-| Pause | Escape | II |
-| Bank finds / buy decor | Den button while home | Den |
+| Move | W/S move; A/D steer | Left floating stick; small drags walk |
+| Look | Hold right mouse button and drag | Drag open space on the right |
+| Jump | Space | Tap the jump disc |
+| Aerial trick | T while airborne | Swipe from jump disc up/down/left/right |
+| Search | F or Search | Nearby search glyph |
+| Eat carried food | E | Food glyph when useful |
+| Den travel / return hint | H or Den | House glyph |
+| Bank / decorate / night board | Stash inside Den | Bag glyph inside Den |
+| Pause / save / settings | Escape | Pause glyph |
 
-The camera stays behind Jimothy. Steering and right-drag turn him and the view together; obstacles raise or retract the camera without swinging it sideways.
+Touch settings include an optional tap-in-air trick scheme. A clean full trick earns style; up to15 loose shinies per outing can come from style milestones. Large uninterrupted falls damage health; use supported intermediate landings to break the descent. **Eat from pantry** in the Den uses banked food, leaving carried goal snacks intact.
 
-Full movement is 3 m/s; deliberate walking is slower and reduces enemy detection by 30%. Dogs can outrun full movement, so watch their warning and pursuit cues. Animation playback follows actual travel speed; slow walking has its own gait.
+## Two marked roof routes
 
-## First night
+Both begin at the open north end of the avenue near the Den. **A / Salmon Lookout** climbs the west staircase; **B / Records Rooftop** climbs the east staircase. Jump onto the first step and keep moving along the landings. Follow the lettered paint and **DEN / DOWN THE SAME STEPS** signs to return. Hostile NPCs cannot follow onto the roofs.
 
-1. Search the snack at your feet at the Trash Palace.
-2. Follow the direction/distance to an amber-edged rooftop route. Jump toward marked landings. Paw marks indicate usable tread centers. Ten routes lead up; four bridges connect neighboring roofs.
-3. Search a rooftop keepsake. Try the northern lookout for a special find.
-4. Return home, open Den, and unload your pockets. First-night rewards fund a cushion.
+## Rebuild / restart the local server
 
-Rooftop progress requires a supported arrival. If you fall before finding a keepsake, recovery guidance points back toward the amber climb. The Home action returns you while safe.
+The working project is `/Volumes/Jimothy Dev/Projects/Jimothy/Unity`, using Unity **6000.3.0f1**. Open `Assets/Jimothy/Scenes/Ballard.unity` in the Editor. The build commands are `Jimothy.Editor.DesktopBuild.Build` and `Jimothy.Editor.MobileWebBuild.Build`.
 
-Collectibles are distinct 3D food, trinket and trophy models beside restaurant props or on rooftops; searching reveals the actual object, its name and rarity. The first map contains 22 authored search locations; the catalog contains 256 definitions, but this map does not expose all of them yet.
-
-## What to inspect in this pass
-
-The title has custom licensed typography and a revised layout. Jimothy uses a smaller 15-bone character with separately controlled paws, a Walk gait, and moving fur cards. Compare his scale with people, dogs and cats. Look for foot sliding, tilted soles, coat overexposure, camera obstruction, unreadable landing edges, and missed control inputs. Record where an issue occurs and what you were doing; no rating or improvement claim is assumed from these changes.
-
-The earlier overbright white coat has been recalibrated. A native-only color-stripping issue was then found and corrected; both neutral Editor and replacement native den captures now read dark charcoal/silver and have been visually checked. The human/dog assets and lineup have also been checked for relative scale. This is capture-based verification, not a performance claim or user approval.
-
-Ten fictional shop identities and varied facades now lead toward an exposed-brick left bend and a bell park. The brick surface is a requested heritage interpretation: official Seattle sources describe historic brick beneath asphalt, not a fully exposed-brick present-day avenue. The park is a playable interpretation of Marvin’s Garden rather than an exact reconstruction.
-
-Current checks pass: 9 EditMode tests, 14 physical traversal routes, first-night integration, and a district audit with 183 road samples and four walks including the bell passage both ways. The 0.3.0 Mac build succeeded; isolated native checks passed Search, Jump, Home, banking, and title navigation. The final native camera/sign regression passes (AgentPlaytests/v5-camera-verified/report.md): the repeated tree-side jump sequence keeps the camera clear and Jimothy visible. A compact mobile HUD capture found guidance crossing the Fullness bar; the final Build4 native capture verifies this is corrected, with readable HUD and title. Evidence and limits are tracked in `Documentation/POLISH-V5.md`.
-
-## Current limits
-
-This is a playable prototype, not a finished App Store release. The title illustration is an art target; it does not establish equivalent runtime fidelity. Some NPCs, props and scenery remain procedural/stylized, and the audio is a minimal procedural soundscape. Capture review has verified the revised fur color and character scale; further lighting/device conditions remain to be tested.
-
-Fur uses cards with damped spring-driven GPU tip movement, not full individual-strand physics or per-strand collisions. Its performance has not been established on an iPhone.
-
-Mac builds, Editor checks and screenshots using a mobile layout do not establish iPhone frame rate, thermal behavior, battery use or touch comfort. Actual iOS deployment requires iOS Build Support, full Xcode, signing and a physical device. No physical iPhone validation is claimed for this pass.
-
-## This build
-
-Shorter legs, a tapered rear silhouette, visible layered fur and a closer rear camera; phase-driven jump/landing poses and denser run animation. Four varied roof crossings include festoon lights, laundry, ductwork and cedar. All 22 exposed finds have distinct models, and banked trophies retain their appearance at home. See Documentation/REFINEMENT-V6.md for implementation and validation limits.
-
-## iPhone and iPad Safari test
-
-On the same Wi-Fi as the Mac, open http://192.168.4.23:8765/ in Safari, turn landscape and tap Play in browser. Tap New adventure on first use, Continue thereafter. Left pad moves/steers; right-side drag turns view; touch buttons provide Jump, Search, Eat, Home, Den, Pause and Center view. Browser progress is per device and URL, separate from the Mac save. Keep the Mac awake and the external drive attached.
-
-0.4.1 lowers the camera and aims ahead, adds a solid camera obstruction to the den beam, replaces fur cards with dense directional geometric fibers, and reauthors Waddle from the observed original Seattle Times running footage. See GAIT-STUDY-V7.md, CHARACTER-V7.md and MOBILE-WEB.md.
+If the Safari link stops responding, run `python3 Tools/start_ipad_server.py` from the external project. A changed Wi-Fi address may require a new link; use the Mac's current LAN address. Refresh Safari after a new build. Actual iPhone/iPad performance, heat, battery use, and human playtest scores still need device testing.

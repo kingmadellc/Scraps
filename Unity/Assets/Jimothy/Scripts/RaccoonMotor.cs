@@ -44,13 +44,35 @@ public class RaccoonMotor : MonoBehaviour {
  readonly RaycastHit[] castHits=new RaycastHit[24];
  const int WorldMask=~(1<<2);
  public void Initialize(Camera camera) {
-  cc=GetComponent<CharacterController>();cc.height=.52f;cc.radius=.17f;cc.center=new Vector3(0,.27f,0);cc.stepOffset=.14f;cc.slopeLimit=48;cc.minMoveDistance=0;cam=camera;
+  cc=GetComponent<CharacterController>();cc.stepOffset=0;cc.height=.52f;cc.radius=.17f;cc.center=new Vector3(0,.27f,0);cc.stepOffset=.14f;cc.slopeLimit=48;cc.minMoveDistance=0;cam=camera;
   move=new InputAction("Move",InputActionType.Value);move.AddCompositeBinding("2DVector").With("Up","<Keyboard>/w").With("Down","<Keyboard>/s").With("Left","<Keyboard>/a").With("Right","<Keyboard>/d");move.AddBinding("<Gamepad>/leftStick");
   jump=new InputAction("Jump",InputActionType.Button,"<Keyboard>/space");jump.AddBinding("<Gamepad>/buttonSouth");
   look=new InputAction("Orbit",InputActionType.Value,"<Gamepad>/rightStick");
   eat=new InputAction("Eat",InputActionType.Button,"<Keyboard>/e");home=new InputAction("Home",InputActionType.Button,"<Keyboard>/h");pause=new InputAction("Pause",InputActionType.Button,"<Keyboard>/escape");
   trick=new InputAction("Aerial trick",InputActionType.Button,"<Keyboard>/t");trick.AddBinding("<Gamepad>/buttonEast");
   foreach(var a in new[]{move,jump,look,eat,home,pause,trick}) a.Enable();EnsureTrickPivot();ResetAirState();
+ }
+ public MotorSaveState CaptureState()=>new MotorSaveState{yaw=yaw,pitch=pitch,visualYaw=VisualFacing.eulerAngles.y,touchHeading=touchMoveHeading,vertical=vertical,fallApex=fallApex,airTime=airTime,trickElapsed=trickElapsed,airTracking=airTracking,gapCrossed=gapCrossed,flightMantled=flightMantled,trickActive=trickActive,airOrigin=airOrigin,flightTricks=flightTricks,activeTrick=(int)activeAirTrick,lastTrick=(int)lastAirTrick,combo=landingCombo,comboRemaining=Mathf.Clamp(5-(motorClock-lastCleanLanding),0,5),lastScoredLanding=lastScoredLanding,mantling=mantling,mantleStage=mantleStage,mantleElapsed=mantleElapsed,mantleStalled=mantleStalled,mantleCooldown=mantleCooldown,raisedStart=mantleRaisedStart,raisedEnd=mantleRaisedEnd,landing=mantleLanding,stairRoute=stairRoute,stairStep=stairStep,stairAssist=stairAssistTime};
+ // Call after Teleport: placement is owned by the session, flight is owned by the motor.
+ public bool RestoreState(MotorSaveState s){
+  if(s==null||!s.Valid())return false;
+  yaw=s.yaw;pitch=Mathf.Clamp(s.pitch,-5,40);touchMoveHeading=s.touchHeading;SetVisualFacing(Quaternion.Euler(0,s.visualYaw,0));
+  vertical=s.vertical;airTracking=s.airTracking;airOrigin=s.airOrigin;fallApex=Mathf.Max(transform.position.y,s.fallApex);airTime=s.airTime;gapCrossed=s.gapCrossed;flightMantled=s.flightMantled;flightTricks=s.flightTricks;
+  trickActive=s.trickActive&&airTracking;trickElapsed=s.trickElapsed;activeAirTrick=(AirTrick)s.activeTrick;lastAirTrick=(AirTrick)s.lastTrick;
+  landingCombo=s.combo;lastCleanLanding=s.comboRemaining>0?motorClock-(5-Mathf.Clamp(s.comboRemaining,0,5)):-100;lastScoredLanding=s.lastScoredLanding;
+  mantleRaisedStart=s.raisedStart;mantleRaisedEnd=s.raisedEnd;mantleLanding=s.landing;mantleStage=s.mantleStage;mantleElapsed=Mathf.Clamp(s.mantleElapsed,0,1.5f);mantleStalled=Mathf.Clamp(s.mantleStalled,0,.2f);mantleCooldown=Mathf.Clamp(s.mantleCooldown,0,.3f);
+  Physics.SyncTransforms();mantling=s.mantling&&RestoredMantleClear();
+  if(s.mantling&&!mantling){vertical=Mathf.Min(vertical,-2);flightMantled=true;airTracking=true;trickActive=false;}
+  stairRoute=s.stairRoute;stairStep=s.stairStep;stairAssistTime=Mathf.Clamp(s.stairAssist,0,6);
+  if(stairRoute<0||stairRoute>=ClosingTimeWorld.RoofRoutes.Count||stairStep<0||stairStep>=ClosingTimeWorld.RoofRoutes[stairRoute].Length){stairRoute=stairStep=-1;stairAssistTime=0;}
+  jumpRequested=trickRequested=false;coyote=buffered=mantleIntent=0;touchMove=touchLook=Vector2.zero;cameraSnap=true;cameraVelocity=Vector3.zero;ApplyTrickVisual();return true;
+ }
+ bool RestoredMantleClear(){
+  if(mantleStage<0||mantleStage>2||Vector3.Distance(transform.position,mantleLanding)>2.5f||!ClearAt(mantleLanding))return false;
+  for(int i=0;i<4;i++){Vector3 edge=(i<2?Vector3.right:Vector3.forward)*((i%2==0?1:-1)*cc.radius*.85f);
+   if(!Physics.Raycast(mantleLanding+edge+Vector3.up*.12f,Vector3.down,out var hit,.24f,WorldMask,QueryTriggerInteraction.Ignore)||hit.normal.y<.85f)return false;}
+  var next=mantleStage==0?mantleRaisedStart:mantleStage==1?mantleRaisedEnd:mantleLanding;
+  return ClearAt(next)&&ClearSweep(transform.position,next)&&(mantleStage>0||ClearSweep(mantleRaisedStart,mantleRaisedEnd))&&(mantleStage>1||ClearSweep(mantleRaisedEnd,mantleLanding));
  }
  public void FaceDirection(float degrees){yaw=degrees;SetVisualFacing(Quaternion.Euler(0,degrees,0));cameraSnap=true;}
  public void RecenterCamera(){pitch=12;cameraSnap=true;}
@@ -93,7 +115,7 @@ public class RaccoonMotor : MonoBehaviour {
  // worldDirection is horizontal, magnitude 0..1. Input release never shortens a tap jump.
  public void SimulateMovement(Vector3 worldDirection,bool pressedJump,float deltaTime) {
   if(!cc)cc=GetComponent<CharacterController>();
-  if(deltaTime<=0 || !cc.enabled)return;
+  if(deltaTime<=0 || !cc.enabled || !cc.gameObject.activeInHierarchy)return;
   Vector3 direction=Vector3.ClampMagnitude(new Vector3(worldDirection.x,0,worldDirection.z),1);
   // Small integration steps keep low frame rates from changing the jump arc substantially.
   Vector3 priorPosition=transform.position;
@@ -145,8 +167,10 @@ public class RaccoonMotor : MonoBehaviour {
   Vector3 span=transform.position-airOrigin;span.y=0;bool transfer=clean&&gapCrossed&&!flightMantled&&airOrigin.y>=4.5f&&transform.position.y>=4.5f&&span.magnitude>2;
   if(clean&&(flightTricks>0||transfer)){landingCombo=motorClock-lastCleanLanding<5&&Vector3.Distance(transform.position,lastScoredLanding)>2?Mathf.Min(landingCombo+1,4):1;lastCleanLanding=motorClock;lastScoredLanding=transform.position;points=(150*flightTricks+(transfer?100:0))*landingCombo;name=flightTricks==0?"Rooftop transfer":flightTricks==1?TrickName(lastAirTrick):flightTricks+" flips";if(transfer&&flightTricks>0)name+=" + rooftop transfer";if(landingCombo>1)name+=" · "+landingCombo+"× combo";}else if(LastFallDamage>0||trickActive)landingCombo=0;
   LastLandingPoints=points;LastLandingClean=clean;
-  if(airTime>.08f||LastFallDamage>0){if(GameSession.Instance)GameSession.Instance.ResolveLanding(points,name,LastFallDamage,clean);}
+  bool resolve=airTime>.08f||LastFallDamage>0;float damage=LastFallDamage;
   if(mantleIntent>0||airTime>.08f)FindSupportedStair();ResetAirState();
+  // ResolveLanding saves synchronously: a settled snapshot must never replay this flight.
+  if(resolve&&GameSession.Instance)GameSession.Instance.ResolveLanding(points,name,damage,clean);
  }
  bool HasCloseGround(){int count=Physics.RaycastNonAlloc(transform.position+Vector3.up*.10f,Vector3.down,castHits,2.2f,WorldMask,QueryTriggerInteraction.Ignore);for(int i=0;i<count;i++)if(!IsSelf(castHits[i].collider)&&!(castHits[i].collider is CharacterController)&&castHits[i].normal.y>.67f)return true;return false;}
  public static float DamageForFall(float meters)=>Mathf.Clamp((meters-3.5f)*14,0,100);

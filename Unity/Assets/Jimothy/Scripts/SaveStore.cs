@@ -10,6 +10,11 @@ namespace Jimothy {
 [Serializable] public class SaveData {
  public int version = 1;
  public int mapRevision, nightGoal;
+ public int loopRevision,runNumber,pendingCoins,runStyle,selectedGoal,nightEvent,bankedRuns,failedRuns,lastHaul,lastLoss;
+ public bool runActive;
+ public MotorSaveState motorState;
+ public List<string> collectionClaims = new();
+ public List<NeighborSaveState> neighborStates = new();
  public int forageSeed;
  public float x = -4, y = 1.1f, z = 41;
  public float health = 100, hunger = 100;
@@ -30,8 +35,8 @@ namespace Jimothy {
   mapRevision=3;x=home.x;y=home.y;z=home.z;cooldowns.Clear();
  }
  public void ApplyOffline(long now) {
-  // Returning players never die off-screen. Only world resources advance.
-  if (savedUtc > 0) worldSeconds += Math.Clamp(now - savedUtc, 0L, 28800L);
+  // Expeditions freeze while away. Legacy saves keep their older capped resource clock.
+  if (loopRevision == 0 && savedUtc > 0) worldSeconds += Math.Clamp(now - savedUtc, 0L, 28800L);
   savedUtc = now;
  }
  public bool Valid() => version == 1 && float.IsFinite(x) && float.IsFinite(y) && float.IsFinite(z)
@@ -40,6 +45,9 @@ namespace Jimothy {
   && float.IsFinite(hunger) && hunger >= 0 && hunger <= 100 && coins >= 0
   && double.IsFinite(worldSeconds) && worldSeconds >= 0
   && double.IsFinite(survivalSeconds) && survivalSeconds >= 0
+  && loopRevision >= 0 && loopRevision <= 1 && runNumber >= 0 && pendingCoins >= 0 && runStyle >= 0
+  && selectedGoal >= 0 && selectedGoal < 3 && nightEvent >= 0 && nightEvent < 3
+  && bankedRuns >= 0 && failedRuns >= 0 && lastHaul >= 0 && lastLoss >= 0
   && bag != null && pantry != null && trophies != null && decor != null && cooldowns != null;
 }
 [Serializable] class SaveEnvelope { public int version=1; public string payload, sha256; }

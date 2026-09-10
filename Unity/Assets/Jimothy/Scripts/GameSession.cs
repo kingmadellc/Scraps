@@ -13,7 +13,7 @@ public partial class GameSession : MonoBehaviour {
  public bool Paused {get;private set;}
  public Vector3 Home => ClosingTimeWorld.Home;
  public bool DenOpen {get;private set;}
- public string Objective => Data==null?"":Data.nightGoal==0?"1 / 3 · Find a closing-time snack":Data.nightGoal==1?"2 / 3 · Follow amber steps to the rooftops":Data.nightGoal==2?"3 / 3 · Bring a rooftop keepsake to the den":"FIRST NIGHT COMPLETE · Explore, collect, decorate";
+ public string Objective => Data==null?"":!Data.runActive?"DEN SAFE · Choose your next outing":$"NIGHT {Data.runNumber} · {ExpeditionRules.GoalTitle(Data.selectedGoal)} · {ExpeditionRules.GoalProgress(Data,Items)}";
  public LootNode NearbyLoot {get;private set;}
  public string SearchHint => NearbyLoot ? "Search · "+NearbyLoot.DisplayName : "";
  public Dictionary<string,ItemDefinition> Items {get;private set;}
@@ -30,15 +30,17 @@ public partial class GameSession : MonoBehaviour {
   Instance=this;MobileQuality.Apply();AudioListener.volume=PlayerPrefs.GetFloat("volume",1);QualitySettings.vSyncCount=0;
   Items=JsonUtility.FromJson<ItemCatalog>(Resources.Load<TextAsset>("Items").text).items.ToDictionary(i=>i.id);
   Items["item_000"].name="Last-call salmon scraps";Items["item_002"].name="Sesame bagel half";Items["item_006"].name="Everything bagel";Items["item_010"].name="Rye sandwich corner";
+  foreach(var item in Items.Values)if(item.name.StartsWith("Classic "))item.name=item.name.Substring(8);
   feedback=gameObject.AddComponent<ScavengeFeedback>();
   UI=gameObject.AddComponent<GameUI>();UI.Build(this);gameObject.AddComponent<PlaytestStats>();
  }
- public void NewGame() { Begin(new SaveData()); Save(); }
+ public void NewGame() { Begin(new SaveData {mapRevision=3,x=ClosingTimeWorld.Home.x,y=ClosingTimeWorld.Home.y,z=ClosingTimeWorld.Home.z}); UI.ShowNightBoard(); Save(); }
  public void LoadGame() { if(SaveStore.TryLoad(out var data,out var message)){Begin(data);UI.Toast(message);}else UI.Toast(message); }
  void Begin(SaveData state) {
-  if(world)Destroy(world);Neighbors.Clear();nodes.Clear();
+  if(world){world.SetActive(false);Destroy(world);}Neighbors.Clear();nodes.Clear();
+  returnToDen=false;outingRoute=-1;outingWaypoint=0;wasReturning=false;
   Data=state;Data.hiddenDecor??=new();Data.favoriteFinds??=new();Data.bankedDiscoveries??=new();foreach(var id in Data.pantry.Concat(Data.trophies).Distinct())if(!Data.bankedDiscoveries.Contains(id))Data.bankedDiscoveries.Add(id);guidedRoute=-1;guidedStep=0;recoveringClimb=false;
-  Data.MigrateToClosingTime(ClosingTimeWorld.StreetStart);
+  Data.MigrateToClosingTime(ClosingTimeWorld.StreetStart);ExpeditionRules.Migrate(Data,Home);
   world=new GameObject("Ballard • closing time");
   ClosingTimeWorld.Build(world.transform);RooftopConnections.Build(world.transform);
   var playerObject=new GameObject("Jimothy");playerObject.transform.SetParent(world.transform);playerObject.layer=2;
@@ -50,9 +52,9 @@ public partial class GameSession : MonoBehaviour {
   Player.animator.runtimeAnimatorController=Resources.Load<RuntimeAnimatorController>("JimothyMotion");Player.animator.applyRootMotion=false;
   var cameraObject=new GameObject("Player Camera");cameraObject.transform.SetParent(world.transform);
   var cam=cameraObject.AddComponent<Camera>();gameplayCamera=cam;cam.tag="MainCamera";cam.fieldOfView=62;cam.nearClipPlane=.15f;cam.farClipPlane=1000;cam.backgroundColor=new Color(.51f,.66f,.69f);cam.clearFlags=CameraClearFlags.SolidColor;cameraObject.AddComponent<AudioListener>();
-  Player.Initialize(cam);Player.Teleport(new Vector3(state.x,state.y,state.z));Player.FaceDirection(ClosingTimeWorld.DenContains(Player.transform.position)?0:180);Player.RecenterCamera();
+  Player.Initialize(cam);Player.Teleport(new Vector3(state.x,state.y,state.z));if(!Data.runActive||Data.motorState==null||!Player.RestoreState(Data.motorState)){Player.FaceDirection(ClosingTimeWorld.DenContains(Player.transform.position)?0:180);Player.RecenterCamera();}
   ClosingTimeWorld.ConfigureAtmosphere(cam,world.transform);MobileQuality.ConfigureCamera(cam);world.AddComponent<ClosingSoundscape>().Initialize(Player);NeighborWorldObstacles.Ensure();SpawnLoot();SpawnNeighbors();RefreshDen();world.AddComponent<DenAtmosphere>().Initialize(Player,cam);
-  hasSession=true;Playing=true;Paused=false;DenOpen=false;Player.Running=true;autosave=0;invulnerable=2;UI.ShowHUD();UI.Toast("Last call! Search the snack at your feet, then follow the amber rooftop route.");
+  hasSession=true;Playing=true;Paused=false;DenOpen=false;Player.Running=true;autosave=0;invulnerable=2;UI.ShowHUD();UI.Toast(Data.runActive?"Outing resumed: same pockets, finds and observers.":"Choose an outing in the Den. Only banked finds are safe.");ApplyNightEvent();
  }
  public GameObject Primitive(string name,PrimitiveType type,Vector3 position,Vector3 scale,Color color) {
   var o=GameObject.CreatePrimitive(type);o.name=name;o.transform.SetParent(world.transform);o.transform.position=position;o.transform.localScale=scale;
@@ -66,7 +68,7 @@ public partial class GameSession : MonoBehaviour {
   if(Data.forageSeed==0)Data.forageSeed=UnityEngine.Random.Range(1,int.MaxValue);
   int index=0;
   foreach(var spot in ClosingTimeWorld.Spots) {
-   if(!Items.TryGetValue(spot.itemId,out var item))continue;
+   if(!Items.TryGetValue(ExpeditionLoot.ItemFor(spot,Data),out var item))continue;
    // Small grounded packaging; all cues are contextual and never a road-wide collectible cloud.
    int nodeId=index++;var sites=ScavengeSites.ValidSites(spot);
    if(sites.Count==0){Debug.LogWarning("No validated alternate find site: "+spot.id);sites.Add(new ScavengeSites.Site(spot.position,spot.position,"Search nearby"));}
@@ -91,44 +93,41 @@ public partial class GameSession : MonoBehaviour {
   var kinds=new[]{NeighborKind.Dog,NeighborKind.Cat,NeighborKind.AngryHuman,NeighborKind.KindHuman,NeighborKind.Fisherman,NeighborKind.Gull,NeighborKind.Passerby,NeighborKind.UnhousedNeighbor,NeighborKind.ImpairedPasserby};
   for(int i=0;i<9;i++) {
    var o=new GameObject(kinds[i%kinds.Length].ToString());o.transform.SetParent(world.transform);o.transform.position=new Vector3(i%2==0?-7.2f:7.2f,.25f,-29+i*7.1f);
-   var ai=o.AddComponent<NeighborAI>();ai.Initialize(kinds[i%kinds.Length]);Neighbors.Add(ai);
+   var ai=o.AddComponent<NeighborAI>();ai.Initialize(kinds[i%kinds.Length]);Neighbors.Add(ai);if(Data.runActive&&Data.neighborStates!=null&&i<Data.neighborStates.Count)ai.RestoreState(Data.neighborStates[i]);
   }
  }
  public bool Collect(int node,ItemDefinition item) {
   if(!Playing || Paused || !Available(node))return false;
-  if(item.category!="valuable" && Data.bag.Count>=24){UI.Toast("Pockets full. Eat something or visit your den.");return false;}
-  if(item.category=="valuable")Data.coins+=item.value;else Data.bag.Add(item.id);
+  if(Data.bag.Count>=ExpeditionRules.BagCapacity){UI.Toast("Pockets full. Eat something or visit your den.");return false;}
+  Data.bag.Add(item.id);if(item.category=="valuable")Data.pendingCoins+=item.value;
   var cd=Data.cooldowns.Find(c=>c.node==node);if(cd==null){cd=new NodeCooldown{node=node};Data.cooldowns.Add(cd);}
   cd.harvests++;
   bool welcome=nodes.Any(n=>n&&n.NodeId==node&&n.Welcome);
-  cd.readyAt=item.category=="trophy"||welcome?double.MaxValue:Data.worldSeconds+ScavengeSites.RestockSeconds(Data.forageSeed,node,cd.harvests);
+  cd.readyAt=double.MaxValue;
   feedback.Play(false);
   var reveal=GetComponent<DiscoveryReveal>();if(!reveal)reveal=gameObject.AddComponent<DiscoveryReveal>();reveal.Show(item);
   if(item.category=="food"&&Data.nightGoal==0){Data.nightGoal=1;UI.Toast("Snack found! Follow the amber crates and striped ledges up.");}
   else UI.Toast("Found "+item.name);Save();return true;
  }
- public bool Available(int node) {var cd=Data.cooldowns.Find(c=>c.node==node);return cd==null || Data.worldSeconds>=cd.readyAt;}
- public void Eat() {
+ public bool Available(int node) {return Data!=null&&Data.runActive&&!Data.cooldowns.Any(c=>c.node==node&&c.harvests>0);}
+ public void Eat()=>EatSnack(false);
+ public void EatPantry()=>EatSnack(true);
+ void EatSnack(bool pantryOnly) {
   if(!Playing||(Paused&&!DenOpen))return;
   if(Data.hunger>=99.9f&&Data.health>=99.9f){UI.Toast("Already full. Save that snack for later.");return;}
-  string id=Data.bag.Find(x=>Items.TryGetValue(x,out var item)&&item.category=="food");
+  if(pantryOnly&&!AtHome)return;
+  string id=pantryOnly?null:Data.bag.Find(x=>Items.TryGetValue(x,out var item)&&item.category=="food");
   var source=Data.bag;
   if(id==null && AtHome){source=Data.pantry;id=source.Find(x=>Items.TryGetValue(x,out var item)&&item.category=="food");}
-  if(id==null){UI.Toast("Search restaurant finds, or eat from your den pantry.");return;}
+  if(id==null){UI.Toast(pantryOnly?"Your pantry has no snacks. Unload food to stock it.":"Search restaurant finds, or eat from your den pantry.");return;}
   source.Remove(id);Data.hunger=Mathf.Min(100,Data.hunger+Items[id].nutrition);Data.health=Mathf.Min(100,Data.health+6);UI.Toast("Delicious. Questionable, but delicious.");if(AtHome)RefreshDen();Save();
  }
  public void Deposit() {
   if(!Playing||(Paused&&!DenOpen)||!AtHome){UI.Toast("Unload your pockets at the den.");return;}
-  int earned=0;bool firstNight=Data.nightGoal<3;
-  foreach(string id in Data.bag) {
-   if(!Items.TryGetValue(id,out var item))continue;
-   if(!Data.bankedDiscoveries.Contains(id))Data.bankedDiscoveries.Add(id);
-   if(item.category=="trophy"){if(!Data.trophies.Contains(id)){Data.trophies.Add(id);earned+=15;}if(Data.nightGoal==2)Data.nightGoal=3;}
-   else {Data.pantry.Add(id);earned++;}
-  }
-  bool completed=firstNight&&Data.nightGoal==3;if(completed)earned+=20;
-  Data.coins+=earned;Data.bag.Clear();RefreshDen();Save();if(earned>0)feedback.Play(true);
-  UI.Toast(completed?$"First night complete! +{earned} shinies. Pick a cushion for your den.":$"Finds banked. +{earned} shinies for your den.");
+  if(!Data.runActive||!HasLooseHaul){UI.Toast("Bring back a find before banking. Your outing stays open.");return;}
+  int before=Data.collectionClaims.Count;bool goal=ExpeditionRules.GoalComplete(Data,Items);
+  int earned=ExpeditionRules.Bank(Data,Items);RefreshDen();Save();feedback.Play(true);
+  UI.Toast($"Haul safe! +{earned} shinies"+(goal?" · Goal complete!":"")+(Data.collectionClaims.Count>before?" · Collection furnishing unlocked!":"")+" · Choose your next outing in the Den.");ApplyNightEvent();
  }
  public void BuyDecor(string id,int cost) {
   if(!Playing||(Paused&&!DenOpen)||!AtHome){UI.Toast("Decorate at your den.");return;}
@@ -149,8 +148,9 @@ public partial class GameSession : MonoBehaviour {
 
  public void FastTravel() {
   if(!Playing||Paused)return;
+  if(HasLooseHaul){returnToDen=true;UI.Toast("Carrying a haul: follow the Den arrows home to bank it. Fast travel is for empty pockets.");return;}
   if(!Player.Grounded||Player.IsMantling){UI.Toast("Land safely before fast travel.");return;}
-  if(ThreatNearby){UI.Toast("Lose your pursuers before fast travel.");return;}
+  if(ThreatNearby){UI.Toast("An observer is noticing you. Hide until suspicion clears before fast travel.");return;}
   Player.Teleport(Home);Player.FaceDirection(0);UI.Toast("Back in the den. Your collection is waiting.");Save();
  }
  public void Hurt(float damage) {
@@ -158,10 +158,10 @@ public partial class GameSession : MonoBehaviour {
   Data.health=Mathf.Max(0,Data.health-damage);invulnerable=1.2f;
   if(Data.health<=0)EndRun();
  }
- public void Fell(){Player.Teleport(Home);Data.health=Mathf.Max(0,Data.health-15);if(Data.health<=0)EndRun();else UI.Toast("A rough landing. Back at the den.");}
+ public void Fell(){if(!Playing)return;EndRun();}
  void EndRun() {
-  Data.bestSeconds=Math.Max(Data.bestSeconds,(int)Data.survivalSeconds);Data.bag.Clear();Data.health=100;Data.hunger=100;Data.survivalSeconds=0;Player.Teleport(Home);Save();
-  Playing=false;Player.Running=false;UI.ShowRunEnd(Data.bestSeconds);
+  ExpeditionRules.Lose(Data);Player.Teleport(Home);Save();
+  Playing=false;Paused=false;DenOpen=false;Player.Running=false;UI.ShowRunEnd(Data.bestSeconds);
  }
  public void OpenDen(){if(!AtHome)return;DenOpen=true;Paused=true;Player.Running=false;Save();}
  public void Search(){if(!Playing||Paused||!NearbyLoot)return;NearbyLoot.Search();}
@@ -172,17 +172,8 @@ public partial class GameSession : MonoBehaviour {
  public string Guidance {
   get {
    if(Data==null||!Player)return "";
-   if(AtHome)return Data.nightGoal==2?"Open Stash → Unload pockets to finish":"Den safe · Stash to display finds · Ramp south to Ballard";
-   Vector3 target=ClosingTimeWorld.DenEntrance;string label="Den entrance";
-   if(Data.nightGoal==0){var snack=nodes.Where(n=>n.IsAvailable&&!n.IsRooftop).OrderBy(n=>(n.transform.position-Player.transform.position).sqrMagnitude).FirstOrDefault();if(snack){target=snack.transform.position;label=GameUI.MobileLayout?"Snack · Search":"Snack · F / Search";}}
-   else if(Data.nightGoal==1||recoveringClimb){
-    if((guidedRoute<0||Vector3.Distance(Player.transform.position,ClosingTimeWorld.RouteStarts[guidedRoute])>18)&&ClosingTimeWorld.RouteStarts.Count>0){float best=float.MaxValue;for(int i=0;i<ClosingTimeWorld.RouteStarts.Count;i++){float d=(ClosingTimeWorld.RouteStarts[i]-Player.transform.position).sqrMagnitude;if(d<best){best=d;guidedRoute=i;guidedStep=0;}}}
-    if(guidedRoute>=0&&guidedRoute<ClosingTimeWorld.RoofRoutes.Count){var route=ClosingTimeWorld.RoofRoutes[guidedRoute];guidedStep=StableLandingStep(Player.transform.position,Player.Grounded,route,guidedStep);target=route[guidedStep];label=$"{(recoveringClimb?"Back to amber landing":"Amber landing")} {guidedStep+1}/{route.Length} · {(guidedStep==0?"Jump":"Keep moving")}";}
-
-   }
-   else if(Data.nightGoal==2&&!Data.bag.Any(id=>Items.TryGetValue(id,out var item)&&item.category=="trophy")){
-    var keepsake=nodes.Where(n=>n.IsAvailable&&n.IsRooftop).OrderBy(n=>(n.transform.position-Player.transform.position).sqrMagnitude).FirstOrDefault();if(keepsake){target=keepsake.transform.position;label="Rooftop keepsake · Search";}
-   } else if(AtHome)return Data.nightGoal==2?"Open Stash → Unload pockets to finish":"Den safe · Open Stash to bank or decorate";
+   if(AtHome)return Data.runActive?(HasLooseHaul?"Den safe · Open Stash to bank your haul":"Up the ramp to the street · "+ExpeditionRules.GoalTitle(Data.selectedGoal)):"Den safe · Open Stash / Night board to begin";
+   GetExpeditionTarget(out Vector3 target,out string label);
    Vector3 delta=target-Player.transform.position;float distance=delta.magnitude;Vector3 forward=gameplayCamera?gameplayCamera.transform.forward:Player.transform.forward;forward.y=0;var flat=delta;flat.y=0;float angle=Vector3.SignedAngle(forward,flat,Vector3.up);string direction=Mathf.Abs(angle)>135?"Behind":angle>35?"Right":angle< -35?"Left":"Ahead";
    return $"{label}   ·   {distance:0} m {direction}";
   }
@@ -200,7 +191,7 @@ public partial class GameSession : MonoBehaviour {
   return false;
  }
  public bool SuppressSaving {get;set;}
- public void Save(){if(!hasSession||SuppressSaving)return;var p=Player.transform.position;Data.x=p.x;Data.y=p.y;Data.z=p.z;if(!SaveStore.Write(Data,out var message))UI.Toast(message);}
+ public void Save(){if(!hasSession||SuppressSaving)return;var p=Player.transform.position;Data.x=p.x;Data.y=p.y;Data.z=p.z;Data.motorState=Data.runActive?Player.CaptureState():null;Data.neighborStates=Data.runActive?Neighbors.Where(n=>n).Select(n=>n.CaptureState()).ToList():new();if(!SaveStore.Write(Data,out var message))UI.Toast(message);}
  void Update() {
   if(!Playing||Paused)return;
   NearbyLoot=null;float nearest=2.4f;
@@ -211,7 +202,8 @@ public partial class GameSession : MonoBehaviour {
   if(Data.nightGoal==2&&!Data.bag.Any(id=>Items.TryGetValue(id,out var item)&&item.category=="trophy")){
    if(safelyOnRoof)recoveringClimb=false;else if(Player.Grounded&&Player.transform.position.y<6.8f)recoveringClimb=true;
   }else recoveringClimb=false;
-  float dt=Time.deltaTime;Data.worldSeconds+=dt;Data.survivalSeconds+=dt;Data.hunger=Mathf.Max(0,Data.hunger-dt*(AtHome?0:.07f));invulnerable-=dt;
+  if(!Data.runActive&&!AtHome)StartNight();
+  float dt=Time.deltaTime;Data.worldSeconds+=dt;if(Data.runActive)Data.survivalSeconds+=dt;Data.hunger=Mathf.Max(0,Data.hunger-dt*(AtHome?0:.20f));invulnerable-=dt;UpdateNightEvent();
   if(Data.hunger<=0&&!AtHome) {Data.health=Mathf.Max(0,Data.health-dt*2);if(Data.health<=0){EndRun();return;}}
   autosave+=dt;if(autosave>20){autosave=0;Save();}
 
@@ -231,6 +223,7 @@ public class LootNode:MonoBehaviour {
 
  public bool IsRooftop => rooftop;
  public string DisplayName => item.name;
+ public string ItemId=>item.id;public string Category=>item.category;
  public bool IsAvailable => !waitingRestock&&GameSession.Instance.Available(node);
  public void Initialize(int index,ItemDefinition definition,bool roof){node=index;item=definition;rooftop=roof;meshes=GetComponentsInChildren<Renderer>();
   var go=new GameObject("Nearby search cue");go.transform.SetParent(transform,false);go.transform.localPosition=new Vector3(0,.62f,0);cue=go.AddComponent<TextMesh>();cue.text="SEARCH";cue.fontSize=36;cue.characterSize=.013f;cue.anchor=TextAnchor.MiddleCenter;cue.color=new Color(1,.83f,.48f);cue.gameObject.SetActive(false);

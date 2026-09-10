@@ -13,7 +13,7 @@ public sealed class BrowserState : MonoBehaviour {
   public string version=Application.version;
   public string coordinates="Unity metres; +Y up, initial forward -Z",mode,objective,guidance;
   public string jumpDiagnostic;public int jumpOwner;public bool jumpPending;public Control[] controls;public string lastTrick;public bool trickActive;public Vector3 position;public Vector2 touchMove,touchLook;public float heading;
-  public int bag,banked,trophies,coins,trickScore,bestLanding;public float health;public bool grounded;public Watcher[] watchers;
+  public bool runActive;public int forageSeed,consumedNodes,runNumber,pendingCoins,goal,nightEvent;public string nightStatus;public int bag,banked,trophies,coins,trickScore,bestLanding;public float health;public bool grounded;public Watcher[] watchers;
  }
  GameSession game;float next;
  public void Initialize(GameSession session){game=session;}
@@ -24,7 +24,7 @@ public sealed class BrowserState : MonoBehaviour {
 #if UNITY_WEBGL && !UNITY_EDITOR
   if(!game||Time.unscaledTime<next)return;next=Time.unscaledTime+.1f;
   var s=new Snapshot {mode=!game.Playing?"menu":game.Paused?"paused":"playing",objective=game.Objective};
-  if(game.Data!=null){s.bag=game.Data.bag.Count;s.banked=game.Data.pantry.Count;s.trophies=game.Data.trophies.Count;s.coins=game.Data.coins;s.health=game.Data.health;s.trickScore=game.Data.trickScore;s.bestLanding=game.Data.bestLandingScore;}
+  if(game.Data!=null){s.forageSeed=game.Data.forageSeed;s.consumedNodes=game.Data.cooldowns.Count(c=>c.harvests>0);s.runActive=game.Data.runActive;s.runNumber=game.Data.runNumber;s.pendingCoins=game.Data.pendingCoins;s.goal=game.Data.selectedGoal;s.nightEvent=game.Data.nightEvent;s.nightStatus=game.NightStatus;s.bag=game.Data.bag.Count;s.banked=game.Data.pantry.Count;s.trophies=game.Data.trophies.Count;s.coins=game.Data.coins;s.health=game.Data.health;s.trickScore=game.Data.trickScore;s.bestLanding=game.Data.bestLandingScore;}
   if(game.Player){s.position=game.Player.transform.position;s.heading=Camera.main?Camera.main.transform.eulerAngles.y:game.Player.transform.eulerAngles.y;s.touchMove=game.Player.touchMove;s.touchLook=game.Player.touchLook;s.guidance=game.Guidance;var cc=game.Player.GetComponent<CharacterController>();s.grounded=cc&&cc.isGrounded;}
   var gesture=game.GetComponentInChildren<TouchTrickGesture>();if(gesture){s.jumpDiagnostic=gesture.Diagnostic;s.jumpOwner=gesture.Owner;s.jumpPending=gesture.Pending;}var controls=new List<Control>();foreach(var rect in game.GetComponentsInChildren<RectTransform>()){if(!rect.gameObject.activeInHierarchy||(!rect.GetComponent<Button>()&&!rect.GetComponent<TouchPad>()))continue;var corners=new Vector3[4];rect.GetWorldCorners(corners);controls.Add(new Control{name=rect.name,x=(corners[0].x+corners[2].x)*.5f/Screen.width,y=1-(corners[0].y+corners[2].y)*.5f/Screen.height,w=(corners[2].x-corners[0].x)/Screen.width,h=(corners[2].y-corners[0].y)/Screen.height});}s.controls=controls.ToArray();if(game.Player){s.lastTrick=game.Player.LastTrickName;s.trickActive=game.Player.IsTricking;}
   s.watchers=game.Neighbors.Where(n=>n&&n.Suspicion01>0).Select(n=>new Watcher{kind=n.Kind.ToString(),suspicion=n.Suspicion01,visible=n.HasLineOfSight,chasing=n.IsThreat}).ToArray();

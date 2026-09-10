@@ -141,11 +141,12 @@ public partial class GameUI:MonoBehaviour {
   denStats=Placed(page.transform,$"{game.Data.pantry.Count} banked finds    /    {game.Data.trophies.Count} trophies banked    /    {game.Data.coins} shinies",24,mint,new(.08f,.67f),new(.90f,.75f));
   Button(page.transform,"Unload pockets",new(.08f,.47f),new(.44f,.61f),()=>{game.Deposit();ShowDen();},true);
   Button(page.transform,"Decorate your den",new(.53f,.47f),new(.91f,.61f),()=>ShowDenShop(0));
-  Button(page.transform,"Eat from pantry",new(.08f,.30f),new(.44f,.44f),game.Eat);
+  Button(page.transform,"Eat from pantry",new(.08f,.30f),new(.44f,.44f),game.EatPantry);
   Button(page.transform,"Choose favorite displays",new(.53f,.30f),new(.91f,.44f),()=>ShowDenFavorites(0));
   Button(page.transform,"Back to den",new(.08f,.10f),new(.44f,.24f),game.Resume);
+  Button(page.transform,"Night board & collections",new(.53f,.10f),new(.91f,.24f),ShowNightBoard,true);
  }
- public void ShowRunEnd(int best){Clear(green);Placed(page.transform,"OUTFOXED. STILL ADORABLE.",54,cream,new(.1f,.68f),new(.95f,.84f));Placed(page.transform,$"Your den and banked collection are safe.\nBest survival: {best/60}m {best%60}s. Loose pocket items were lost.",28,mint,new(.1f,.47f),new(.9f,.62f));Button(page.transform,"Another night in Ballard",new(.1f,.24f),new(.49f,.38f),game.Resume,true);Button(page.transform,"Main menu",new(.55f,.24f),new(.90f,.38f),game.Menu);}
+ public void ShowRunEnd(int best){Clear(green);Placed(page.transform,"OUTFOXED. STILL ADORABLE.",54,cream,new(.1f,.68f),new(.95f,.84f));Placed(page.transform,$"Your den and banked collection are safe.\nBest survival: {best/60}m {best%60}s. {game.Data.lastLoss} loose finds and all loose shinies were lost.",28,mint,new(.1f,.47f),new(.9f,.62f));Button(page.transform,"Plan another outing",new(.1f,.24f),new(.49f,.38f),()=>{game.Resume();ShowNightBoard();},true);Button(page.transform,"Main menu",new(.55f,.24f),new(.90f,.38f),game.Menu);}
  public void Toast(string message){toast.text=message;toastPanel.enabled=true;toastUntil=Time.unscaledTime+4;}
  static Sprite Rounded(){
   if(rounded)return rounded;var texture=new Texture2D(64,64,TextureFormat.RGBA32,false);texture.name="UI rounded corner";texture.wrapMode=TextureWrapMode.Clamp;
@@ -159,7 +160,7 @@ public partial class GameUI:MonoBehaviour {
   if(objective)objective.text=game.Objective;
   if(guidance&&Time.unscaledTime>=nextGuideUpdate){nextGuideUpdate=Time.unscaledTime+.2f;guidance.text=game.Guidance;}
   if(searchButton){searchButton.interactable=game.NearbyLoot;searchText.text=game.NearbyLoot?"Search":"Search";}
-  if(stats&&game.Data!=null){stats.text=$"JIMOTHY   ·   {(int)game.Data.survivalSeconds/60:D2}:{(int)game.Data.survivalSeconds%60:D2}\n{game.Data.coins} shinies  ·  Bag {game.Data.bag.Count}/24";health.rectTransform.anchorMax=new(.04f+.41f*game.Data.health/100,.16f);hunger.rectTransform.anchorMax=new(.51f+.43f*game.Data.hunger/100,.16f);}
+  if(stats&&game.Data!=null){stats.text=$"JIMOTHY   ·   {(int)game.Data.survivalSeconds/60:D2}:{(int)game.Data.survivalSeconds%60:D2}\n{game.Data.coins} banked · {game.Data.pendingCoins} loose  ·  Bag {game.Data.bag.Count}/{ExpeditionRules.BagCapacity}";health.rectTransform.anchorMax=new(.04f+.41f*game.Data.health/100,.16f);hunger.rectTransform.anchorMax=new(.51f+.43f*game.Data.hunger/100,.16f);}
  }
 }
 }

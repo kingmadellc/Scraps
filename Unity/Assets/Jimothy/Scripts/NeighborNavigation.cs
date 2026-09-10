@@ -22,7 +22,7 @@ public sealed class NeighborNavigation:MonoBehaviour {
  public void Initialize(CharacterController controller,float bodyRadius=0,float bodyHeight=0){
   NeighborWorldObstacles.Ensure();cc=controller;Vector3 scale=transform.lossyScale;
   radius=Mathf.Ceil(Mathf.Max(bodyRadius,cc.radius*Mathf.Max(scale.x,scale.z)+.045f)*100)/100;
-  height=Mathf.Ceil(Mathf.Max(bodyHeight,cc.height*scale.y+.04f)*100)/100;stepHeight=Mathf.Max(.05f,cc.stepOffset*scale.y+.025f);
+  height=Mathf.Ceil(Mathf.Max(bodyHeight,cc.height*scale.y+.04f)*100)/100;stepHeight=Mathf.Max(.05f,cc.stepOffset+.025f);
   int key=Mathf.RoundToInt(radius*100)*1000+Mathf.RoundToInt(height*100);
   if(!caches.TryGetValue(key,out cells)){cells=new Clearance();caches.Add(key,cells);}
   Physics.SyncTransforms();EnsureSafeSpawn();
@@ -34,7 +34,7 @@ public sealed class NeighborNavigation:MonoBehaviour {
  Vector3 Half=>new(radius,Mathf.Max(.025f,height*.5f-.035f),radius);
  Vector3 Center(Vector3 p)=>p+Vector3.up*(height*.5f+.035f);
  bool Ground(Vector3 at,out Vector3 p){
-  p=default;var origin=new Vector3(at.x,1.2f,at.z);int count=Physics.RaycastNonAlloc(origin,Vector3.down,casts,1.8f,Mask,QueryTriggerInteraction.Ignore);float nearest=float.MaxValue;
+  p=default;var origin=new Vector3(at.x,1.2f,at.z);int count=Physics.RaycastNonAlloc(origin,Vector3.down,casts,1.8f,Mask,QueryTriggerInteraction.Ignore);float nearest=float.MaxValue;if(count==casts.Length)return false;
   for(int j=0;j<count;j++){var hit=casts[j];if(!StaticObstacle(hit.collider)||hit.normal.y<.85f||hit.point.y>.48f||hit.point.y<-.4f||hit.distance>=nearest)continue;nearest=hit.distance;p=hit.point;}
   return nearest<float.MaxValue;
  }
@@ -57,8 +57,14 @@ public sealed class NeighborNavigation:MonoBehaviour {
  int Nearest(Vector3 p,bool connector,int rings=6){int center=Index(p);if(center<0)return -1;int cx=center%W,cz=center/W,best=-1;float distance=float.MaxValue;
   for(int z=-rings;z<=rings;z++)for(int x=-rings;x<=rings;x++){int xx=cx+x,zz=cz+z;if(xx<0||xx>=W||zz<0||zz>=H)continue;int i=zz*W+xx;if(!CellPoint(i,out var at))continue;float d=(new Vector2(at.x-p.x,at.z-p.z)).sqrMagnitude;if(d>=distance||connector&&!ClearSegment(p,at,false))continue;best=i;distance=d;}return best;
  }
+ // Restored positions are accepted only on the same routable street surfaces as patrols.
+ public bool RestoreGroundPosition(Vector3 position){
+  if(!cc||!cc.enabled||!cc.gameObject.activeInHierarchy||!float.IsFinite(position.x)||!float.IsFinite(position.y)||!float.IsFinite(position.z)||!GroundTarget(position,out var floor)||!VolumeClear(floor))return false;
+  cc.enabled=false;transform.position=floor+Vector3.up*.04f;cc.enabled=true;Physics.SyncTransforms();cc.Move(Vector3.down*.1f);
+  path.Clear();cursor=0;replan=0;blocked=0;travelSpeed=0;DesiredHeading=Vector3.zero;return true;
+ }
  public bool EnsureSafeSpawn(){
-  if(!cc||cells==null)return false;if(Ground(transform.position,out var floor)&&VolumeClear(floor)){cc.Move(Vector3.down*.3f);return true;}
+  if(!cc||!cc.enabled||!cc.gameObject.activeInHierarchy||cells==null)return false;if(Ground(transform.position,out var floor)&&VolumeClear(floor)){cc.Move(Vector3.down*.3f);return true;}
   // Placement repair happens once during construction, before the neighbor is shown.
   // Do not route out through a wall or leave its patrol home inside the original overlap.
   int cell=Nearest(transform.position,false,12);if(cell<0){TargetUnreachable=true;return false;}
@@ -102,8 +108,8 @@ public sealed class NeighborNavigation:MonoBehaviour {
   }target=transform.position;path.Clear();return false;
  }
  public Vector3 Step(Vector3 target,float speed,float dt,bool stop=false,float turnRate=0){
-  if(!cc||dt<=0)return Vector3.zero;dt=Mathf.Min(dt,.1f);Vector3 before=transform.position;replan-=dt;
-  if(!GroundTarget(target,out _)||transform.position.y>.70f){path.Clear();cursor=0;TargetUnreachable=true;cc.Move(Vector3.down*5*dt);return Vector3.zero;}
+  if(!cc||!cc.enabled||!cc.gameObject.activeInHierarchy||dt<=0)return Vector3.zero;dt=Mathf.Min(dt,.1f);Vector3 before=transform.position;replan-=dt;
+  if(!GroundTarget(target,out _)||transform.position.y>.70f){path.Clear();cursor=0;TargetUnreachable=true;travelSpeed=0;DesiredHeading=Vector3.zero;blocked=0;cc.Move(Vector3.down*5*dt);return Vector3.zero;}
   if(stop){travelSpeed=0;DesiredHeading=Vector3.zero;cc.Move(Vector3.down*5*dt);return Vector3.zero;}
   if(replan<=0&&(Vector3.Distance(lastTarget,target)>.65f||!HasPath||blocked>.4f)){Plan(target);lastTarget=target;replan=TargetUnreachable?1.2f:.65f+(GetInstanceID()&7)*.035f;blocked=0;}
   // Small waypoint tolerance prevents rounding a valid grid corner into its obstacle.
