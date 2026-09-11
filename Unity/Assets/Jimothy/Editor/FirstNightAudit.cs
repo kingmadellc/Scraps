@@ -13,7 +13,7 @@ namespace Jimothy.Editor {
  static Report report;static readonly Dictionary<string,byte[]> original=new();
  [Serializable] class Report {public bool passed;public List<string> assertions=new();public string error,note="Actual Editor playmode integration. Teleports test interactions and state transitions, not route traversal or player fun. Existing user saves are read for byte comparison only; all session saving is suppressed.";}
  static FirstNightAudit(){EditorApplication.playModeStateChanged+=OnMode;if(SessionState.GetBool(Pending,false))EditorApplication.update+=Tick;}
- [MenuItem("Jimothy/Verify first night interactions safely")]
+ [MenuItem("Scraps/Verify first night interactions safely")]
  public static void Run(){if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop current playmode before isolated audit.");EditorSceneManager.OpenScene("Assets/Jimothy/Scenes/Ballard.unity");SessionState.SetBool(Pending,true);EditorApplication.isPlaying=true;}
  static void OnMode(PlayModeStateChange mode){if(!SessionState.GetBool(Pending,false))return;if(mode==PlayModeStateChange.EnteredPlayMode){stage=0;deadline=EditorApplication.timeSinceStartup+120;EditorApplication.update-=Tick;EditorApplication.update+=Tick;}}
  static void Check(bool pass,string message){if(!pass)throw new InvalidOperationException(message);report.assertions.Add(message);}

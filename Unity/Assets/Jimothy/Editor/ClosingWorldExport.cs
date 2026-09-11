@@ -10,7 +10,7 @@ namespace Jimothy.Editor {
 public static class ClosingWorldExport {
  static string F(float n)=>n.ToString("R",CultureInfo.InvariantCulture);
  static string V(Vector3 v)=>F(v.x)+" "+F(v.z)+" "+F(v.y);
- [MenuItem("Jimothy/Export editable closing-time world")]
+ [MenuItem("Scraps/Export editable closing-time world")]
  public static void Run(){
   if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop Play Mode before exporting the authored world.");
   string path=Path.GetFullPath("../Art/Exports/ClosingTime");Directory.CreateDirectory(path);

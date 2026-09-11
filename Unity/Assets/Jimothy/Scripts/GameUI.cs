@@ -84,14 +84,13 @@ public partial class GameUI:MonoBehaviour {
  public void ShowMenu() {
   Clear(green);page.name="Scraps · Title";Hero();
   var brass=new Color(.94f,.69f,.36f);var warmCream=new Color(1f,.94f,.79f);
-  TitleText(page.transform,"B A L L A R D   /   S E A T T L E",21,brass,new(.077f,.855f),new(.46f,.897f));
   var wordmark=Rect("Scraps wordmark",page.transform,new(.065f,.555f),new(.49f,.865f));
   wordmark.localRotation=Quaternion.Euler(0,0,3);
   var shadow=TitleText(wordmark,"Scraps",140,new Color(.015f,.035f,.027f,.95f),new(.012f,.225f),new(1.012f,.955f),true);
   var depth=TitleText(wordmark,"Scraps",140,new Color(.66f,.29f,.14f),new(.006f,.252f),new(1.006f,.982f),true);
   var title=TitleText(wordmark,"Scraps",140,warmCream,new(0,.275f),new(1,1.005f),true);
   var outline=title.gameObject.AddComponent<Outline>();outline.effectColor=new Color(.045f,.09f,.066f);outline.effectDistance=new Vector2(1.4f,-1.4f);
-  // A compact underline and condensed subtitle echo hand-painted travel emblems.
+  // A compact underline echoes hand-painted travel emblems.
   Panel(wordmark,brass,new(.015f,.245f),new(.22f,.264f)).raycastTarget=false;
   Panel(wordmark,brass,new(.015f,.195f),new(.15f,.211f)).raycastTarget=false;
   bool saved=SaveStore.Exists;

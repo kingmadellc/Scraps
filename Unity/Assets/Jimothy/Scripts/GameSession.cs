@@ -45,7 +45,7 @@ public partial class GameSession : MonoBehaviour {
   Data.MigrateToClosingTime(ClosingTimeWorld.StreetStart);ExpeditionRules.Migrate(Data,Home);
   world=new GameObject("Ballard • closing time");
   ClosingTimeWorld.Build(world.transform);RooftopConnections.Build(world.transform);
-  var playerObject=new GameObject("Jimothy");playerObject.transform.SetParent(world.transform);playerObject.layer=2;
+  var playerObject=new GameObject("Scraps");playerObject.transform.SetParent(world.transform);playerObject.layer=2;
   Player=playerObject.AddComponent<RaccoonMotor>();
   var model=Instantiate(Resources.Load<GameObject>("Jimothy"),playerObject.transform);Player.visual=model.transform;model.transform.localScale=Vector3.one*.22f;model.AddComponent<JimothyCoat>().Initialize();
   foreach(var t in model.GetComponentsInChildren<Transform>())t.gameObject.layer=2;

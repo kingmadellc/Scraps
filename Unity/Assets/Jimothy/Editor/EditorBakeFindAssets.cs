@@ -13,7 +13,7 @@ public static class EditorBakeFindAssets {
  [Serializable] class Entry {public string id,name,recipe,geometryHash;public int triangles;}
  [Serializable] class Report {public int assets,distinctGeometry;public bool passed;public string[] errors;public Entry[] entries;}
  const string AssetDir="Assets/Jimothy/Resources/FindMeshes";
- [MenuItem("Jimothy/Bake all catalogue find meshes")]
+ [MenuItem("Scraps/Bake all catalogue find meshes")]
  public static void Run(){var errors=new List<string>();var entries=new List<Entry>();try{
   Directory.CreateDirectory(AssetDir);var catalog=JsonUtility.FromJson<ItemCatalog>(Resources.Load<TextAsset>("Items").text);var hashes=new Dictionary<string,string>();
   foreach(var item in catalog.items){if(!ItemVisuals.HasAuthoredRecipe(item))throw new Exception("Missing recipe: "+item.id);var mesh=ItemVisuals.BuildMesh(item);int tris=mesh.triangles.Length/3;if(tris<8||tris>6500)errors.Add(item.id+" triangle budget: "+tris);foreach(var v in mesh.vertices)if(!float.IsFinite(v.x)||!float.IsFinite(v.y)||!float.IsFinite(v.z))errors.Add(item.id+" nonfinite vertex");string hash=Hash(mesh);if(hashes.TryGetValue(hash,out string prior))errors.Add(item.id+" duplicates geometry of "+prior);else hashes.Add(hash,item.id);

@@ -13,7 +13,7 @@ namespace Jimothy.Editor {
  [Serializable] class Report {public string method="Eight actual Unity URP renders from a camera sliding 0.40 m across the first crossing/access coping. Player placed once, disabled; game paused, Time.timeScale = 0 keeps simulation/shader time fixed. Lighting settings unchanged. Contact sheet is a montage of those renders. No automatic temporal-quality or flicker-pass claim.";public bool savingSuppressed;public List<Frame> frames=new();}
  static GameSession game;static Camera camera;static RenderTexture target;static Texture2D sheet;static int shot=-1;static double readyAt;static float previousScale=1;static string folder;static Report report;static Vector3 aim;
  static RoofMotionAudit(){EditorApplication.playModeStateChanged+=OnMode;if(SessionState.GetBool(Pending,false))EditorApplication.update+=Tick;}
- [MenuItem("Jimothy/Capture roof camera-motion evidence")]
+ [MenuItem("Scraps/Capture roof camera-motion evidence")]
  public static void Run(){if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop play mode before isolated art audit.");EditorSceneManager.OpenScene("Assets/Jimothy/Scenes/Ballard.unity");SessionState.SetBool(Pending,true);EditorApplication.isPlaying=true;}
  static void OnMode(PlayModeStateChange mode){if(!SessionState.GetBool(Pending,false))return;if(mode==PlayModeStateChange.EnteredPlayMode){shot=-1;EditorApplication.update-=Tick;EditorApplication.update+=Tick;}}
  static void Tick(){if(!SessionState.GetBool(Pending,false)||!EditorApplication.isPlaying)return;try{

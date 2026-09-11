@@ -36,7 +36,7 @@ public class AssetImport : AssetPostprocessor {
 }
 public static class ProjectSetup {
  const string ResourcesPath="Assets/Jimothy/Resources/";
- [MenuItem("Jimothy/Create or refresh playable scene")]
+ [MenuItem("Scraps/Create or refresh playable scene")]
  public static void CreateScene() {
   if(!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())return;
   SetupAssets();
@@ -115,7 +115,7 @@ public static class ProjectSetup {
   var playerSettings=new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset")[0]);
   var input=playerSettings.FindProperty("activeInputHandler");if(input!=null){input.intValue=1;playerSettings.ApplyModifiedPropertiesWithoutUndo();}
  }
- [MenuItem("Jimothy/Export iOS Xcode project")]
+ [MenuItem("Scraps/Export iOS Xcode project")]
  public static void ExportIOS() {
   SetupAssets();AssetDatabase.SaveAssets();
   if(!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.iOS,BuildTarget.iOS))throw new System.InvalidOperationException("Install Unity iOS Build Support first.");

@@ -13,7 +13,7 @@ namespace Jimothy.Editor {
  [Serializable] class Report {public string method="Actual Unity URP: rear gameplay view, wide room view, and shelf detail. Isolated NewGame with saving suppressed; 10 catalog trophies and12 rare curios explicitly seeded into bag then deposited through GameSession.Deposit. This is test inventory, not user inventory. Runtime collection meshes and room lights; HUD hidden for art review.";public bool savingSuppressed;public string fixture="Seeded test collection, not user inventory";public List<string> seededIds=new();public int displayed;public float maxSupportError;public List<Frame> frames=new();}
  static GameSession game;static Camera camera;static RenderTexture target;static Texture2D sheet;static int shot=-1;static double readyAt;static float previousScale=1;static string folder;static Report report;static Vector3 aim;
  static DenCollectionArtAudit(){EditorApplication.playModeStateChanged+=OnMode;if(SessionState.GetBool(Pending,false))EditorApplication.update+=Tick;}
- [MenuItem("Jimothy/Capture seeded den collection evidence")]
+ [MenuItem("Scraps/Capture seeded den collection evidence")]
  public static void Run(){if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop play mode before isolated art audit.");EditorSceneManager.OpenScene("Assets/Jimothy/Scenes/Ballard.unity");SessionState.SetBool(Pending,true);EditorApplication.isPlaying=true;}
  static void OnMode(PlayModeStateChange mode){if(!SessionState.GetBool(Pending,false))return;if(mode==PlayModeStateChange.EnteredPlayMode){shot=-1;EditorApplication.update-=Tick;EditorApplication.update+=Tick;}}
  static void Tick(){if(!SessionState.GetBool(Pending,false)||!EditorApplication.isPlaying)return;try{

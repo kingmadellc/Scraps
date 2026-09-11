@@ -16,7 +16,7 @@ namespace Jimothy {
   public int id,frames;public int captureSettleFrames=2;public string action,error,screenshot,objective,guidance,nearbyLoot;
   public bool playing,paused,atHome,denOpen,savingSuppressed;public Vector3 position;
   public float health,hunger,stepElapsedSeconds;public int coins;public string[] bag,trophies,decor;
-  public string inputMethod="Steering input X turns Jimothy; Y moves forward/backward. Movement/jump is applied before the motor Update. The click command dispatches a uGUI raycast/pointer click at rendered pixels; other actions invoke public game methods. No teleport or hidden route information is exposed.";
+  public string inputMethod="Steering input X turns the raccoon; Y moves forward/backward. Movement/jump is applied before the motor Update. The click command dispatches a uGUI raycast/pointer click at rendered pixels; other actions invoke public game methods. No teleport or hidden route information is exposed.";
  }
  GameSession game;string folder,commandPath;int lastId=-1,remaining,completedFrames;double nextPoll;DateTime stamp;
  Command active;float started;bool initialized,capturing;string commandError;

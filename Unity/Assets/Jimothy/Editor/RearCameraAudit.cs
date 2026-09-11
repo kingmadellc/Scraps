@@ -24,7 +24,7 @@ public static class RearCameraAudit {
  }
  static void Settle(Vector3 position){motor.Teleport(position);for(int i=0;i<45;i++)Tick(Vector2.zero);}
  static void Heading(float degrees){Tick(Vector2.zero,new Vector2(Mathf.DeltaAngle(motor.visual.eulerAngles.y,degrees),0));}
- [MenuItem("Jimothy/Audit rear follow camera")]
+ [MenuItem("Scraps/Audit rear follow camera")]
  public static void Run(){
   report=new Report{method="Fresh unsaved scene; actual world colliders, CharacterController, SimulateSteering and UpdateFollowCamera at 60Hz. No GameSession or save access. Camera checked at every steering tick and 24 headings at each reported obstruction. Outside-character is a conservative .65m target-to-lens threshold, not a rendered fur test."};var oldMode=Physics.simulationMode;
   try {

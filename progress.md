@@ -37,3 +37,9 @@ The supplied develop-web-game client also completed New → Head out → jump on
 0.5.0 final local verification: Safari/WebKit9/9pass, supplied skill client completed and screenshot/state inspected, native Mac build success and strict code-signature verification pass. Publishing verified Web build now.
 
 Published 0.5.0: public Safari/WebKit verification passes all 9 checks with no browser errors, including touch jump, save/resume and orientation pause. Public gameplay/outing captures inspected. Pages build: 66d7aea5c78eb8d9f1fe92de0cc048085023ba0c. Play: https://kingmadellc.github.io/JimothySurvival/?v=0.5.0
+
+2026-09-11: Scraps naming cleanup. Existing player menus already use Scraps; removed redundant title location text, added explicit iOS home-screen/browser app branding and accessible canvas title, renamed editor menus and character inspection labels. Preserve legacy save paths, bundle identifiers, asset references and public URL for compatibility. No likeness/legal clearance claimed. Validation pending.
+
+0.5.1 naming cleanup verified: local WebKit11/11 noerrors, supplied Chromium client gameplay screenshot/state inspected, Mac build/signature pass. Public Pages metadata confirms0.5.1. Legacy URL/save identifiers preserved. Puppeteer and uv caches moved with hashes verified and original paths symlinked to external drive after internal low-space compiler-start failure.
+
+Final public Safari/WebKit verification: all 11 checks pass with no runtime errors, including the Scraps browser/home-screen title, visible-name checks and save/resume.

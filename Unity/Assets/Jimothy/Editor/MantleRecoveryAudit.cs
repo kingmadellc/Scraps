@@ -11,7 +11,7 @@ public static class MantleRecoveryAudit {
  static void Field(string name,object value) { var f=typeof(RaccoonMotor).GetField(name,BindingFlags.Instance|BindingFlags.NonPublic);if(f==null)throw new MissingFieldException(name);f.SetValue(motor,value); }
  static void Tick(Vector3 direction,bool jump=false) { Physics.SyncTransforms();motor.SimulateMovement(direction,jump,Dt);Physics.Simulate(Dt); }
  static void Seed(Vector3 position,Vector3 goal,int stage) { motor.Teleport(position);Physics.SyncTransforms();Field("mantleRaisedStart",goal);Field("mantleRaisedEnd",goal);Field("mantleLanding",goal);Field("mantleStage",stage);Field("mantling",true); }
- [MenuItem("Jimothy/Audit mantle recovery")]
+ [MenuItem("Scraps/Audit mantle recovery")]
  public static void Run() {
   var report=new Result{initial=new Vector3(8.683109f,2.0699999f,-22.909088f),method="Fresh unsaved scene, real world colliders and CharacterController.Move through SimulateMovement at 60Hz; reflection injects only an interrupted mantle. No GameSession or save access."};
   var oldMode=Physics.simulationMode;

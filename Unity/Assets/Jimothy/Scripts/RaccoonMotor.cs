@@ -29,7 +29,7 @@ public class RaccoonMotor : MonoBehaviour {
  const float TrickDuration=.38f;
  public void RequestTrick(){RequestDirectionalTrick(AirTrick.FrontFlip);}
  public bool RequestDirectionalTrick(AirTrick kind){if(!Running||Grounded||mantling||trickActive||trickRequested||vertical<=-7)return false;requestedAirTrick=kind;trickRequested=true;return true;}
- void EnsureTrickPivot(){if(!visual||trickPivot)return;trickPivot=new GameObject("Jimothy aerial trick pivot").transform;trickPivot.SetParent(transform,false);trickPivot.localPosition=Vector3.up*.28f;visual.SetParent(trickPivot,true);}
+ void EnsureTrickPivot(){if(!visual||trickPivot)return;trickPivot=new GameObject("Raccoon aerial trick pivot").transform;trickPivot.SetParent(transform,false);trickPivot.localPosition=Vector3.up*.28f;visual.SetParent(trickPivot,true);}
  void SetVisualFacing(Quaternion rotation){if(!visual)return;if(trickPivot)visual.localRotation=rotation;else visual.rotation=rotation;}
  Quaternion VisualFacing=>!visual?Quaternion.Euler(0,yaw,0):trickPivot?visual.localRotation:visual.rotation;
  void ApplyTrickVisual(){if(!trickPivot)return;float t=Mathf.Clamp01(trickElapsed/TrickDuration);float smooth=t*t*(3-2*t);trickPivot.localRotation=trickActive?Quaternion.AngleAxis(360*smooth,VisualFacing*(activeAirTrick==AirTrick.BackFlip?Vector3.left:activeAirTrick==AirTrick.LeftRoll?Vector3.forward:activeAirTrick==AirTrick.RightRoll?Vector3.back:Vector3.right)):Quaternion.identity;}

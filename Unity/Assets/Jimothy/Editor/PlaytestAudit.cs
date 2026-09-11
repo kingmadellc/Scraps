@@ -12,7 +12,7 @@ namespace Jimothy.Editor {
  const string Pending="Jimothy.AuditPending";static double started;static int stage;
  static GameSession game;static string output;static RenderTexture captureTarget;static Canvas[] canvases;
  static PlaytestAudit(){EditorApplication.playModeStateChanged+=OnMode;if(SessionState.GetBool(Pending,false))EditorApplication.update+=Tick;}
- [MenuItem("Jimothy/Verify closing time and capture")]
+ [MenuItem("Scraps/Verify closing time and capture")]
  public static void Run(){
   if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop the existing playtest before running the isolated audit.");
   ProjectSetup.SetupAssets();NeighborAssetSetup.Prepare();AssetDatabase.SaveAssets();
@@ -91,9 +91,9 @@ namespace Jimothy.Editor {
    CleanupCapture();SessionState.SetBool(Pending,false);EditorApplication.update-=Tick;EditorApplication.isPlaying=false;if(Application.isBatchMode)EditorApplication.Exit(0);
   }catch(Exception ex){Directory.CreateDirectory(Path.GetFullPath("../PlaytestCaptures"));File.WriteAllText(Path.GetFullPath("../PlaytestCaptures/audit-error.txt"),ex.ToString());Debug.LogException(ex);CleanupCapture();SessionState.SetBool(Pending,false);EditorApplication.update-=Tick;EditorApplication.isPlaying=false;if(Application.isBatchMode)EditorApplication.Exit(1);}
  }
- [MenuItem("Jimothy/Preview mobile HUD in Play Mode")]
+ [MenuItem("Scraps/Preview mobile HUD in Play Mode")]
  public static void PreviewMobileHUD(){if(!EditorApplication.isPlaying||!GameSession.Instance)throw new InvalidOperationException("Start a play session first.");GameUI.ForceMobileLayout=true;GameSession.Instance.UI.ShowHUD();}
- [MenuItem("Jimothy/Preview desktop HUD in Play Mode")]
+ [MenuItem("Scraps/Preview desktop HUD in Play Mode")]
  public static void PreviewDesktopHUD(){if(!EditorApplication.isPlaying||!GameSession.Instance)throw new InvalidOperationException("Start a play session first.");GameUI.ForceMobileLayout=false;GameSession.Instance.UI.ShowHUD();}
  static void CleanupCapture(){GameUI.ForceMobileLayout=false;if(canvases!=null)foreach(var canvas in canvases)if(canvas)canvas.renderMode=RenderMode.ScreenSpaceOverlay;if(Camera.main)Camera.main.targetTexture=null;if(captureTarget){captureTarget.Release();UnityEngine.Object.Destroy(captureTarget);captureTarget=null;}}
  static void Capture(Camera camera,string file){

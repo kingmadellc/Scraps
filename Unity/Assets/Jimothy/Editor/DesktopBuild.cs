@@ -4,13 +4,13 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 namespace Jimothy.Editor {
 public static class DesktopBuild {
- [MenuItem("Jimothy/Build Mac playtest")]
+ [MenuItem("Scraps/Build Mac playtest")]
  public static void Build() {
   ProjectSetup.SetupAssets();NeighborAssetSetup.Prepare();AssetDatabase.SaveAssets();
   if(!File.Exists("Assets/Jimothy/Scenes/Ballard.unity"))ProjectSetup.CreateScene();
   Directory.CreateDirectory("../Builds");
   PlayerSettings.SetArchitecture(UnityEditor.Build.NamedBuildTarget.Standalone,1);
-  PlayerSettings.bundleVersion="0.5.0";
+  PlayerSettings.bundleVersion="0.5.1";
   // Runtime fur shader consumes FBX vertex colors absent from the imported placeholder material.
   PlayerSettings.stripUnusedMeshComponents=false;
   PlayerSettings.defaultScreenWidth=1440;

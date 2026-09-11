@@ -13,7 +13,7 @@ namespace Jimothy.Editor {
  [Serializable] class Report {public string method="Actual Unity URP: rear gameplay camera inside den, separate beauty overview, rear gameplay camera at entrance. Isolated new game with saving suppressed; initial placements for art inspection, not a continuous gameplay test. Runtime interior lighting active. HUD hidden for geometry review.";public bool savingSuppressed;public List<Frame> frames=new();}
  static GameSession game;static Camera camera;static RenderTexture target;static Texture2D sheet;static int shot=-1;static double readyAt;static float previousScale=1;static string folder;static Report report;static Vector3 aim;
  static DenArtAudit(){EditorApplication.playModeStateChanged+=OnMode;if(SessionState.GetBool(Pending,false))EditorApplication.update+=Tick;}
- [MenuItem("Jimothy/Capture den geometry evidence")]
+ [MenuItem("Scraps/Capture den geometry evidence")]
  public static void Run(){if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop play mode before isolated art audit.");EditorSceneManager.OpenScene("Assets/Jimothy/Scenes/Ballard.unity");SessionState.SetBool(Pending,true);EditorApplication.isPlaying=true;}
  static void OnMode(PlayModeStateChange mode){if(!SessionState.GetBool(Pending,false))return;if(mode==PlayModeStateChange.EnteredPlayMode){shot=-1;EditorApplication.update-=Tick;EditorApplication.update+=Tick;}}
  static void Tick(){if(!SessionState.GetBool(Pending,false)||!EditorApplication.isPlaying)return;try{

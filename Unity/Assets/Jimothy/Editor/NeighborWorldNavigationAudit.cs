@@ -16,7 +16,7 @@ public static class NeighborWorldNavigationAudit {
    if(Physics.ComputePenetration(probe,center,Quaternion.identity,c,c.transform.position,c.transform.rotation,out _,out float depth)&&depth>max){max=depth;obstacle=c.name;}}
   return count==overlaps.Length?100:max;
  }
- [MenuItem("Jimothy/Audit neighbors in actual district")]
+ [MenuItem("Scraps/Audit neighbors in actual district")]
  public static void Run(){
   var report=new Report();var oldMode=Physics.simulationMode;
   try{

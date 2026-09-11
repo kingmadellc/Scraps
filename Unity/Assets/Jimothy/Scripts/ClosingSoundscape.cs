@@ -9,9 +9,9 @@ public sealed class ClosingSoundscape:MonoBehaviour {
   player=motor;previous=player.transform.position;
   wind=CreateWind();horn=CreateHorn();for(int i=0;i<steps.Length;i++)steps[i]=CreateStep(i);
   breeze=Source("Soft harbor air",.045f);breeze.clip=wind;breeze.loop=true;breeze.Play();
-  harbor=Source("Distant boat horn",.085f);paws=Source("Jimothy pawsteps",.22f);
+  harbor=Source("Distant boat horn",.085f);paws=Source("Raccoon pawsteps",.22f);
  }
- AudioSource Source(string name,float volume){var go=new GameObject(name);go.transform.SetParent(transform,false);var source=go.AddComponent<AudioSource>();source.playOnAwake=false;source.spatialBlend=0;source.volume=volume;source.priority=name=="Jimothy pawsteps"?110:200;return source;}
+ AudioSource Source(string name,float volume){var go=new GameObject(name);go.transform.SetParent(transform,false);var source=go.AddComponent<AudioSource>();source.playOnAwake=false;source.spatialBlend=0;source.volume=volume;source.priority=name=="Raccoon pawsteps"?110:200;return source;}
  static AudioClip Clip(string name,float[] samples){var clip=AudioClip.Create(name,samples.Length,1,Rate,false);clip.SetData(samples,0);return clip;}
  static float Noise(ref uint seed){seed=1664525u*seed+1013904223u;return ((seed>>8)/16777215f)*2-1;}
  static AudioClip CreateWind(){

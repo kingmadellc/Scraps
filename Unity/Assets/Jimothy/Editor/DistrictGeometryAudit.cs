@@ -32,7 +32,7 @@ public static class DistrictGeometryAudit {
   }
   result.actual=motor.transform.position;result.reached=result.failedWaypoint<0&&result.maxPenetration<=cc.skinWidth+.025f;return result;
  }
- [MenuItem("Jimothy/Audit district walking and bell clearance")]
+ [MenuItem("Scraps/Audit district walking and bell clearance")]
  public static void Run(){
   if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop Play Mode before the isolated district geometry audit.");
   EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);var old=Physics.simulationMode;Physics.simulationMode=SimulationMode.Script;

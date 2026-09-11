@@ -10,7 +10,7 @@ public sealed class NeighborModelImport:AssetPostprocessor {
  void OnPreprocessAnimation(){if(!IsNeighbor(assetPath))return;var m=(ModelImporter)assetImporter;var clips=m.defaultClipAnimations;foreach(var c in clips){c.loopTime=true;c.lockRootPositionXZ=true;c.lockRootHeightY=true;c.lockRootRotation=true;}m.clipAnimations=clips;}
 }
 public static class NeighborAssetSetup {
- [MenuItem("Jimothy/Prepare rigged neighbors")]
+ [MenuItem("Scraps/Prepare rigged neighbors")]
  public static void Prepare(){
   const string folder="Assets/Jimothy/Resources/";
   foreach(string name in new[]{"BallardHuman","BallardDog"}){

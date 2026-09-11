@@ -9,7 +9,7 @@ namespace Jimothy.Editor {
 [InitializeOnLoad] public static class DistrictArtAudit {
  const string Pending="Jimothy.DistrictArtAudit";static GameSession game;static Camera camera;static RenderTexture target;static int shot=-1;static double readyAt;static string folder;
  static DistrictArtAudit(){EditorApplication.playModeStateChanged+=OnMode;if(SessionState.GetBool(Pending,false))EditorApplication.update+=Tick;}
- [MenuItem("Jimothy/Capture shop identities and bell park")]
+ [MenuItem("Scraps/Capture shop identities and bell park")]
  public static void Run(){if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop play mode before isolated art audit.");EditorSceneManager.OpenScene("Assets/Jimothy/Scenes/Ballard.unity");SessionState.SetBool(Pending,true);EditorApplication.isPlaying=true;}
  static void OnMode(PlayModeStateChange mode){if(!SessionState.GetBool(Pending,false))return;if(mode==PlayModeStateChange.EnteredPlayMode){shot=-1;EditorApplication.update-=Tick;EditorApplication.update+=Tick;}}
  static void Tick(){
