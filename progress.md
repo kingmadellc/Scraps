@@ -43,3 +43,11 @@ Published 0.5.0: public Safari/WebKit verification passes all 9 checks with no b
 0.5.1 naming cleanup verified: local WebKit11/11 noerrors, supplied Chromium client gameplay screenshot/state inspected, Mac build/signature pass. Public Pages metadata confirms0.5.1. Legacy URL/save identifiers preserved. Puppeteer and uv caches moved with hashes verified and original paths symlinked to external drive after internal low-space compiler-start failure.
 
 Final public Safari/WebKit verification: all 11 checks pass with no runtime errors, including the Scraps browser/home-screen title, visible-name checks and save/resume.
+
+Scraps0.6.0 wardrobe milestone: user approved raccoon customization and more ridiculous scavenging rewards. Implemented 6 bone-attached looks,3 coats,512px rotatable portrait,bank-only unlocks,permanent appearance saving; existing night events renamed with personality.12 pure rule assertions pass. Initial14 actual UI renders reviewed; fixed overly large/low hats,backpack angle,bandana opposing normals and preview lighting. Rechecking art and Den integration.
+
+0.6.0 validation: final14UIcaptures inspected (scaled/accessory positions corrected,preview fill neutralized); rules12pass; Den232pass including appearance/session reconstruction; Web build122047655bytes after EMCC_TEMP_DIR fix; Safari18pass withactualwardrobe/save/touchscreens. Publishing pending final checks. Internal cloud-backed Git files time out; publish source from external Publishing/source-060, a fresh main checkout with LFS smudge skipped (commit mirror only, not runnable assets). Internal source files remain mirrored, unrelated README2 untouched.
+
+0.6.0 final local: supplied Chromium client and screenshot/state checked, nativeMac build/signature pass. Public Pages e96fbc9 built. External source commit mirror Publishing/source-060 avoids internal iCloud Git hydration timeouts. All intended source mirrored internally; do not reset unrelated files.
+
+Public0.6.0 Safari/WebKit verification passes18/18, including wardrobe equip,coat,locked look,save/reload and jump.

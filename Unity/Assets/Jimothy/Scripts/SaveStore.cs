@@ -9,6 +9,8 @@ namespace Jimothy {
 [Serializable] public class NodeCooldown { public int node; public double readyAt; public int harvests, stockedHarvests; }
 [Serializable] public class SaveData {
  public int version = 1;
+ public string outfit = "bare";
+ public int coat;
  public int mapRevision, nightGoal;
  public int loopRevision,runNumber,pendingCoins,runStyle,selectedGoal,nightEvent,bankedRuns,failedRuns,lastHaul,lastLoss;
  public bool runActive;

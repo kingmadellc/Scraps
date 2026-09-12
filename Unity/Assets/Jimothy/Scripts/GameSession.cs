@@ -41,7 +41,7 @@ public partial class GameSession : MonoBehaviour {
   GetComponent<DiscoveryReveal>()?.Close(false);
   if(world){world.SetActive(false);Destroy(world);}Neighbors.Clear();nodes.Clear();
   returnToDen=false;outingRoute=-1;outingWaypoint=0;wasReturning=false;
-  Data=state;Data.hiddenDecor??=new();Data.favoriteFinds??=new();Data.bankedDiscoveries??=new();foreach(var id in Data.pantry.Concat(Data.trophies).Distinct())if(!Data.bankedDiscoveries.Contains(id))Data.bankedDiscoveries.Add(id);guidedRoute=-1;guidedStep=0;recoveringClimb=false;
+  Data=state;WardrobeRules.Normalize(Data);Data.hiddenDecor??=new();Data.favoriteFinds??=new();Data.bankedDiscoveries??=new();foreach(var id in Data.pantry.Concat(Data.trophies).Distinct())if(!Data.bankedDiscoveries.Contains(id))Data.bankedDiscoveries.Add(id);WardrobeRules.Normalize(Data);guidedRoute=-1;guidedStep=0;recoveringClimb=false;
   Data.MigrateToClosingTime(ClosingTimeWorld.StreetStart);ExpeditionRules.Migrate(Data,Home);
   world=new GameObject("Ballard • closing time");
   ClosingTimeWorld.Build(world.transform);RooftopConnections.Build(world.transform);
@@ -51,9 +51,9 @@ public partial class GameSession : MonoBehaviour {
   foreach(var t in model.GetComponentsInChildren<Transform>())t.gameObject.layer=2;
   Player.animator=model.GetComponentInChildren<Animator>();
   if(!Player.animator)Player.animator=model.AddComponent<Animator>();
-  Player.animator.runtimeAnimatorController=Resources.Load<RuntimeAnimatorController>("JimothyMotion");Player.animator.applyRootMotion=false;
+  Player.animator.runtimeAnimatorController=Resources.Load<RuntimeAnimatorController>("JimothyMotion");Player.animator.applyRootMotion=false;ApplyWardrobe();
   var cameraObject=new GameObject("Player Camera");cameraObject.transform.SetParent(world.transform);
-  var cam=cameraObject.AddComponent<Camera>();gameplayCamera=cam;cam.tag="MainCamera";cam.fieldOfView=62;cam.nearClipPlane=.15f;cam.farClipPlane=1000;cam.backgroundColor=new Color(.51f,.66f,.69f);cam.clearFlags=CameraClearFlags.SolidColor;cameraObject.AddComponent<AudioListener>();
+  var cam=cameraObject.AddComponent<Camera>();gameplayCamera=cam;cam.tag="MainCamera";cam.cullingMask&=~(1<<31);cam.fieldOfView=62;cam.nearClipPlane=.15f;cam.farClipPlane=1000;cam.backgroundColor=new Color(.51f,.66f,.69f);cam.clearFlags=CameraClearFlags.SolidColor;cameraObject.AddComponent<AudioListener>();
   Player.Initialize(cam);Player.Teleport(new Vector3(state.x,state.y,state.z));if(!Data.runActive||Data.motorState==null||!Player.RestoreState(Data.motorState)){Player.FaceDirection(ClosingTimeWorld.DenContains(Player.transform.position)?0:180);Player.RecenterCamera();}
   ClosingTimeWorld.ConfigureAtmosphere(cam,world.transform);MobileQuality.ConfigureCamera(cam);world.AddComponent<ClosingSoundscape>().Initialize(Player);NeighborWorldObstacles.Ensure();SpawnLoot();SpawnNeighbors();RefreshDen();world.AddComponent<DenAtmosphere>().Initialize(Player,cam);
   hasSession=true;Playing=true;Paused=false;DenOpen=false;Player.Running=true;autosave=0;invulnerable=2;UI.ShowHUD();UI.Toast(Data.runActive?"Outing resumed: same pockets, finds and observers.":"Choose an outing in the Den. Only banked finds are safe.");ApplyNightEvent();
@@ -127,9 +127,9 @@ public partial class GameSession : MonoBehaviour {
  public void Deposit() {
   if(!Playing||(Paused&&!DenOpen)||!AtHome){UI.Toast("Unload your pockets at the den.");return;}
   if(!Data.runActive||!HasLooseHaul){UI.Toast("Bring back a find before banking. Your outing stays open.");return;}
-  int before=Data.collectionClaims.Count;bool goal=ExpeditionRules.GoalComplete(Data,Items);
+  int looksBefore=WardrobeRules.Count(Data);int before=Data.collectionClaims.Count;bool goal=ExpeditionRules.GoalComplete(Data,Items);
   int earned=ExpeditionRules.Bank(Data,Items);RefreshDen();Save();feedback.Play(true);
-  UI.Toast($"Haul safe! +{earned} shinies"+(goal?" · Goal complete!":"")+(Data.collectionClaims.Count>before?" · Collection furnishing unlocked!":"")+" · Choose your next outing in the Den.");ApplyNightEvent();
+  UI.Toast($"Haul safe! +{earned} shinies"+(goal?" · Goal complete!":"")+(Data.collectionClaims.Count>before?" · Collection furnishing unlocked!":"")+(WardrobeRules.Count(Data)>looksBefore?" · New wardrobe look unlocked!":" · Choose your next outing in the Den."));ApplyNightEvent();
  }
  public void BuyDecor(string id,int cost) {
   if(!Playing||(Paused&&!DenOpen)||!AtHome){UI.Toast("Decorate at your den.");return;}

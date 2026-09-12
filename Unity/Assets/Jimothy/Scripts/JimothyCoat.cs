@@ -19,6 +19,7 @@ public sealed class JimothyCoat:MonoBehaviour {
    if(changed)r.sharedMaterials=materials;
   }
  }
+ public void SetTint(Color tint){if(coat)coat.SetColor("_BaseColor",tint);if(baseCoat)baseCoat.SetColor("_BaseColor",tint*new Color(1f,.98f,.96f));}
  void LateUpdate(){
   float dt=Mathf.Min(Time.deltaTime,.05f);if(dt<=0||!fur)return;
   Vector3 displacement=transform.position-previous;

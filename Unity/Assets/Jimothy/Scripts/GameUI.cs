@@ -156,8 +156,9 @@ public partial class GameUI:MonoBehaviour {
 #endif
  void ShowDen() {
   if(!game.AtHome)return;game.OpenDen();Clear(new Color(.025f,.09f,.07f,.97f));
-  Heading(page.transform,"THE DEN",58,cream,new(.08f,.77f),new(.90f,.9f)).font=TitleDisplay;
-  denStats=Placed(page.transform,$"{game.Data.coins} shinies  ·  {game.Data.pantry.Count} finds  ·  {game.Data.trophies.Count} trophies",24,mint,new(.08f,.67f),new(.90f,.75f));
+  Heading(page.transform,"THE DEN",58,cream,new(.08f,.84f),new(.90f,.96f)).font=TitleDisplay;
+  denStats=Placed(page.transform,$"{game.Data.coins} shinies  ·  {game.Data.pantry.Count} finds  ·  {game.Data.trophies.Count} trophies",24,mint,new(.08f,.75f),new(.90f,.83f));
+  Button(page.transform,"Wardrobe",new(.08f,.62f),new(.91f,.73f),()=>ShowWardrobe(System.Array.FindIndex(WardrobeRules.Looks,x=>x.id==game.Data.outfit)));
   Button(page.transform,"Unload pockets",new(.08f,.47f),new(.44f,.61f),()=>{game.Deposit();ShowDen();},true);
   Button(page.transform,"Decorate",new(.53f,.47f),new(.91f,.61f),()=>ShowDenShop(0));
   Button(page.transform,"Eat from pantry",new(.08f,.30f),new(.44f,.44f),game.EatPantry);

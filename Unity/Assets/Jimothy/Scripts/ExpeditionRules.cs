@@ -20,7 +20,7 @@ public static class ExpeditionRules {
  }
  public static int EventForRun(int number){int i=Math.Max(0,number-1);return (i%3+i/3)%3;}
  public static string GoalTitle(int goal)=>goal==1?"Bank 2 valuables":goal==2?"Bank a rooftop trophy":"Bank 3 snacks";
- public static string EventTitle(int night)=>night==1?"Harbor night":night==2?"Garden night":"Record-store night";
+ public static string EventTitle(int night)=>night==1?"The Great Fish Incident":night==2?"Guerrilla gardening":"Unauthorized album launch";
  static int Count(SaveData d,Dictionary<string,ItemDefinition> items){string category=d.selectedGoal==1?"valuable":d.selectedGoal==2?"trophy":"food";return d.bag.Count(id=>items.TryGetValue(id,out var item)&&item.category==category);}
  static int Target(SaveData d)=>d.selectedGoal==1?2:d.selectedGoal==2?1:3;
  public static string GoalProgress(SaveData d,Dictionary<string,ItemDefinition> items)=>Math.Min(Count(d,items),Target(d))+" / "+Target(d);

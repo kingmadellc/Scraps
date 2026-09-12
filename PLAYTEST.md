@@ -1,10 +1,10 @@
-# Scraps — playtest 0.5.1
+# Scraps — playtest 0.6.0
 
 On this Mac, open `/Volumes/Jimothy Dev/Projects/Jimothy/Builds/Scraps.app`. Keep the **Jimothy Dev** drive connected. Unity Hub is not required to play the built app.
 
-**Public play link:** https://kingmadellc.github.io/JimothySurvival/?v=0.5.1 — Safari in landscape, then Play. This works away from the development Mac. The public site has its own browser save; local-link saves do not automatically transfer.
+**Public play link:** https://kingmadellc.github.io/JimothySurvival/?v=0.6.0 — Safari in landscape, then Play. This works away from the development Mac. The public site has its own browser save; local-link saves do not automatically transfer.
 
-For LAN development only, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.5.1**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue** or **New game**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
+For LAN development only, use Safari on the same Wi-Fi as the Mac: **http://192.168.4.23:8765/?v=0.6.0**. Keep the Mac awake and the development drive connected. Turn the device sideways, tap the browser launch button, then choose **Continue** or **New game**. This is a local browser playtest, not a TestFlight installation. Saves are local to each browser/device and are separate from the Mac app; cloud synchronization is not implemented.
 
 ## The outing loop
 
@@ -47,3 +47,5 @@ If the Safari link stops responding, run `python3 Tools/start_ipad_server.py` fr
 Rare finds and trophies open a full-screen reveal using the title artwork and fonts. The actual item rotates in its portrait. The action pauses until you tap **Back to the night**, press Enter, or press the gamepad south button. Escape transfers to the pause menu. Finds are still loose and can be lost until banked at the Den. Ordinary finds show a short card without interrupting movement.
 
 The selected name is **Scraps**, with no subtitle. The old internal save identifiers and public URL are intentionally retained so existing saves continue to load. A title choice does not constitute trademark clearance.
+
+Wardrobe: in the Den menu, choose Wardrobe. Next/Previous browse looks; Turn rotates the portrait. The starter bandana is available immediately. Coat cycles Ash/Cedar/Midnight. Wear it saves the selected look; locked looks show their banking requirement.
