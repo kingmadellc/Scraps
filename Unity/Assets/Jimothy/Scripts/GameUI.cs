@@ -158,7 +158,8 @@ public partial class GameUI:MonoBehaviour {
   if(!game.AtHome)return;game.OpenDen();Clear(new Color(.025f,.09f,.07f,.97f));
   Heading(page.transform,"THE DEN",58,cream,new(.08f,.84f),new(.90f,.96f)).font=TitleDisplay;
   denStats=Placed(page.transform,$"{game.Data.coins} shinies  ·  {game.Data.pantry.Count} finds  ·  {game.Data.trophies.Count} trophies",24,mint,new(.08f,.75f),new(.90f,.83f));
-  Button(page.transform,"Wardrobe",new(.08f,.62f),new(.91f,.73f),()=>ShowWardrobe(System.Array.FindIndex(WardrobeRules.Looks,x=>x.id==game.Data.outfit)));
+  Button(page.transform,"Wardrobe",new(.08f,.62f),new(.44f,.73f),()=>ShowWardrobe(System.Array.FindIndex(WardrobeRules.Looks,x=>x.id==game.Data.outfit)));
+  Button(page.transform,"Crimp",new(.53f,.62f),new(.91f,.73f),ShowCollector);
   Button(page.transform,"Unload pockets",new(.08f,.47f),new(.44f,.61f),()=>{game.Deposit();ShowDen();},true);
   Button(page.transform,"Decorate",new(.53f,.47f),new(.91f,.61f),()=>ShowDenShop(0));
   Button(page.transform,"Eat from pantry",new(.08f,.30f),new(.44f,.44f),game.EatPantry);
@@ -178,7 +179,7 @@ public partial class GameUI:MonoBehaviour {
  void Update(){UpdateStealthHUD();UpdateTouchControls();if(safe&&lastSafe!=Screen.safeArea)UpdateSafe();if(toast&&Time.unscaledTime>toastUntil){toast.text="";toastPanel.enabled=false;}
   if(denStats){denStats.text=$"{game.Data.coins} shinies  ·  {game.Data.pantry.Count} finds  ·  {game.Data.trophies.Count} trophies";UpdateDecorButton(cushionButton,"cushion","Patchwork cushion",20);UpdateDecorButton(floatButton,"glass-floats","Glass float collection",35);}
   if(objective&&Time.unscaledTime>=nextGuideUpdate){nextGuideUpdate=Time.unscaledTime+.2f;UpdateHudGuidance();}
-  if(searchButton){searchButton.interactable=game.NearbyLoot;searchText.text=game.NearbyLoot?"Search":"Search";}
+  if(searchButton){searchButton.interactable=game.NearbyLoot||game.NearCollector||game.NearClothesRail;searchText.text=game.NearCollector?"Trade":game.NearClothesRail?"Wardrobe":"Search";}
   if(stats&&game.Data!=null){stats.text=$"POCKETS {game.Data.bag.Count}/{ExpeditionRules.BagCapacity}   ·   {game.Data.pendingCoins} loose shinies";health.rectTransform.anchorMax=new(.04f+.41f*game.Data.health/100,.16f);hunger.rectTransform.anchorMax=new(.51f+.43f*game.Data.hunger/100,.16f);}
  }
 }

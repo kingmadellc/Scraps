@@ -13,6 +13,10 @@ public sealed class RaccoonWardrobe:MonoBehaviour {
   var skins=GetComponentsInChildren<SkinnedMeshRenderer>();if(skins.Length==0)return;var b=skins[0].bounds;foreach(var r in skins)b.Encapsulate(r.bounds);float h=b.size.y;
   bool back=id=="roadie"||id=="inspector";var bone=GetComponentsInChildren<Transform>().FirstOrDefault(t=>t.name==(back?"body":"head"));if(!bone)bone=transform;
   worn=new GameObject("Scavenged look · "+id);worn.layer=gameObject.layer;worn.transform.SetParent(bone,false);worn.transform.position=bone.position+transform.up*h*(back?.29f:id=="bandana"?.15f:.25f)+(back?-transform.forward*h*.14f:Vector3.zero);worn.transform.rotation=transform.rotation;var s=bone.lossyScale;worn.transform.localScale=new Vector3(h/Mathf.Abs(s.x),h/Mathf.Abs(s.y),h/Mathf.Abs(s.z));worn.transform.localScale*=id=="bandana"?.70f:id=="crown"?.67f:.80f;
+  BuildLook(id);
+ }
+ public void ShowOnHook(string id,float scale){Clear();worn=new GameObject("Hanging outfit · "+id);worn.transform.SetParent(transform,false);worn.transform.localScale=Vector3.one*scale;BuildLook(id);}
+ void BuildLook(string id){
   var red=Mat(new Color(.48f,.065f,.045f));var cream=Mat(new Color(.77f,.68f,.45f));var dark=Mat(new Color(.025f,.035f,.035f));var brass=Mat(new Color(.72f,.44f,.12f),.6f);
   if(id=="bandana"){
    Face("Folded bandana",new[]{new Vector3(-.24f,-.12f,.14f),new Vector3(.24f,-.12f,.14f),new Vector3(0,-.38f,.26f),new Vector3(0,-.11f,.22f)},new[]{0,3,2,3,1,2},red);

@@ -51,3 +51,11 @@ Scraps0.6.0 wardrobe milestone: user approved raccoon customization and more rid
 0.6.0 final local: supplied Chromium client and screenshot/state checked, nativeMac build/signature pass. Public Pages e96fbc9 built. External source commit mirror Publishing/source-060 avoids internal iCloud Git hydration timeouts. All intended source mirrored internally; do not reset unrelated files.
 
 Public0.6.0 Safari/WebKit verification passes18/18, including wardrobe equip,coat,locked look,save/reload and jump.
+
+Scraps0.7.0 social Den: physical outfit rail, short/stocky collector Crimp, exact banked-goods trades once per banked outing, permanent Golden Sardine after3trades.17 rule assertions and 248 Den integration assertions pass.8 mobile UI/6 Den views reviewed; raised rail above shelf displays, corrected sign orientation and added counter lamp. Web build/browser verification in progress. Source authority remains external Publishing/source-060; main editable asset project is not a Git checkout.
+
+Local0.7.0 browser validation: Safari/WebKit21/21 and Chromium21/21 pass with zero runtime errors. Chromium used trusted touch input for two physical Den/avenue roundtrips, searched fresh loot, banked twice, paid two snacks for8shinies, blocked repeat trade and reloaded the actual browser save with ledger/currency preserved. Final Web payload122075711bytes. Phone/tablet counter screenshots inspected.
+
+Final local0.7.0: supplied Chromium skill client completed New→Head out→jump; gameplay screenshot and read-only state inspected, no browser errors. Mac build succeeded and strict codesign verification passed. Publishing final compiled Web output.
+
+Published0.7.0 Pages build3a8bce833f5d3241c6038e141bfa465278c709cc verified live. Public Safari/WebKit passes21/21 with zero runtime errors, including collector eligibility, wardrobe, touch jump and save/resume; actual public screenshots inspected. Play: https://kingmadellc.github.io/JimothySurvival/?v=0.7.0. Physical-device performance and human enjoyment remain unmeasured.

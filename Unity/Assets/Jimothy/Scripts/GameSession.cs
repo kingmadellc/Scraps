@@ -41,7 +41,7 @@ public partial class GameSession : MonoBehaviour {
   GetComponent<DiscoveryReveal>()?.Close(false);
   if(world){world.SetActive(false);Destroy(world);}Neighbors.Clear();nodes.Clear();
   returnToDen=false;outingRoute=-1;outingWaypoint=0;wasReturning=false;
-  Data=state;WardrobeRules.Normalize(Data);Data.hiddenDecor??=new();Data.favoriteFinds??=new();Data.bankedDiscoveries??=new();foreach(var id in Data.pantry.Concat(Data.trophies).Distinct())if(!Data.bankedDiscoveries.Contains(id))Data.bankedDiscoveries.Add(id);WardrobeRules.Normalize(Data);guidedRoute=-1;guidedStep=0;recoveringClimb=false;
+  Data=state;CollectorRules.Normalize(Data);Data.hiddenDecor??=new();Data.favoriteFinds??=new();Data.bankedDiscoveries??=new();foreach(var id in Data.pantry.Concat(Data.trophies).Distinct())if(!Data.bankedDiscoveries.Contains(id))Data.bankedDiscoveries.Add(id);WardrobeRules.Normalize(Data);guidedRoute=-1;guidedStep=0;recoveringClimb=false;
   Data.MigrateToClosingTime(ClosingTimeWorld.StreetStart);ExpeditionRules.Migrate(Data,Home);
   world=new GameObject("Ballard • closing time");
   ClosingTimeWorld.Build(world.transform);RooftopConnections.Build(world.transform);
@@ -143,8 +143,9 @@ public partial class GameSession : MonoBehaviour {
  public void ToggleFavorite(string id){if(!Playing||!AtHome||!Items.ContainsKey(id)||(!Data.pantry.Contains(id)&&!Data.trophies.Contains(id)))return;if(!Data.favoriteFinds.Remove(id)){if(Data.favoriteFinds.Count>=8){UI.Toast("Choose up to eight favorites. Unpin one to make room.");return;}Data.favoriteFinds.Add(id);}RefreshDen();Save();}
  void RefreshDen() {
   Data.favoriteFinds.RemoveAll(id=>!Data.pantry.Contains(id)&&!Data.trophies.Contains(id));
-  if(display)Destroy(display);display=new GameObject("Persistent den collection");display.transform.SetParent(world.transform);
+  if(display){display.SetActive(false);Destroy(display);}display=new GameObject("Persistent den collection");display.transform.SetParent(world.transform);
   denDisplayedIds.Clear();denDisplayedIds.AddRange(DenCollection.Select(Data,Items,ClosingTimeWorld.DenDisplaySlots.Count));
+  DenNeighbors.Build(display.transform,Data);
   DenCollection.Build(display.transform,denDisplayedIds,Items,Data.decor.Where(id=>!Data.hiddenDecor.Contains(id)).ToList());
  }
 
@@ -166,7 +167,7 @@ public partial class GameSession : MonoBehaviour {
   Playing=false;Paused=false;DenOpen=false;Player.Running=false;UI.ShowRunEnd(Data.bestSeconds);
  }
  public void OpenDen(){if(!AtHome||DiscoveryOpen)return;DenOpen=true;Paused=true;Player.Running=false;Save();}
- public void Search(){if(!Playing||Paused||!NearbyLoot)return;NearbyLoot.Search();}
+ public void Search(){if(!Playing||Paused)return;if(NearCollector){UI.ShowCollector();return;}if(NearClothesRail){UI.ShowWardrobe(System.Array.FindIndex(WardrobeRules.Looks,x=>x.id==Data.outfit));return;}if(NearbyLoot)NearbyLoot.Search();}
  public void ReachedRoof(){if(Data.nightGoal==1){Data.nightGoal=2;feedback.Play(true);UI.Toast("Rooftops unlocked! Search for a keepsake, then take it to the den.");Save();}}
  public bool BeginDiscovery(){if(!Playing||Paused)return false;DiscoveryOpen=true;Paused=true;Player.Running=false;ClearDiscoveryInputs();return true;}
  public void EndDiscovery(bool resume){if(!DiscoveryOpen)return;DiscoveryOpen=false;ClearDiscoveryInputs();if(resume&&Playing){Paused=false;Player.Running=true;}}

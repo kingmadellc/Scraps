@@ -11,6 +11,7 @@ namespace Jimothy {
  public int version = 1;
  public string outfit = "bare";
  public int coat;
+ public int collectorTrades,collectorLastRun;
  public int mapRevision, nightGoal;
  public int loopRevision,runNumber,pendingCoins,runStyle,selectedGoal,nightEvent,bankedRuns,failedRuns,lastHaul,lastLoss;
  public bool runActive;

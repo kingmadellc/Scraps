@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Jimothy.Editor {
 public static class MobileWebBuild {
  public static void Build(){
-  ProjectSetup.SetupAssets();PlayerSettings.bundleVersion="0.6.0";
+  ProjectSetup.SetupAssets();PlayerSettings.bundleVersion="0.7.0";
   if(!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.WebGL,BuildTarget.WebGL))throw new InvalidOperationException("Install Web Build Support for this exact Unity Editor first.");
   PlayerSettings.stripUnusedMeshComponents=false;PlayerSettings.WebGL.template="PROJECT:JimothyMobile";PlayerSettings.WebGL.compressionFormat=WebGLCompressionFormat.Disabled;PlayerSettings.WebGL.dataCaching=true;PlayerSettings.WebGL.decompressionFallback=false;
   PlayerSettings.runInBackground=false;PlayerSettings.defaultScreenWidth=1280;PlayerSettings.defaultScreenHeight=720;
