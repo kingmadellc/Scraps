@@ -1,4 +1,4 @@
-const {webkit}=require('/path/to/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const {webkit}=require('playwright');
 const fs=require('fs'),path=require('path');
 (async()=>{
  const out=path.resolve('PlaytestCaptures/web-v045');fs.mkdirSync(out,{recursive:true});
