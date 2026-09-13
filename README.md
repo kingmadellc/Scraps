@@ -29,3 +29,7 @@ Use ChatGPT Remote to continue tasks on the connected development Mac. A GitHub 
 The original development machine uses `/Volumes/Jimothy Dev/Projects/Jimothy` for builds and heavy authoring. Some helper scripts still contain machine-specific paths; review them before running on another computer. The Unity project can be opened directly from a clone. Large binary assets use Git LFS; always fetch them before opening Unity or Blender.
 
 Generated previews, reference photographs, and superseded presentation/blockout archives remain local. Editable current game assets and their Unity exports are included.
+
+## Source and distribution boundary
+
+This public repository preserves a historical source snapshot and a separate browser playtest branch. Ongoing development and large authoring assets are maintained privately. The public snapshot is not a standalone supported Unity distribution. Use the Play link for the supported prototype entry point.
